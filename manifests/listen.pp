@@ -20,6 +20,10 @@
 #    The namevar of the defined resource type is the listening service's name.
 #     This name goes right after the 'listen' statement in haproxy.cfg
 #
+# [*section*]
+#    Defines section type. By default it is 'listen' but it could be changed to 
+#     other section types supported by HAProxy like 'frontend' and 'backend'.
+#
 # [*ports*]
 #    Ports on which the proxy will listen for connections on the ip address
 #    specified in the virtual_ip parameter. Accepts either a single
@@ -70,6 +74,7 @@
 define haproxy::listen (
   $ports,
   $ipaddress        = [$::ipaddress],
+  $section          = 'listen',
   $mode             = 'tcp',
   $collect_exported = true,
   $options          = {
