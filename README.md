@@ -73,6 +73,9 @@ Dependencies
 
 Tested and built on Ubuntu and CentOS
 
+Currently requires the ripienaar/concat module on the Puppet Forge and uses storeconfigs on the Puppet Master to export/collect resources
+from all balancer members.
+
 Copyright and License
 ---------------------
 
