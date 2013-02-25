@@ -8,7 +8,7 @@ Basic Usage
 -----------
 
 This haproxy uses storeconfigs to collect and realize balancer member servers
-on a load balancer server. Currently Redhat family OSes are supported.
+on a load balancer server. 
 
 *To install and configure HAProxy server listening on port 8140*
 
