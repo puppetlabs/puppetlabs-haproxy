@@ -1,7 +1,7 @@
 # == Class: haproxy
 #
 # A Puppet module, using storeconfigs, to model an haproxy configuration.
-# Currently VERY limited - assumes Redhat/CentOS setup. Pull requests accepted!
+# Currently VERY limited - Pull requests accepted!
 #
 # === Requirement/Dependencies:
 #
@@ -113,7 +113,11 @@ class haproxy (
     }
 
     file { $global_options['chroot']:
-      ensure => directory,
+      ensure  => directory,
+      owner   => $global_options['user'],
+      group   => $global_options['group'],
+      mode    => '0550',
+      require => Package['haproxy']
     }
 
   }
