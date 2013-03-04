@@ -48,6 +48,10 @@
 #       in the listening service's configuration block.
 #
 #
+# [*mode*]
+#      The running mode or protocol of the instance. Defaults to tcp (for SSH, SSL, SMTP etc).
+#      Alternative mode is http.
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -84,9 +88,10 @@ define haproxy::balancermember (
   $ports,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
-  $options      = ''
+  $options      = '',
+  $mode = 'tcp'
 ) {
-  # Template uses $ipaddresses, $server_name, $ports, $option
+  # Template uses $ipaddresses, $server_name, $ports, $options, $mode
   concat::fragment { "${listening_service}_balancermember_${name}":
     order   => "20-${listening_service}-${name}",
     target  => '/etc/haproxy/haproxy.cfg',
