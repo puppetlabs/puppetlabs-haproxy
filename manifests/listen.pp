@@ -31,8 +31,8 @@
 #     mean that the proxy listens to all valid addresses on the system.
 #
 # [*mode*]
-#    The mode of operation for the listening service. Valid values are 'tcp',
-#     HTTP', and 'health'.
+#    The mode of operation for the listening service. Valid values are undef,
+#    'tcp', HTTP', and 'health'.
 #
 # [*options*]
 #    A hash of options that are inserted into the listening service
@@ -70,7 +70,7 @@
 define haproxy::listen (
   $ports,
   $ipaddress        = [$::ipaddress],
-  $mode             = 'tcp',
+  $mode             = undef,
   $collect_exported = true,
   $options          = {
     'option'  => [
