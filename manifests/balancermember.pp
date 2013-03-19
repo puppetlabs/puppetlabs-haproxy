@@ -47,6 +47,9 @@
 #      An array of options to be specified after the server declaration
 #       in the listening service's configuration block.
 #
+# [*define_cookies*]
+#      If true, then add "cookie SERVERID" stickiness options.
+#      Default false.
 #
 # === Examples
 #
@@ -84,7 +87,8 @@ define haproxy::balancermember (
   $ports,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
-  $options      = ''
+  $options      = '',
+  $define_cookies = false
 ) {
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${listening_service}_balancermember_${name}":

@@ -22,7 +22,7 @@ describe 'haproxy::balancermember' do
     it { should contain_concat__fragment('croy_balancermember_tyler').with(
       'order'   => '20-croy-tyler',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "  server dero 1.1.1.1:18140 check\n\n"
+      'content' => "  server dero 1.1.1.1:18140  check\n\n"
     ) }
   end
 
@@ -39,10 +39,27 @@ describe 'haproxy::balancermember' do
     it { should contain_concat__fragment('croy_balancermember_tyler').with(
       'order'   => '20-croy-tyler',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "  server dero 1.1.1.1:18140 check close\n\n"
+      'content' => "  server dero 1.1.1.1:18140  check close\n\n"
     ) }
   end
 
+  context 'with cookie and multiple balancermember options' do
+    let(:params) do
+      {
+        :name              => 'tyler',
+        :listening_service => 'croy',
+        :ports             => '18140',
+        :options           => ['check', 'close'],
+        :define_cookies    => true
+      }
+    end
+
+    it { should contain_concat__fragment('croy_balancermember_tyler').with(
+      'order'   => '20-croy-tyler',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "  server dero 1.1.1.1:18140 cookie dero check close\n\n"
+    ) }
+  end
   context 'with multiple servers' do
     let(:params) do
       {
@@ -58,7 +75,7 @@ describe 'haproxy::balancermember' do
     it { should contain_concat__fragment('croy_balancermember_tyler').with(
       'order'   => '20-croy-tyler',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "  server server01 192.168.56.200:18140 check\n  server server02 192.168.56.201:18140 check\n\n"
+      'content' => "  server server01 192.168.56.200:18140  check\n  server server02 192.168.56.201:18140  check\n\n"
     ) }
   end
   context 'with multiple servers and multiple ports' do
@@ -76,7 +93,7 @@ describe 'haproxy::balancermember' do
     it { should contain_concat__fragment('croy_balancermember_tyler').with(
       'order'   => '20-croy-tyler',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "  server server01 192.168.56.200:18140,192.168.56.200:18150 check\n  server server02 192.168.56.201:18140,192.168.56.201:18150 check\n\n"
+      'content' => "  server server01 192.168.56.200:18140,192.168.56.200:18150  check\n  server server02 192.168.56.201:18140,192.168.56.201:18150  check\n\n"
     ) }
   end
 end
