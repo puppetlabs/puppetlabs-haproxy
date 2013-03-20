@@ -89,7 +89,7 @@ define haproxy::balancermember (
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
   $options      = '',
-  $mode = 'tcp'
+  $mode         = undef
 ) {
   # Template uses $ipaddresses, $server_name, $ports, $options, $mode
   concat::fragment { "${listening_service}_balancermember_${name}":
