@@ -14,7 +14,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('croy_listen_block').with(
       'order'   => '20-croy-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "listen croy\n\n  bind 1.1.1.1:18140\n\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
+      'content' => "\nlisten croy\n  bind 1.1.1.1:18140\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
     ) }
   end
   context "when an array of ports is provided" do
@@ -32,7 +32,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "listen apache\n\n  bind 23.23.23.23:80\n\n  bind 23.23.23.23:443\n\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
+      'content' => "\nlisten apache\n  bind 23.23.23.23:80\n  bind 23.23.23.23:443\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
     ) }
   end
   context "when a comma-separated list of ports is provided" do
@@ -47,7 +47,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "listen apache\n\n  bind 23.23.23.23:80\n\n  bind 23.23.23.23:443\n\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
+      'content' => "\nlisten apache\n  bind 23.23.23.23:80\n  bind 23.23.23.23:443\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
     ) }
   end
 end
