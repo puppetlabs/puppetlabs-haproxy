@@ -22,7 +22,7 @@
 #
 # [*ports*]
 #    Ports on which the proxy will listen for connections on the ip address
-#    specified in the virtual_ip parameter. Accepts either a single
+#    specified in the ipaddress parameter. Accepts either a single
 #    comma-separated string or an array of strings which may be ports or
 #    hyphenated port ranges.
 #
@@ -32,7 +32,7 @@
 #
 # [*mode*]
 #    The mode of operation for the listening service. Valid values are undef,
-#    'tcp', HTTP', and 'health'.
+#    'tcp', 'http', and 'health'.
 #
 # [*options*]
 #    A hash of options that are inserted into the listening service
