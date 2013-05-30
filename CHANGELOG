@@ -1,3 +1,16 @@
+2013-05-25 - Version 0.3.0
+Features:
+- Add travis testing
+- Add `haproxy::basancermember` `define_cookies` parameter
+- Add array support to `haproxy::listen` `ipaddress` parameter
+
+Bugfixes:
+- Documentation
+- Listen -> Balancermember dependency
+- Config line ordering
+- Whitespace
+- Add template lines for `haproxy::listen` `mode` parameter
+
 2012-10-12 - Version 0.2.0
 - Initial public release
 - Backwards incompatible changes all around
