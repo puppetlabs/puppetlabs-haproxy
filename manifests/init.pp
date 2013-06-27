@@ -112,8 +112,10 @@ class haproxy (
       }
     }
 
-    file { $global_options['chroot']:
-      ensure => directory,
+    if $global_options['chroot'] {
+      file { $global_options['chroot']:
+        ensure => directory,
+      }
     }
 
   }
@@ -131,10 +133,11 @@ class haproxy (
       name       => 'haproxy',
       hasrestart => true,
       hasstatus  => true,
-      require    => [
-        Concat['/etc/haproxy/haproxy.cfg'],
-        File[$global_options['chroot']],
-      ],
+      require    => $global_options['chroot'] ? {
+        undef   => [Concat['/etc/haproxy/haproxy.cfg']],
+        default => [Concat['/etc/haproxy/haproxy.cfg'],
+                    File[$global_options['chroot']],],
+      },
     }
   }
 }
