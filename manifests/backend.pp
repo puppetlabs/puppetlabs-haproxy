@@ -29,8 +29,9 @@
 #      server_names and ipaddresses (in lockstep).
 #
 # [*ipaddresses*]
-#      The ip address used to contact the backend server.
-#      Can be an array, see documentation to server_names.
+#     The ip address used to contact the backend server.
+#      Can be an array. If this option is omitted, $server_names will 
+#      be used
 #
 # [*options*]
 #      An array of options to be specified inside the backend
@@ -55,11 +56,11 @@
 define haproxy::backend (
   $ports,
   $server_names   = $::hostname,
-  $ipaddresses    = $::ipaddress,
+  $ipaddresses    = undef,
   $options        = '',
   $server_options = ''
 ) {
-  # Template uses $server_names, $ipaddresses, $ports, $options, server_options
+  # Template uses $name, $server_names, $ipaddresses, $ports, $options, server_options
   concat::fragment { "backend_${name}":
     order   => "30-backend-${name}",
     target  => '/etc/haproxy/haproxy.cfg',
