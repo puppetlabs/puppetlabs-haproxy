@@ -6,10 +6,10 @@ backend <%= name %>
 <% end -%>
 <% if ipaddresses -%>
 <% Array(ipaddresses).zip(Array(server_names)).each do |ipaddress,host| -%>
-  server <%= host %> <%= ipaddress %>:<%= Array(ports).collect {|x|x.flatten.join(",#{ipaddress}:") %> <%= Array(server_options).join(" ") %>
+  server <%= host %> <%= ipaddress %>:<%= Array(ports).collect.flatten.join(",#{ipaddress}:") %> <%= Array(server_options).join(" ") %>
 <% end -%>
 <% else -%>
 <% Array(server_names).each do |host| -%>
-  server <%= host %> <%= host %>:<%= Array(ports).collect {|x|x.flatten.join(",#{host}:") %> <%= Array(server_options).join(" ") %>
+  server <%= host %> <%= host %>:<%= Array(ports).collect.flatten.join(",#{host}:") %> <%= Array(server_options).join(" ") %>
 <% end -%>
 <% end -%>
