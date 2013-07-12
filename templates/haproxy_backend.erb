@@ -1,0 +1,8 @@
+backend <%= name %>
+<% options.sort.each do |key, val| -%>
+<% Array(val).each do |item| -%>
+  <%= key %>  <%= item %>
+<% end -%>
+<% Array(ipaddresses).zip(Array(server_names)).each do |ipaddress,host| -%>
+  server <%= host %> <%= ipaddress %>:<%= Array(ports).collect {|x|x.split(',')}.flatten.join(",#{ipaddress}:") %> <%= Array(server_options).join(" ") %>
+<% end -%>
