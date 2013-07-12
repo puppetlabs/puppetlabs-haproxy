@@ -57,7 +57,7 @@ define haproxy::backend (
   $ports,
   $name           = $title,
   $server_names   = $::hostname,
-  $ipaddresses    = undef,
+  $ipaddresses    = '',
   $options        = '',
   $server_options = ''
 ) {
