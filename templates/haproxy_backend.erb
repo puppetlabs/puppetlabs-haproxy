@@ -3,7 +3,6 @@ backend <%= name %>
 <% Array(options).each do |option| -%>
   <%= option %>
 <% end -%>
-<% end -%>
 <% if ipaddresses != '' -%>
 <% Array(ipaddresses).zip(Array(server_names)).each do |ipaddress,host| -%>
   server <%= host %> <%= ipaddress %>:<%= Array(ports).collect.flatten.join(",#{ipaddress}:") %> <%= Array(server_options).join(" ") %>
