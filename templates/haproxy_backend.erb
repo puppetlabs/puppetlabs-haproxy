@@ -1,8 +1,7 @@
 
 backend <%= name %>
-<% options.sort.each do |key, val| -%>
-<% Array(val).each do |item| -%>
-  <%= key %> <%= item %>
+<% Array(options).each do |option| -%>
+  <%= option %>
 <% end -%>
 <% end -%>
 <% if ipaddresses != '' -%>
