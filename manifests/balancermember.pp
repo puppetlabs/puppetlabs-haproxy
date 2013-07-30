@@ -43,6 +43,10 @@
 #      The ip address used to contact the balancer member server.
 #      Can be an array, see documentation to server_names.
 #
+# [*ensure*]
+#      If the balancermember should be present or absent.
+#      Defaults to present.
+#
 # [*options*]
 #      An array of options to be specified after the server declaration
 #       in the listening service's configuration block.
@@ -87,12 +91,14 @@ define haproxy::balancermember (
   $ports,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $ensure       = 'present',
   $options      = '',
   $define_cookies = false
 ) {
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${listening_service}_balancermember_${name}":
     order   => "20-${listening_service}-${name}",
+    ensure  => $ensure,
     target  => '/etc/haproxy/haproxy.cfg',
     content => template('haproxy/haproxy_balancermember.erb'),
   }
