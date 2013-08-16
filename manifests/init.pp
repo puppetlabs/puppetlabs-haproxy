@@ -112,13 +112,26 @@ class haproxy (
       }
     }
 
-    file { $global_options['chroot']:
-      ensure => directory,
+    if $global_options['chroot'] {
+      file { $global_options['chroot']:
+        ensure => directory,
+      }
     }
 
   }
 
   if $manage_service {
+    if $global_options['chroot'] {
+      $deps = [
+        Concat['/etc/haproxy/haproxy.cfg'],
+        File[$global_options['chroot']],
+      ]
+    } else {
+      $deps = [
+        Concat['/etc/haproxy/haproxy.cfg'],
+      ]
+    }
+
     service { 'haproxy':
       ensure     => $enable ? {
         true  => running,
@@ -131,10 +144,7 @@ class haproxy (
       name       => 'haproxy',
       hasrestart => true,
       hasstatus  => true,
-      require    => [
-        Concat['/etc/haproxy/haproxy.cfg'],
-        File[$global_options['chroot']],
-      ],
+      require    => $deps,
     }
   }
 }
