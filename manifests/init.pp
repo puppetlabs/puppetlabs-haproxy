@@ -27,6 +27,8 @@
 #    options as an array and you will get a line for each of them in the
 #    resultant haproxy.cfg file.
 #
+# [*package_name*]
+#   The package name to install containing haproxy.  Defaults to <code>'haproxy'</code>
 #
 # === Examples
 #
@@ -63,16 +65,17 @@ class haproxy (
   $manage_service   = true,
   $enable           = true,
   $global_options   = $haproxy::params::global_options,
-  $defaults_options = $haproxy::params::defaults_options
+  $defaults_options = $haproxy::params::defaults_options,
+  $package_name     = 'haproxy'
 ) inherits haproxy::params {
   include concat::setup
 
-  package { 'haproxy':
+  package { $package_name:
     ensure  => $enable ? {
       true  => present,
       false => absent,
     },
-    name    => 'haproxy',
+    alias   => 'haproxy',
   }
 
   if $enable {
