@@ -72,6 +72,7 @@ define haproxy::listen (
   $ipaddress        = [$::ipaddress],
   $mode             = undef,
   $collect_exported = true,
+  $acls             = '',
   $options          = {
     'option'  => [
       'tcplog',
