@@ -11,3 +11,6 @@ listen <%= @name %>
   <%= key %>  <%= item %>
 <% end -%>
 <% end -%>
+<% @acls.each do |acl| -%>
+  <%= acl %>
+<% end -%>
