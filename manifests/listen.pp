@@ -71,7 +71,7 @@ define haproxy::listen (
   $ports,
   $ipaddress        = [$::ipaddress],
   $mode             = undef,
-  $acls             = tr[
+  $acls             = [],
   $collect_exported = true,
   $options          = {
     'option'  => [
