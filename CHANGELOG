@@ -1,7 +1,7 @@
 2013-05-25 - Version 0.3.0
 Features:
 - Add travis testing
-- Add `haproxy::basancermember` `define_cookies` parameter
+- Add `haproxy::balancermember` `define_cookies` parameter
 - Add array support to `haproxy::listen` `ipaddress` parameter
 
 Bugfixes:
