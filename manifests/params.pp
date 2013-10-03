@@ -66,8 +66,8 @@ class haproxy::params {
         'chroot'  => '/var/lib/haproxy',
         'pidfile' => '/var/run/haproxy.pid',
         'maxconn' => '4000',
-        'user'    => 'nobody',
-        'group'   => 'nobody',
+        'user'    => 'haproxy',
+        'group'   => 'haproxy',
         'daemon'  => '',
         'stats'   => 'socket /var/lib/haproxy/stats'
       }
@@ -87,6 +87,6 @@ class haproxy::params {
         'maxconn' => '8000'
       }
     }
-    default: { fail("The $::osfamily operating system is not supported with the haproxy module") }
+    default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
   }
 }
