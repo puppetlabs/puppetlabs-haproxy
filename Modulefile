@@ -1,5 +1,5 @@
 name    'puppetlabs-haproxy'
-version '0.4.0'
+version '0.4.1'
 source 'git://github.com/puppetlabs/puppetlabs-haproxy'
 author 'Puppet Labs'
 license 'Apache License, Version 2.0'
