@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'haproxy::backend' do
   let(:title) { 'tyler' }
-  let(:facts) {{ :ipaddress => '1.1.1.1' }}
+  let(:facts) {{ :ipaddress => '1.1.1.1', :concat_basedir => '/dne' }}
 
   context "when no options are passed" do
     let (:params) do
