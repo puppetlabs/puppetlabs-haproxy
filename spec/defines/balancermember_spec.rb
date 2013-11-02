@@ -4,8 +4,9 @@ describe 'haproxy::balancermember' do
   let(:title) { 'tyler' }
   let(:facts) do
     {
-      :ipaddress => '1.1.1.1',
-      :hostname  => 'dero'
+      :ipaddress      => '1.1.1.1',
+      :hostname       => 'dero',
+      :concat_basedir => '/dne'
     }
   end
 

@@ -68,7 +68,6 @@ class haproxy (
   $defaults_options = $haproxy::params::defaults_options,
   $package_name     = 'haproxy'
 ) inherits haproxy::params {
-  include concat::setup
 
   package { $package_name:
     ensure  => $enable ? {

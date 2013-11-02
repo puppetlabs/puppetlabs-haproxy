@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'haproxy::frontend' do
   let(:title) { 'tyler' }
-  let(:facts) {{ :ipaddress => '1.1.1.1' }}
+  let(:facts) {{ :ipaddress => '1.1.1.1', :concat_basedir => '/dne' }}
   context "when only one port is provided" do
     let(:params) do
       {
