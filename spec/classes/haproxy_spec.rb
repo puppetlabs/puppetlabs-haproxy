@@ -99,7 +99,7 @@ describe 'haproxy', :type => :class do
               'ensure' => 'present'
             )
           end
-          it 'should install the haproxy service' do
+          it 'should not manage the haproxy service' do
             subject.should_not contain_service('haproxy')
           end
         end
