@@ -50,4 +50,20 @@ describe 'haproxy::listen' do
       'content' => "\nlisten apache\n  bind 23.23.23.23:80\n  bind 23.23.23.23:443\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
     ) }
   end
+  context "with ssl enabled" do
+    let(:params) do
+      {
+        :name      => 'apache',
+        :ipaddress => '23.23.23.23',
+        :ports     => '443',
+	:ssl       => '/etc/pki/tls/private/localhost.pem'
+      }
+    end
+
+    it { should contain_concat__fragment('apache_listen_block').with(
+      'order'   => '20-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nlisten apache\n  bind 23.23.23.23:443 ssl crt /etc/pki/tls/private/localhost.pem\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
+    ) }
+  end
 end
