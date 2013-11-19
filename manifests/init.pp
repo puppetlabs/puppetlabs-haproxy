@@ -66,16 +66,24 @@ class haproxy (
   $enable           = true,
   $global_options   = $haproxy::params::global_options,
   $defaults_options = $haproxy::params::defaults_options,
-  $package_name     = 'haproxy'
+  $package_name     = 'haproxy',
+  $version          = undef
 ) inherits haproxy::params {
   include concat::setup
 
-  package { $package_name:
-    ensure  => $enable ? {
-      true  => present,
-      false => absent,
-    },
-    alias   => 'haproxy',
+  if $version {
+    package { $package_name:
+      ensure  => $version,
+      alias   => 'haproxy',
+    }
+  } else {
+    package { $package_name:
+      ensure  => $enable ? {
+        true  => present,
+        false => absent,
+      },
+      alias   => 'haproxy',
+    }
   }
 
   if $enable {
