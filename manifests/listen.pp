@@ -54,6 +54,10 @@
 #    ipaddress => $::ipaddress,
 #    ports     => '18140',
 #    mode      => 'tcp',
+#    acls      => [
+#       'acl         web hdr_beg(host) -i www',
+#       'use_backend web if web',
+#    ],
 #    options   => {
 #      'option'  => [
 #        'tcplog',
@@ -71,6 +75,7 @@ define haproxy::listen (
   $ports,
   $ipaddress        = [$::ipaddress],
   $mode             = undef,
+  $acls             = [],
   $collect_exported = true,
   $options          = {
     'option'  => [
