@@ -25,6 +25,10 @@
 #    The ip address the proxy binds to. Empty addresses, '*', and '0.0.0.0'
 #     mean that the proxy listens to all valid addresses on the system.
 #
+# [*bind_options*]
+#    Additional option for the bind parameter, values can be 'accept-proxy'.
+#    By default undef.
+#
 # [*mode*]
 #    The mode of operation for the frontend service. Valid values are undef,
 #    'tcp', 'http', and 'health'.
@@ -38,9 +42,10 @@
 #  Exporting the resource for a balancer member:
 #
 #  haproxy::frontend { 'puppet00':
-#    ipaddress => $::ipaddress,
-#    ports     => '18140',
-#    mode      => 'tcp',
+#    ipaddress    => $::ipaddress,
+#    ports        => '18140',
+#    mode         => 'tcp',
+#    bind_options => 'accept-proxy',
 #    options   => {
 #      'option'  => [
 #        'tcplog',
@@ -59,6 +64,7 @@ define haproxy::frontend (
   $ports,
   $ipaddress        = [$::ipaddress],
   $mode             = undef,
+  $bind_options     = undef,
   $collect_exported = true,
   $options          = {
     'option'  => [
