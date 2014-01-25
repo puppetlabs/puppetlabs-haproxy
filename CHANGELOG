@@ -1,3 +1,30 @@
+2013-10-08 - Version 0.4.1
+
+Summary:
+
+Fix the dependency for concat.
+
+Fixes:
+- Changed the dependency to be the puppetlabs/concat version.
+
+2013-10-03 - Version 0.4.0
+
+Summary:
+
+The largest feature in this release is the new haproxy::frontend
+and haproxy::backend defines.  The other changes are mostly to
+increase flexibility.
+
+Features:
+- Added parameters to haproxy:
+ - `package_name`: Allows alternate package name.
+- Add haproxy::frontend and haproxy::backend defines.
+- Add an ensure parameter to balancermember so they can be removed.
+- Made chroot optional
+
+Fixes:
+- Remove deprecation warnings from templates.
+
 2013-05-25 - Version 0.3.0
 Features:
 - Add travis testing

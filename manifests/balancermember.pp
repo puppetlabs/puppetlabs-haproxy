@@ -75,7 +75,7 @@
 #  Creating the resource for multiple balancer members at once
 #  (for single-pass installation of haproxy without requiring a first
 #  pass to export the resources if you know the members in advance):
-#
+# 
 #  haproxy::balancermember { 'haproxy':
 #    listening_service => 'puppet00',
 #    ports             => '8140',
@@ -83,7 +83,7 @@
 #    ipaddresses       => ['192.168.56.200', '192.168.56.201'],
 #    options           => 'check',
 #  }
-#
+#  
 #  (this resource can be declared anywhere)
 #
 define haproxy::balancermember (
@@ -97,8 +97,8 @@ define haproxy::balancermember (
 ) {
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${listening_service}_balancermember_${name}":
+    order   => "20-${listening_service}-01-${name}",
     ensure  => $ensure,
-    order   => "20-${listening_service}-${name}",
     target  => '/etc/haproxy/haproxy.cfg',
     content => template('haproxy/haproxy_balancermember.erb'),
   }
