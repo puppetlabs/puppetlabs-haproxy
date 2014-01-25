@@ -9,7 +9,7 @@ describe 'haproxy', :type => :class do
   end
   context 'on supported platforms' do
     describe 'for OS-agnostic configuration' do
-      ['Debian', 'RedHat'].each do |osfamily|
+      ['Debian', 'RedHat', 'Archlinux'].each do |osfamily|
         context "on #{osfamily} family operatingsystems" do
           let(:facts) do
             { :osfamily => osfamily }.merge default_facts

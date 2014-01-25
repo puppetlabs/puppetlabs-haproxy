@@ -71,22 +71,24 @@ class haproxy (
   include concat::setup
 
   package { $package_name:
-    ensure  => $enable ? {
-      true  => present,
-      false => absent,
+    ensure    => $enable ? {
+      true    => present,
+      false   => absent,
+      default => undef,
     },
     alias   => 'haproxy',
   }
 
   if $enable {
     concat { '/etc/haproxy/haproxy.cfg':
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      require => Package['haproxy'],
-      notify  => $manage_service ? {
-        true  => Service['haproxy'],
-        false => undef,
+      owner     => '0',
+      group     => '0',
+      mode      => '0644',
+      require   => Package['haproxy'],
+      notify    => $manage_service ? {
+        true    => Service['haproxy'],
+        false   => undef,
+        default => undef,
       },
     }
 
@@ -106,11 +108,12 @@ class haproxy (
 
     if ($::osfamily == 'Debian') {
       file { '/etc/default/haproxy':
-        content => 'ENABLED=1',
-        require => Package['haproxy'],
-        before  => $manage_service ? {
-          true  => Service['haproxy'],
-          false => undef,
+        content   => 'ENABLED=1',
+        require   => Package['haproxy'],
+        before    => $manage_service ? {
+          true    => Service['haproxy'],
+          false   => undef,
+          default => undef,
         },
       }
     }
@@ -136,13 +139,15 @@ class haproxy (
     }
 
     service { 'haproxy':
-      ensure     => $enable ? {
-        true  => running,
-        false => stopped,
+      ensure    => $enable ? {
+        true    => running,
+        false   => stopped,
+        default => running,
       },
-      enable     => $enable ? {
-        true  => true,
-        false => false,
+      enable    => $enable ? {
+        true    => true,
+        false   => false,
+        default => undef,
       },
       name       => 'haproxy',
       hasrestart => true,
