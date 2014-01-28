@@ -98,6 +98,26 @@ describe 'haproxy::balancermember' do
     ) }
   end
 
+  context 'with multiple servers and define_backups' do
+    let(:params) do
+      {
+        :name              => 'tyler',
+        :listening_service => 'croy',
+        :ports             => '18140',
+        :server_names      => ['server01', 'server02'],
+        :ipaddresses       => ['192.168.56.200', '192.168.56.201'],
+        :options           => ['check'],
+        :define_backups    => true
+      }
+    end
+
+    it { should contain_concat__fragment('croy_balancermember_tyler').with(
+      'order'   => '20-croy-01-tyler',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "  server server01 192.168.56.200:18140  check\n  server server02 192.168.56.201:18140  check backup\n"
+    ) }
+  end
+
   context 'with multiple servers and multiple ports' do
     let(:params) do
       {
