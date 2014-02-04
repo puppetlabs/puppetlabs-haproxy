@@ -1,7 +1,7 @@
 # == Class: haproxy
 #
 # A Puppet module, using storeconfigs, to model an haproxy configuration.
-# Currently VERY limited - assumes Redhat/CentOS setup. Pull requests accepted!
+# Currently VERY limited - pull requests accepted!
 #
 # === Requirement/Dependencies:
 #
@@ -14,6 +14,10 @@
 # [*enable*]
 #   Chooses whether haproxy should be installed or ensured absent.
 #    Currently ONLY accepts valid boolean true/false values.
+#
+# [*version*]
+#   Allows you to specify what version of the package to install.
+#   Default is simply 'present'
 #
 # [*global_options*]
 #   A hash of all the haproxy global options. If you want to specify more
@@ -64,6 +68,7 @@
 class haproxy (
   $manage_service   = true,
   $enable           = true,
+  $version          = 'present',
   $global_options   = $haproxy::params::global_options,
   $defaults_options = $haproxy::params::defaults_options,
   $package_name     = 'haproxy'
@@ -72,7 +77,7 @@ class haproxy (
 
   package { $package_name:
     ensure  => $enable ? {
-      true  => present,
+      true  => $version,
       false => absent,
     },
     alias   => 'haproxy',
@@ -118,6 +123,10 @@ class haproxy (
     if $global_options['chroot'] {
       file { $global_options['chroot']:
         ensure => directory,
+        owner   => $global_options['user'],
+        group   => $global_options['group'],
+        mode    => '0550',
+        require => Package['haproxy']
       }
     }
 
