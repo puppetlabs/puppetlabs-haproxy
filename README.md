@@ -4,6 +4,14 @@ PuppetLabs Module for haproxy
 HAProxy is an HA proxying daemon for load-balancing to clustered services. It
 can proxy TCP directly, or other kinds of traffic such as HTTP.
 
+Dependencies
+------------
+
+Tested and built on Ubuntu and CentOS
+
+Currently requires the ripienaar/concat module on the Puppet Forge and uses storeconfigs on the Puppet Master to export/collect resources
+from all balancer members.
+
 Basic Usage
 -----------
 
@@ -67,14 +75,6 @@ The `haproxy::balancermember` defined resource should be exported from each node
 which is serving loadbalanced traffic. the `listening_service` attribute will
 associate it with `haproxy::listen` directives on the haproxy node.
 `ipaddresses` and `ports` will be assigned to the member to be contacted on. If an array of `ipaddresses` and `server_names` are provided then they will be added to the config in lock-step.
-
-Dependencies
-------------
-
-Tested and built on Ubuntu and CentOS
-
-Currently requires the ripienaar/concat module on the Puppet Forge and uses storeconfigs on the Puppet Master to export/collect resources
-from all balancer members.
 
 Copyright and License
 ---------------------
