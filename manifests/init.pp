@@ -13,7 +13,7 @@
 #
 # [*enable*]
 #   Chooses whether haproxy should be installed or ensured absent.
-#   Currently ONLY accepts valid boolean true/false values.
+#    Currently ONLY accepts valid boolean true/false values.
 #
 # [*global_options*]
 #   A hash of all the haproxy global options. If you want to specify more
