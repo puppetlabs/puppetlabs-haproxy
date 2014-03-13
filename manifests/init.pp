@@ -118,6 +118,8 @@ class haproxy (
     if $global_options['chroot'] {
       file { $global_options['chroot']:
         ensure => directory,
+        owner  => $global_options['user'],
+        group  => $global_options['group'],
       }
     }
 
