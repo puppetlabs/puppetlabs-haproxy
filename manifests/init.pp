@@ -30,10 +30,16 @@
 # [*package_name*]
 #   The package name to install containing haproxy.  Defaults to <code>'haproxy'</code>
 #
+# [*http_stats_*]
+#   Enable stats via http.  By default binds to 0.0.0.0:1936
+#     with username/password as stats/stats
+#   Enabled with http_stats_enable => true 
+#
 # === Examples
 #
 #  class { 'haproxy':
-#    enable           => true,
+#    enable            => true,
+#    http_stats_enable => true,
 #    global_options   => {
 #      'log'     => "${::ipaddress} local0",
 #      'chroot'  => '/var/lib/haproxy',
@@ -62,11 +68,17 @@
 #  }
 #
 class haproxy (
-  $manage_service   = true,
-  $enable           = true,
-  $global_options   = $haproxy::params::global_options,
-  $defaults_options = $haproxy::params::defaults_options,
-  $package_name     = 'haproxy'
+  $manage_service     = true,
+  $enable             = true,
+  $global_options     = $haproxy::params::global_options,
+  $defaults_options   = $haproxy::params::defaults_options,
+  $package_name       = 'haproxy',
+  $http_stats_enable  = $haproxy::params::http_stats_enable,
+  $http_stats_bind    = $haproxy::params::http_stats_bind,
+  $http_stats_port    = $haproxy::params::http_stats_port,
+  $http_stats_user    = $haproxy::params::http_stats_user,
+  $http_stats_pass    = $haproxy::params::http_stats_pass,
+  $http_stats_options = $haproxy::params::http_stats_options
 ) inherits haproxy::params {
   include concat::setup
 
@@ -102,6 +114,16 @@ class haproxy (
       target  => '/etc/haproxy/haproxy.cfg',
       order   => '10',
       content => template('haproxy/haproxy-base.cfg.erb'),
+    }
+
+    # Template uses $http_stats_bind, $http_stats_port, $http_stats_user
+    # $http_stats_pass and $http_stats_options
+    if $http_stats_enable {
+      concat::fragment { 'haproxy-stats':
+        target  => '/etc/haproxy/haproxy.cfg',
+        order   => '12',
+        content => template('haproxy/haproxy-stats.cfg.erb'),
+      }
     }
 
     if ($::osfamily == 'Debian') {

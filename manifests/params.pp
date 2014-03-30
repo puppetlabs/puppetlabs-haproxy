@@ -32,6 +32,20 @@ class haproxy::params {
         ],
         'maxconn' => '8000'
       }
+      $http_stats_enable  = false
+      $http_stats_bind    = '0.0.0.0'
+      $http_stats_port    = '1936'
+      $http_stats_user    = 'stats'
+      $http_stats_pass    = 'stats'
+      $http_stats_options = {
+        'mode'    => 'http',
+        'stats'   => [
+          'enable',
+          'hide-version',
+          'realm Haproxy\ Statistics',
+          'uri /',
+        ]
+      }
     }
     Debian: {
       $global_options   = {
@@ -59,6 +73,20 @@ class haproxy::params {
         ],
         'maxconn' => '8000'
       }
+      $http_stats_enable  = false
+      $http_stats_bind    = '0.0.0.0'
+      $http_stats_port    = '1936'
+      $http_stats_user    = 'stats'
+      $http_stats_pass    = 'stats'
+      $http_stats_options = {
+        'mode'    => 'http',
+        'stats'   => [
+          'enable',
+          'hide-version',
+          'realm Haproxy\ Statistics',
+          'uri /',
+        ]
+      }
     }
     Archlinux: {
       $global_options  = {
@@ -85,6 +113,20 @@ class haproxy::params {
           'check 10s',
         ],
         'maxconn' => '8000'
+      }
+      $http_stats_enable  = false
+      $http_stats_bind    = '0.0.0.0'
+      $http_stats_port    = '1936'
+      $http_stats_user    = 'stats'
+      $http_stats_pass    = 'stats'
+      $http_stats_options = {
+        'mode'    => 'http',
+        'stats'   => [
+          'enable',
+          'hide-version',
+          'realm Haproxy\ Statistics',
+          'uri /',
+        ]
       }
     }
     default: { fail("The $::osfamily operating system is not supported with the haproxy module") }

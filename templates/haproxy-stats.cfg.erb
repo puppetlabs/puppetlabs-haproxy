@@ -1,0 +1,12 @@
+
+listen stats <%= @http_stats_bind %>:<%= @http_stats_port %>
+<% @http_stats_options.sort.each do |key,val| -%>
+<% if val.is_a?(Array) -%>
+<% val.each do |item| -%>
+  <%= key %>  <%= item %>
+<% end -%>
+<% else -%>
+  <%= key %>  <%= val %>
+<% end -%>
+<% end -%>
+  stats auth <%= @http_stats_user %>:<%= @http_stats_pass %>
