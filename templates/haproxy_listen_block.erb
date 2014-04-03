@@ -1,7 +1,11 @@
 
 listen <%= @name %>
 <% Array(@ipaddress).uniq.each do |virtual_ip| (@ports.is_a?(Array) ? @ports : Array(@ports.split(","))).each do |port| -%>
+<% if ! @ssl -%>
   bind <%= virtual_ip %>:<%= port %>
+<% else -%>
+  bind <%= virtual_ip %>:<%= port %> ssl crt <%= @ssl %>
+<% end -%>
 <% end end -%>
 <% if @mode -%>
   mode  <%= @mode %>

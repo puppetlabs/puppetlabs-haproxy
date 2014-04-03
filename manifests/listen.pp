@@ -30,6 +30,10 @@
 #   The ip address the proxy binds to. Empty addresses, '*', and '0.0.0.0'
 #    mean that the proxy listens to all valid addresses on the system.
 #
+# [*ssl*]
+#   Path to base64-encoded PEM certificate. Affects all ports in the listen
+#    section.
+#
 # [*mode*]
 #   The mode of operation for the listening service. Valid values are undef,
 #    'tcp', 'http', and 'health'.
@@ -69,6 +73,7 @@
 define haproxy::listen (
   $ports,
   $ipaddress        = [$::ipaddress],
+  $ssl              = false,
   $mode             = undef,
   $collect_exported = true,
   $options          = {
