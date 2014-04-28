@@ -84,32 +84,32 @@ class haproxy (
     alias   => 'haproxy',
   }
 
-  if $enable {
-    concat { '/etc/haproxy/haproxy.cfg':
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      require => Package['haproxy'],
-      notify  => $manage_service ? {
-        true  => Service['haproxy'],
-        false => undef,
-      },
-    }
+  concat { '/etc/haproxy/haproxy.cfg':
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    require => Package['haproxy'],
+    notify  => $manage_service ? {
+      true  => Service['haproxy'],
+      false => undef,
+    },
+  }
 
-    # Simple Header
-    concat::fragment { '00-header':
-      target  => '/etc/haproxy/haproxy.cfg',
-      order   => '01',
-      content => "# This file managed by Puppet\n",
-    }
+  # Simple Header
+  concat::fragment { '00-header':
+    target  => '/etc/haproxy/haproxy.cfg',
+    order   => '01',
+    content => "# This file managed by Puppet\n",
+  }
 
-    # Template uses $global_options, $defaults_options
-    concat::fragment { 'haproxy-base':
-      target  => '/etc/haproxy/haproxy.cfg',
-      order   => '10',
-      content => template('haproxy/haproxy-base.cfg.erb'),
-    }
+  # Template uses $global_options, $defaults_options
+  concat::fragment { 'haproxy-base':
+    target  => '/etc/haproxy/haproxy.cfg',
+    order   => '10',
+    content => template('haproxy/haproxy-base.cfg.erb'),
+  }
 
+  if $enable and $manage_service {
     if ($::osfamily == 'Debian') {
       file { '/etc/default/haproxy':
         content => 'ENABLED=1',
@@ -120,41 +120,40 @@ class haproxy (
         },
       }
     }
-
-    if $global_options['chroot'] {
-      file { $global_options['chroot']:
-        ensure => directory,
-      }
-    }
-
   }
 
-  if $manage_service {
-    if $global_options['chroot'] {
-      $deps = [
-        Concat['/etc/haproxy/haproxy.cfg'],
-        File[$global_options['chroot']],
-      ]
-    } else {
-      $deps = [
-        Concat['/etc/haproxy/haproxy.cfg'],
-      ]
+  if $global_options['chroot'] {
+    file { $global_options['chroot']:
+      ensure => directory,
     }
+  }
 
-    service { 'haproxy':
-      ensure     => $enable ? {
-        true  => running,
-        false => stopped,
-      },
-      enable     => $enable ? {
-        true  => true,
-        false => false,
-      },
-      name       => 'haproxy',
-      hasrestart => true,
-      hasstatus  => true,
-      require    => $deps,
-      restart    => $restart_command,
-    }
+  if $global_options['chroot'] {
+    $deps = [
+      Concat['/etc/haproxy/haproxy.cfg'],
+      File[$global_options['chroot']],
+    ]
+  } else {
+    $deps = [
+      Concat['/etc/haproxy/haproxy.cfg'],
+    ]
+  }
+
+  $ensure_and_enable = $enable and $manage_service
+
+  service { 'haproxy':
+    ensure     => $ensure_and_enable ? {
+      true  => running,
+      false => stopped,
+    },
+    enable     => $ensure_and_enable ? {
+      true  => true,
+      false => false,
+    },
+    name       => 'haproxy',
+    hasrestart => true,
+    hasstatus  => true,
+    require    => $deps,
+    restart    => $restart_command,
   }
 }
