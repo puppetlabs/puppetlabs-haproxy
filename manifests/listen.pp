@@ -49,6 +49,11 @@
 #    know the full set of balancermembers in advance and use haproxy::balancermember 
 #    with array arguments, which allows you to deploy everything in 1 run)
 #
+# [*custom_fragment*]
+#   Allows arbitrary HAProxy configuration to be passed through to support
+#   additional listen configuration not available via parameters. Accepts a
+#   string (ie, output from the template() function). Defaults to undef
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -82,10 +87,11 @@ define haproxy::listen (
     ],
     'balance' => 'roundrobin'
   },
-  $bind_options     = ''
+  $bind_options     = '',
+  $custom_fragment  = undef,
 ) {
 
-  # Template uses: $name, $ipaddress, $ports, $options
+  # Template uses: $name, $ipaddress, $ports, $options, $custom_fragment
   concat::fragment { "${name}_listen_block":
     order   => "20-${name}-00",
     target  => '/etc/haproxy/haproxy.cfg',

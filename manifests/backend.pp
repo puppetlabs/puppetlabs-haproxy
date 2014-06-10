@@ -30,6 +30,11 @@
 #    haproxy::balancermember with array arguments, which allows you to deploy
 #    everything in 1 run)
 #
+# [*custom_fragment*]
+#   Allows arbitrary HAProxy configuration to be passed through to support
+#   additional backend configuration not available via parameters. Accepts a
+#   string (ie, output from the template() function). Defaults to undef
+#
 # === Examples
 #
 #  Exporting the resource for a backend member:
@@ -57,7 +62,8 @@ define haproxy::backend (
       'ssl-hello-chk'
     ],
     'balance' => 'roundrobin'
-  }
+  },
+  $custom_fragment  = undef,
 ) {
 
   # Template uses: $name, $ipaddress, $ports, $options

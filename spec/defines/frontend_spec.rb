@@ -50,4 +50,21 @@ describe 'haproxy::frontend' do
       'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option  tcplog\n"
     ) }
   end
+
+  context "when custom_fragment is provided" do
+    let(:params) do
+      {
+        :name            => 'apache',
+        :ipaddress       => '23.23.23.23',
+        :ports           => '80',
+        :custom_fragment => '  bind 23.23.23.23:443 ssl crt /path/to/cert.crt'
+      }
+    end
+
+    it { should contain_concat__fragment('apache_frontend_block').with(
+      'order'   => '15-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  option  tcplog\n  bind 23.23.23.23:443 ssl crt /path/to/cert.crt\n"
+    ) }
+  end
 end

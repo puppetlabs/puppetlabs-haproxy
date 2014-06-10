@@ -33,6 +33,11 @@
 #   A hash of options that are inserted into the frontend service
 #    configuration block.
 #
+# [*custom_fragment*]
+#   Allows arbitrary HAProxy configuration to be passed through to support
+#   additional frontend configuration not available via parameters. Accepts a
+#   string (ie, output from the template() function). Defaults to undef
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -64,7 +69,8 @@ define haproxy::frontend (
     'option'  => [
       'tcplog',
     ],
-  }
+  },
+  $custom_fragment  = undef,
 ) {
 
   # Template uses: $name, $ipaddress, $ports, $options
