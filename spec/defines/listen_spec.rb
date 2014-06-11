@@ -65,4 +65,20 @@ describe 'haproxy::listen' do
       'content' => "\nlisten apache\n  bind 1.1.1.1:80 the options go here\n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n"
     ) }
   end
+  context "when custom_fragment is provided" do
+    let(:params) do
+      {
+        :name            => 'apache',
+        :ipaddress       => '23.23.23.23',
+        :ports           => '80',
+        :custom_fragment => '  bind 23.23.23.23:443 ssl crt /path/to/cert.crt'
+      }
+    end
+
+    it { should contain_concat__fragment('apache_listen_block').with(
+      'order'   => '20-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  balance  roundrobin\n  option  tcplog\n  option  ssl-hello-chk\n  bind 23.23.23.23:443 ssl crt /path/to/cert.crt\n"
+    ) }
+  end
 end
