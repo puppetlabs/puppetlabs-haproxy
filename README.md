@@ -46,19 +46,19 @@ node 'haproxy-server' {
     ipaddress        => $::ipaddress,
     ports            => '8140',
   }
-  haproxy::balancermember { 'master00:
+  haproxy::balancermember { 'master00':
     listening_service => 'puppet00',
     server_names      => 'master00.example.com',
     ipaddresses       => '10.0.0.10',
     ports             => '8140',
-    options           => 'check'
+    options           => 'check',
   }
-  haproxy::balancermember { 'master01:
+  haproxy::balancermember { 'master01':
     listening_service => 'puppet00',
     server_names      => 'master01.example.com',
     ipaddresses       => '10.0.0.11',
     ports             => '8140',
-    options           => 'check'
+    options           => 'check',
   }
 }
 ```
@@ -82,7 +82,7 @@ node /^master\d+/ {
     server_names      => $::hostname,
     ipaddresses       => $::ipaddress,
     ports             => '8140',
-    options           => 'check'
+    options           => 'check',
   }
 }
 ```
@@ -154,7 +154,7 @@ class { 'haproxy':
     'user'    => 'haproxy',
     'group'   => 'haproxy',
     'daemon'  => '',
-    'stats'   => 'socket /var/lib/haproxy/stats'
+    'stats'   => 'socket /var/lib/haproxy/stats',
   },
   defaults_options => {
     'log'     => 'global',
@@ -167,9 +167,9 @@ class { 'haproxy':
       'connect 10s',
       'client 1m',
       'server 1m',
-      'check 10s'
+      'check 10s',
     ],
-    'maxconn' => '8000'
+    'maxconn' => '8000',
   },
 }
 ```
@@ -213,9 +213,9 @@ haproxy::listen { 'puppet00':
   options   => {
     'option'  => [
       'tcplog',
-      'ssl-hello-chk'
+      'ssl-hello-chk',
     ],
-    'balance' => 'roundrobin'
+    'balance' => 'roundrobin',
   },
 }
 ```
@@ -250,17 +250,17 @@ Exporting the resource for a balancer member:
 
 ```puppet
 haproxy::frontend { 'puppet00':
-  ipaddress    => $::ipaddress,
-  ports        => '18140',
-  mode         => 'tcp',
-  bind_options => 'accept-proxy',
-  options      => {
-    'option'   => [
+  ipaddress     => $::ipaddress,
+  ports         => '18140',
+  mode          => 'tcp',
+  bind_options  => 'accept-proxy',
+  options       => {
+    'option'          => [
       'tcplog',
       'accept-invalid-http-request',
     ],
-    'timeout client' => '30',
-    'balance'    => 'roundrobin'
+    'timeout client'  => '30',
+    'balance'         => 'roundrobin',
   },
 }
 ```
@@ -286,12 +286,12 @@ Exporting the resource for a backend member:
 
 ```puppet
 haproxy::backend { 'puppet00':
-  options   => {
+  options => {
     'option'  => [
       'tcplog',
-      'ssl-hello-chk'
+      'ssl-hello-chk',
     ],
-    'balance' => 'roundrobin'
+    'balance' => 'roundrobin',
   },
 }
 ```
