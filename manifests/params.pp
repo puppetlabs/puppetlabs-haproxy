@@ -9,29 +9,29 @@ class haproxy::params {
     'Archlinux', 'Debian', 'Redhat': {
       $package_name     = 'haproxy'
       $global_options   = {
-        'log'     => "${::ipaddress} local0",
-        'chroot'  => '/var/lib/haproxy',
-        'pidfile' => '/var/run/haproxy.pid',
-        'maxconn' => '4000',
-        'user'    => 'haproxy',
-        'group'   => 'haproxy',
-        'daemon'  => '',
-        'stats'   => 'socket /var/lib/haproxy/stats'
+        'log'     => $global_log, 
+        'chroot'  => $global_chroot. 
+        'pidfile' => $global_pidfile, 
+        'maxconn' => $global_maxconn, 
+        'user'    => $global_user, 
+        'group'   => $global_group, 
+        'daemon'  => $global_daemon, 
+        'stats'   => $global_stats, 
       }
       $defaults_options = {
-        'log'     => 'global',
-        'stats'   => 'enable',
-        'option'  => 'redispatch',
-        'retries' => '3',
+        'log'     => $defaults_log, 
+        'stats'   => $defaults_stats, 
+        'option'  => $defaults_option, 
+        'retries' => $defaults_retries, 
         'timeout' => [
-          'http-request 10s',
-          'queue 1m',
-          'connect 10s',
-          'client 1m',
-          'server 1m',
-          'check 10s',
+          "http-request $defaults_timeout_http_request",
+          "queue $defaults_timeout_queue",
+          "connect $defaults_timeout_connect",
+          "client $defaults_timeout_client",
+          "server $defaults_timeout_server",
+          "check $defaults_timeout_check",
         ],
-        'maxconn' => '8000'
+        'maxconn' => $defaults_maxconn, 
       }
     }
     default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }

@@ -88,6 +88,26 @@ class haproxy (
   $restart_command  = undef,
   $custom_fragment  = undef,
 
+  $global_log       = "${::ipaddress} local0",
+  $global_chroot    = '/var/lib/haproxy',
+  $global_pidfile   = '/var/run/haproxy.pid',
+  $global_maxconn   = '4000',
+  $global_user      = 'haproxy',
+  $global_group     = 'haproxy',
+  $global_daemon    = '',
+  $global_stats     = 'socket /var/lib/haproxy/stats'
+  $defaults_log     = 'global',
+  $defaults_stats   = 'enable',
+  $defaults_option  = 'redispatch',
+  $defaults_retries = '3',
+  $defaults_timeout_http_request = '10s',
+  $defaults_timeout_queue   = '1m',
+  $defaults_timeout_connect = '10s',
+  $defaults_timeout_client  = '1m',
+  $defaults_timeout_server  = '1m',
+  $defaults_timeout_check   = '10s',
+  $defaults_maxconn = '8000'
+
   # Deprecated
   $manage_service   = undef,
   $enable           = undef,
