@@ -9,6 +9,11 @@
 #  uses storeconfigs on the Puppet Master to export/collect resources
 #  from all balancer members.
 #
+#  The use of the each([]) array iterator below requires 'main.parser = future' 
+#  to be set in the master's puppet.conf.  The experimental features made available 
+#  by the future parser come along with many non-backwards compatible changes 
+#  known to break multiple features of existing manifests.
+#
 # === Parameters
 #
 # [*package_ensure*]
@@ -104,8 +109,8 @@ class haproxy (
   $package_name     = $haproxy::params::package_name,
   $service_ensure   = 'running',
   $service_manage   = true,
-  # $global_options   = $haproxy::params::global_options,
-  # $defaults_options = $haproxy::params::defaults_options,
+  $global_options   = undef,
+  $defaults_options = undef, 
   $restart_command  = undef,
   $custom_fragment  = undef,
 
@@ -138,30 +143,69 @@ class haproxy (
   case $::osfamily {
     'Archlinux', 'Debian', 'Redhat': {
       # $package_name     = 'haproxy'
-      $global_options   = {
-        'log'     => $global_log, 
-        'chroot'  => $global_chroot,
-        'pidfile' => $global_pidfile, 
-        'maxconn' => $global_maxconn, 
-        'user'    => $global_user, 
-        'group'   => $global_group, 
-        'daemon'  => $global_daemon, 
-        'stats'   => $global_stats, 
+      if( ! is_hash( $global_options ) ){
+        $global_options   = {
+          'log'     => $global_log, 
+          'chroot'  => $global_chroot,
+          'pidfile' => $global_pidfile, 
+          'maxconn' => $global_maxconn, 
+          'user'    => $global_user, 
+          'group'   => $global_group, 
+          'daemon'  => $global_daemon, 
+          'stats'   => $global_stats, 
+        }
       }
-      $defaults_options = {
-        'log'     => $defaults_log, 
-        'stats'   => $defaults_stats, 
-        'option'  => $defaults_option, 
-        'retries' => $defaults_retries, 
-        'timeout' => [
-          "http-request $defaults_timeout_http_request",
-          "queue $defaults_timeout_queue",
-          "connect $defaults_timeout_connect",
-          "client $defaults_timeout_client",
-          "server $defaults_timeout_server",
-          "check $defaults_timeout_check",
-        ],
-        'maxconn' => $defaults_maxconn, 
+      $ignore_global_defaults = 0
+      $the_global_options = [ 'log', 'chroot', 'pidfile', 'maxconn', 'user', 'group', 'daemon', 'stats' ]
+      each( $the_global_options ) |$option| {
+        $param_value = ${global_${option}}
+        $default_value = ${global_${option}}
+        if( $param_value != $default_value ){
+          $ignore_global_defaults = 1
+        }
+      }
+      if( $ignore_global_defaults = 0 ){
+        $global_options   = $haproxy::params::_global_options
+      }
+      if( ! is_hash( $defaults_options ) ){
+        $defaults_options = {
+          'log'     => $defaults_log, 
+          'stats'   => $defaults_stats, 
+          'option'  => $defaults_option, 
+          'retries' => $defaults_retries, 
+          'timeout' => [
+            "http-request $defaults_timeout_http_request",
+            "queue $defaults_timeout_queue",
+            "connect $defaults_timeout_connect",
+            "client $defaults_timeout_client",
+            "server $defaults_timeout_server",
+            "check $defaults_timeout_check",
+          ],
+          'maxconn' => $defaults_maxconn, 
+        }
+      }
+      $ignore_defaults_defaults = 0
+      $the_defaults_options = [ 'log', 'stats', 'option', 'retries', 'maxconn' ]
+      each( $the_defaults_options ) |$option| {
+        $param_value = ${defaults_${option}}
+        $default_value = ${defaults_${option}}
+        if( $param_value != $default_value ){
+          $ignore_defaults_defaults = 1
+        }
+      }
+      $ignore_defaults_timeout_defaults = 0
+      $the_defaults_timeout_options = [ 'http_request', 'queue', 'connect', 'client', 'server', 'check' ]
+      each( $the_defaults_timeout_options ) |$option| {
+        $param_value = ${defaults_timeout_${option}}
+        $default_value = ${defaults_timeout_${option}}
+        if( $param_value != $default_value ){
+          $ignore_defaults_timeout_defaults = 1
+        }
+      }
+      if( $ignore_defaults_defaults = 0 ){
+        if( $ignore_defaults_timeout_defaults = 0 ){
+          $defaults_options = $haproxy::params::_defaults_options,
+        }
       }
     }
     default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
