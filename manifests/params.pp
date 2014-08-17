@@ -10,7 +10,7 @@ class haproxy::params {
       $package_name     = 'haproxy'
       $global_options   = {
         'log'     => $global_log, 
-        'chroot'  => $global_chroot. 
+        'chroot'  => $global_chroot,
         'pidfile' => $global_pidfile, 
         'maxconn' => $global_maxconn, 
         'user'    => $global_user, 

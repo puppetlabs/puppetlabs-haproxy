@@ -95,7 +95,7 @@ class haproxy (
   $global_user      = 'haproxy',
   $global_group     = 'haproxy',
   $global_daemon    = '',
-  $global_stats     = 'socket /var/lib/haproxy/stats'
+  $global_stats     = 'socket /var/lib/haproxy/stats',
   $defaults_log     = 'global',
   $defaults_stats   = 'enable',
   $defaults_option  = 'redispatch',
@@ -106,7 +106,7 @@ class haproxy (
   $defaults_timeout_client  = '1m',
   $defaults_timeout_server  = '1m',
   $defaults_timeout_check   = '10s',
-  $defaults_maxconn = '8000'
+  $defaults_maxconn = '8000',
 
   # Deprecated
   $manage_service   = undef,
