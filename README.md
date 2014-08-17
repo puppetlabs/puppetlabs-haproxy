@@ -71,6 +71,7 @@ node 'haproxy-server' {
 ###Configuring haproxy options
 
 The main [`haproxy` class](#class-haproxy) has many options for configuring your HAProxy server. 
+The following represents the default values.
 
 ```puppet
 class { 'haproxy':
@@ -100,6 +101,15 @@ class { 'haproxy':
     'maxconn' => '8000',
   },
 }
+```
+
+But if you only want to change one or two of those defaults, try this:
+
+```
+class { 'haproxy':
+    global_log => '127.0.0.1 local0',
+    defaults_maxconn => '4000',
+  }
 ```
 
 ###Configuring HAProxy daemon listener
