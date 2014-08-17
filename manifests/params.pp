@@ -1,39 +1,31 @@
 # == Class: haproxy::params
 #
-# This is a container class holding default parameters for for haproxy class.
-#  currently, only the Redhat family is supported, but this can be easily
-#  extended by changing package names and configuration file paths.
+# This is a container class holding default parameters for haproxy class.
+#  currently, only the Redhat, Debian and Archlinux families are supported, 
+# but this can be easily extended by changing package names and configuration 
+# file paths.
 #
 class haproxy::params {
-  case $::osfamily {
-    'Archlinux', 'Debian', 'Redhat': {
-      $package_name     = 'haproxy'
-      $global_options   = {
-        'log'     => $global_log, 
-        'chroot'  => $global_chroot,
-        'pidfile' => $global_pidfile, 
-        'maxconn' => $global_maxconn, 
-        'user'    => $global_user, 
-        'group'   => $global_group, 
-        'daemon'  => $global_daemon, 
-        'stats'   => $global_stats, 
-      }
-      $defaults_options = {
-        'log'     => $defaults_log, 
-        'stats'   => $defaults_stats, 
-        'option'  => $defaults_option, 
-        'retries' => $defaults_retries, 
-        'timeout' => [
-          "http-request $defaults_timeout_http_request",
-          "queue $defaults_timeout_queue",
-          "connect $defaults_timeout_connect",
-          "client $defaults_timeout_client",
-          "server $defaults_timeout_server",
-          "check $defaults_timeout_check",
-        ],
-        'maxconn' => $defaults_maxconn, 
-      }
-    }
-    default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
-  }
+
+  $package_name      = 'haproxy'
+  $_global_log       = "${::ipaddress} local0"
+  $_global_chroot    = '/var/lib/haproxy'
+  $_global_pidfile   = '/var/run/haproxy.pid'
+  $_global_maxconn   = '4000'
+  $_global_user      = 'haproxy'
+  $_global_group     = 'haproxy'
+  $_global_daemon    = ''
+  $_global_stats     = 'socket /var/lib/haproxy/stats'
+  $_defaults_log     = 'global'
+  $_defaults_stats   = 'enable'
+  $_defaults_option  = 'redispatch'
+  $_defaults_retries = '3'
+  $_defaults_timeout_http_request = '10s'
+  $_defaults_timeout_queue   = '1m'
+  $_defaults_timeout_connect = '10s'
+  $_defaults_timeout_client  = '1m'
+  $_defaults_timeout_server  = '1m'
+  $_defaults_timeout_check   = '10s'
+  $_defaults_maxconn = '8000'
+
 }
