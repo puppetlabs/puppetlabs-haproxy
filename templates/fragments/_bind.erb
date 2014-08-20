@@ -12,5 +12,9 @@
     end
   -%>
   <%- scope.function_fail(["Port [#{port}] is outside of range 1-65535"]) if port.to_i < 1 or port.to_i > 65535 -%>
-  bind <%= virtual_ip %>:<%= port %> <%= Array(@bind_options).join(" ") %>
+  <% if port.to_i == 443 -%>
+bind <%= virtual_ip %>:<%= port %> <%= Array(@bind_options_ssl).join(' ') %>
+  <% else -%>
+bind <%= virtual_ip %>:<%= port %> <%= Array(@bind_options).join(' ') %>
+  <% end -%>
 <% end end -%>
