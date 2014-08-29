@@ -11,16 +11,16 @@
 #  from all balancer members.
 #
 # == Parameters
-# 
+#
 # [*frontend_name*]
 #   name of haproxy::frontend to rely
-# 
+#
 # [*backend_name*]
 #   backend to use id specified acl is matched
-# 
+#
 # [*if_acl*]
 #   acl name that nedd to be matched
-# 
+#
 
 define haproxy::frontend::use_backend (
   $frontend_name,

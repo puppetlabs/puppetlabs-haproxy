@@ -47,7 +47,6 @@
 #    acl_name      => 'acl_1',
 #    use_backend   => ''
 #  }
-#  
 
 define haproxy::frontend::acl (
   $frontend_name,
@@ -66,7 +65,7 @@ define haproxy::frontend::acl (
   }
 
   # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${name}_frontend_acl_${acl_name}_block":
+  concat::fragment { "${frontend_name}_frontend_acl_${acl_name}_block":
     order   => "15-${frontend_name}-01-${acl_name}",
     target  => '/etc/haproxy/haproxy.cfg',
     content => template('haproxy/haproxy_frontend_acl.erb'),
