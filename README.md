@@ -18,6 +18,8 @@
         * [Defined Type: haproxy::balancermember](defined-type-haproxybalancermember)
         * [Defined Type: haproxy::backend](#defined-type-haproxybackend)
         * [Defined type: haproxy::frontend](#defined-type-haproxyfrontend)
+        * [Defined type: haproxy::frontend::acl](#defined-type-haproxyfrontendacl)
+        * [Defined type: haproxy::frontend::use_backend] (#defined-type-haproxyfrontendusebackend)
         * [Defined type: haproxy::listen](#defined-type-haproxylisten)
         * [Defined Type: haproxy::userlist](#define-type-haproxyuserlist)
 5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
@@ -324,6 +326,38 @@ haproxy::frontend { 'puppet00':
 }
 ```
 
+####Defined type: `haproxy::frontend::acl`
+
+This type adds an acl setting on the frontend service configuration block in haproxy.cfg. The HAProxy daemon uses the directives in the .cfg file to determine which acl is true in order to send to an appropiate backend.
+
+**Parameters**
+
+#####`name`
+Sets the acl's name. Generally, it will be the namevar of the defined resource type. This value appears right after the 'acl' statement inside the frontend in haproxy.cfg.
+
+#####`frontend_name`
+Defines in which frontend block the acl will be generated
+
+#####`condition`
+Sets the condition which after evaluation will redirect to the appropiate backend.
+
+#####`use_backend`
+Sets the backend that will be chosen if the acl condition is fulfilled.
+
+#####Example
+
+To route all traffic that has /blog in the request to the backend 'puppet_backend00',
+
+```puppet
+haproxy::frontend { 'acl_localhost':
+  frontend_name => 'puppet00',
+  condition     => 'path_beg /blog,
+  use_backend   => 'puppet_backend00'
+}
+  
+```
+
+
 ####Defined type: `haproxy::listen`
 
 This type sets up a listening service configuration block inside the haproxy.cfg file on an HAProxy load balancer. Each listening service configuration needs one or more load balancer member server (declared with the [`haproxy::balancermember`](#defined-type-balancermember) defined type). 
@@ -378,6 +412,7 @@ An array of groups in the userlist. See http://cbonte.github.io/haproxy-dconv/co
 * Class `haproxy`: Main configuration class
 * Define `haproxy::listen`: Creates a listen entry in the config
 * Define `haproxy::frontend`: Creates a frontend entry in the config
+* Define `haproxy::frontend::acl`: Creates an acl entry for a specific frontend in the config
 * Define `haproxy::backend`: Creates a backend entry in the config
 * Define `haproxy::balancermember`: Creates server entries for listen or backend blocks.
 * Define `haproxy::userlist`: Creates a userlist entry in the config
