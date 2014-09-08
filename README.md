@@ -424,6 +424,7 @@ An array of groups in the userlist. See http://cbonte.github.io/haproxy-dconv/co
 * Class `haproxy::config`: Configures haproxy.cfg.
 * Class `haproxy::service`: Manages service.
 * Define `haproxy::balancermember::collect_exported`: Collects exported balancermembers
+* Define `haproxy::frontend::use_backend`: Adds extra configuration for acl matching in the frontend, automatically if required on `haproxy::frontend::acl`.
 
 ##Limitations
 
