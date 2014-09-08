@@ -51,17 +51,12 @@
 define haproxy::frontend::acl (
   $frontend_name,
   $condition,
-  $acl_name       = '',
+  $acl_name       = $title,
   $use_backend    = ''
 ) {
 
   if !defined(Haproxy::Frontend[$frontend_name]) {
     fail ("No Haproxy::Frontend[$frontend_name] is defined!")
-  }
-
-  $acl = $acl_name ? {
-    ''      => $name,
-    default => $acl_name,
   }
 
   # Template uses: $name, $ipaddress, $ports, $options
@@ -76,10 +71,10 @@ define haproxy::frontend::acl (
       fail ("No Haproxy::Backend[$use_backend] is defined!")
     }
 
-    haproxy::frontend::use_backend { "${use_backend}-${acl}":
+    haproxy::frontend::use_backend { "${use_backend}-${acl_name}":
       frontend_name => $frontend_name,
       backend_name  => $use_backend,
-      if_acl        => $acl,
+      if_acl        => $acl_name,
     }
   }
 }
