@@ -33,8 +33,8 @@ define haproxy::frontend::use_backend (
   }
 
   # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${$frontend_name}_frontend_use_${backend_name}_block":
-    order   => "15-${frontend_name}-02-${backend_name}",
+  concat::fragment { "${frontend_name}_${if_acl}_${backend_name}_block":
+    order   => "15-${frontend_name}-02-${if_acl}-${backend_name}",
     target  => '/etc/haproxy/haproxy.cfg',
     content => template('haproxy/haproxy_frontend_use_backend.erb'),
   }
