@@ -64,4 +64,62 @@ describe "frontend backend defines", :unless => UNSUPPORTED_PLATFORMS.include?(f
     shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
     shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
   end
+
+  it 'should be able to configure the frontend/backend with acls' do
+    pp = <<-EOS
+      class { 'haproxy': }
+      haproxy::frontend { 'app00':
+        ipaddress => $::ipaddress_lo,
+        mode      => 'http',
+        ports     => '5555',
+        options   => { 'default_backend' => 'app00' },
+      }
+      haproxy::frontend::acl( 'localhost_acl':
+        frontend_name => 'app0',
+        condition     => 'dst 127.0.0.1',
+      }
+      haproxy::backend { 'app00':
+        collect_exported => false,
+        options          => { 'mode' => 'http' },
+      }
+      haproxy::balancermember { 'port 5556':
+        listening_service => 'app00',
+        ports             => '5556',
+      }
+    EOS
+  it "should do a curl against the LB to make sure it gets a response from each port" do
+    shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
+    shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
+  end
+
+  it 'should be able to configure the frontend/backend with acls and use_backend' do
+    pp = <<-EOS
+      class { 'haproxy': }
+      haproxy::frontend { 'app00':
+        ipaddress => $::ipaddress_lo,
+        mode      => 'http',
+        ports     => '5555',
+      }
+      haproxy::frontend::acl( 'localhost_acl':
+        frontend_name => 'app0',
+        condition     => 'dst 127.0.0.1',
+        use_backend   => 'app0',
+      }
+      haproxy::backend { 'app00':
+        collect_exported => false,
+        options          => { 'mode' => 'http' },
+      }
+      haproxy::backend { 'app01':
+        collect_exported => false,
+        options          => { 'mode' => 'http' },
+      }
+      haproxy::balancermember { 'port 5556':
+        listening_service => 'app00',
+        ports             => '5556',
+      }
+    EOS
+  it "should do a curl against the LB to make sure it gets a response from each port" do
+    shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
+    shell('curl localhost:5555').stdout.chomp.should match(/Response on 5556/)
+  end
 end
