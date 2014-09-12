@@ -349,7 +349,7 @@ Sets the backend that will be chosen if the acl condition is fulfilled.
 To route all traffic that has /blog in the request to the backend 'puppet_backend00',
 
 ```puppet
-haproxy::frontend { 'acl_localhost':
+haproxy::frontend::acl { 'acl_localhost':
   frontend_name => 'puppet00',
   condition     => 'path_beg /blog,
   use_backend   => 'puppet_backend00'
