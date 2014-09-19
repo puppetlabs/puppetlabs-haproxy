@@ -92,7 +92,6 @@ class haproxy (
   $manage_service   = undef,
   $enable           = undef,
 ) inherits haproxy::params {
-  include concat::setup
 
   if $service_ensure != true and $service_ensure != false {
     if ! ($service_ensure in [ 'running','stopped']) {
