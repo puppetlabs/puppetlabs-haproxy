@@ -15,9 +15,10 @@ class haproxy::service inherits haproxy {
     service { 'haproxy':
       ensure     => $_service_ensure,
       enable     => $_service_ensure ? {
-        'running' => true,
-        'stopped' => false,
-        default   => $_service_ensure,
+        'running'   => true,
+        'stopped'   => false,
+        'unmanaged' => false,
+        default     => $_service_ensure,
       },
       name       => 'haproxy',
       hasrestart => true,
