@@ -8,8 +8,11 @@ group :development, :test do
   gem 'puppet-lint',             :require => false
   gem 'pry',                     :require => false
   gem 'simplecov',               :require => false
-  gem 'beaker',                  :require => false
+end
+
+group :system_tests do
   gem 'beaker-rspec',            :require => false
+  gem 'serverspec',              :require => false
 end
 
 if facterversion = ENV['FACTER_GEM_VERSION']
