@@ -94,8 +94,8 @@ class haproxy (
 ) inherits haproxy::params {
 
   if $service_ensure != true and $service_ensure != false {
-    if ! ($service_ensure in [ 'running','stopped']) {
-      fail('service_ensure parameter must be running, stopped, true, or false')
+    if ! ($service_ensure in [ 'running','stopped','unmanaged']) {
+      fail('service_ensure parameter must be running, stopped, true, false or unmanaged')
     }
   }
   validate_string($package_name,$package_ensure)
@@ -113,7 +113,11 @@ class haproxy (
     }
   } else {
     $_package_ensure = $package_ensure
-    $_service_ensure = $service_ensure
+    if $service_ensure == 'unmanaged' {
+      $_service_ensure = undef
+    } else {
+      $_service_ensure = $service_ensure
+    }
   }
 
   # To support deprecating $manage_service
