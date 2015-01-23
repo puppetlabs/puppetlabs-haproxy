@@ -80,6 +80,9 @@ define haproxy::frontend (
   $bind_options     = '',
 ) {
 
+  if ! $bind and ! $ipaddress {
+    $ipaddress = $::ipaddress
+  }
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
   }
