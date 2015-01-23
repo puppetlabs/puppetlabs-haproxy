@@ -15,7 +15,7 @@
     * [Configuring a load balancer with exported resources](#configuring-a-load-balancer-with-exported-resources)
     * [Classes and Defined Types](#classes-and-defined-types)
         * [Class: haproxy](#class-haproxy)
-        * [Defined Type: haproxy::balancermember](defined-type-haproxybalancermember)
+        * [Defined Type: haproxy::balancermember](#defined-type-haproxybalancermember)
         * [Defined Type: haproxy::backend](#defined-type-haproxybackend)
         * [Defined type: haproxy::frontend](#defined-type-haproxyfrontend)
         * [Defined type: haproxy::listen](#defined-type-haproxylisten)
