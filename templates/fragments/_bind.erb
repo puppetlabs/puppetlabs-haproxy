@@ -19,7 +19,7 @@
   scope.function_fail(["Port #{port} for IP #{ip} is outside of range 1-65535"]) if port and (port.to_i < 1 or port.to_i > 65535) -%>
   bind <%= ip -%>:<%= port -%> <%= Array(@bind[virtual_ip]).join(" ") %>
 <%- end else
-  Array(@ipaddress).uniq.each do |virtual_ip| (@ports.is_a?(Array) ? @ports : Array(@ports.split(","))).each do |port|
+  Array(@_ipaddress).uniq.each do |virtual_ip| (@ports.is_a?(Array) ? @ports : Array(@ports.split(","))).each do |port|
   begin
     IPAddr.new(virtual_ip)
     valid_ip = true
