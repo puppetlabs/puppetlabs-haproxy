@@ -21,7 +21,7 @@ describe 'haproxy::backend' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /discovered with the same name/
+      expect { is_expected.to compile }.to raise_error /discovered with the same name/
     end
   end
 

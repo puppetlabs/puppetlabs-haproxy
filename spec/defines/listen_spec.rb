@@ -80,7 +80,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /outside of range/
+      expect { is_expected.to compile }.to raise_error /outside of range/
     end
   end
   # C9974
@@ -94,7 +94,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   # C9977
@@ -132,7 +132,6 @@ describe 'haproxy::listen' do
     let(:params) do
       {
         :name      => 'apache',
-        :ipaddress => '',
         :bind      => {'10.0.0.1:333' => ['ssl', 'crt', 'public.puppetlabs.com'], '192.168.122.1:8082' => []},
       }
     end
@@ -153,7 +152,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /mutually exclusive/
+      expect { is_expected.to compile }.to raise_error /mutually exclusive/
     end
   end
   # C9977
@@ -167,7 +166,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   # C9974
@@ -181,7 +180,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   context "when bind options are provided" do
