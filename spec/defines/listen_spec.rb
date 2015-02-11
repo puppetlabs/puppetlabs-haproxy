@@ -80,7 +80,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /outside of range/
+      expect { is_expected.to compile }.to raise_error /outside of range/
     end
   end
   # C9974
@@ -94,7 +94,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   # C9977
@@ -153,7 +153,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /mutually exclusive/
+      expect { is_expected.to compile }.to raise_error /mutually exclusive/
     end
   end
   # C9977
@@ -167,7 +167,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   # C9974
@@ -181,7 +181,7 @@ describe 'haproxy::listen' do
     end
 
     it 'should raise error' do
-      expect { subject }.to raise_error Puppet::Error, /Invalid IP address/
+      expect { is_expected.to compile }.to raise_error /Invalid IP address/
     end
   end
   context "when bind options are provided" do

@@ -62,26 +62,29 @@ describe 'haproxy', :type => :class do
             )
           end
           describe 'Base concat fragment contents' do
-            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
             # C9936 C9937
             it 'should contain global and defaults sections' do
-              contents.should include('global')
-              contents.should include('defaults')
+              should contain_concat__fragment('haproxy-base').with(
+                'target' => '/etc/haproxy/haproxy.cfg',
+                'order'  => '10'
+              )
+              should contain_concat__fragment('haproxy-base').with_content(/.*global.*/)
+              should contain_concat__fragment('haproxy-base').with_content(/.*defaults.*/)
             end
             it 'should log to an ip address for local0' do
-              contents.should be_any { |match| match =~ /  log  \d+(\.\d+){3} local0/ }
+              should contain_concat__fragment('haproxy-base').with_content(/  log  \d+(\.\d+){3} local0/)
             end
             it 'should specify the default chroot' do
-              contents.should include('  chroot  /var/lib/haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  chroot  \/var\/lib\/haproxy/)
             end
             it 'should specify the correct user' do
-              contents.should include('  user  haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  user  haproxy/)
             end
             it 'should specify the correct group' do
-              contents.should include('  group  haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  group  haproxy/)
             end
             it 'should specify the correct pidfile' do
-              contents.should include('  pidfile  /var/run/haproxy.pid')
+              should contain_concat__fragment('haproxy-base').with_content(/  pidfile  \/var\/run\/haproxy.pid/)
             end
           end
         end
@@ -130,25 +133,29 @@ describe 'haproxy', :type => :class do
             )
           end
           describe 'Base concat fragment contents' do
-            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+            # C9936 C9937
             it 'should contain global and defaults sections' do
-              contents.should include('global')
-              contents.should include('defaults')
+              should contain_concat__fragment('haproxy-base').with(
+                'target' => '/etc/haproxy/haproxy.cfg',
+                'order'  => '10'
+              )
+              should contain_concat__fragment('haproxy-base').with_content(/.*global.*/)
+              should contain_concat__fragment('haproxy-base').with_content(/.*defaults.*/)
             end
             it 'should log to an ip address for local0' do
-              contents.should be_any { |match| match =~ /  log  \d+(\.\d+){3} local0/ }
+              should contain_concat__fragment('haproxy-base').with_content(/  log  \d+(\.\d+){3} local0/)
             end
             it 'should specify the default chroot' do
-              contents.should include('  chroot  /var/lib/haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  chroot  \/var\/lib\/haproxy/)
             end
             it 'should specify the correct user' do
-              contents.should include('  user  haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  user  haproxy/)
             end
             it 'should specify the correct group' do
-              contents.should include('  group  haproxy')
+              should contain_concat__fragment('haproxy-base').with_content(/  group  haproxy/)
             end
             it 'should specify the correct pidfile' do
-              contents.should include('  pidfile  /var/run/haproxy.pid')
+              should contain_concat__fragment('haproxy-base').with_content(/  pidfile  \/var\/run\/haproxy.pid/)
             end
           end
         end
@@ -190,8 +197,7 @@ describe 'haproxy', :type => :class do
           { :osfamily => 'Debian' }.merge default_facts
         end
         it 'should manage haproxy service defaults' do
-          subject.should contain_file('/etc/default/haproxy')
-          verify_contents(subject, '/etc/default/haproxy', ['ENABLED=1'])
+          subject.should contain_file('/etc/default/haproxy').with_content('ENABLED=1')
         end
       end
       context 'only on RedHat family operatingsystems' do
