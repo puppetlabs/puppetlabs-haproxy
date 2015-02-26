@@ -1,34 +1,51 @@
 # Private class
-class haproxy::config inherits haproxy {
+define haproxy::config (
+  $instance_name,
+  $config_dir,
+  $config_file,
+  $global_options,
+  $defaults_options,
+  $custom_fragment = undef,
+) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  if $config_dir != undef {
+    file { $config_dir:
+      ensure => directory,
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0755',  # TODO(tlim): Should be 0750?
+    }
+  }
+
   concat { $config_file:
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
+    owner => '0',
+    group => '0',
+    mode  => '0644',
   }
 
   # Simple Header
-  concat::fragment { '00-header':
+  concat::fragment { "${instance_name}-00-header":
     target  => $config_file,
     order   => '01',
     content => "# This file managed by Puppet\n",
   }
 
   # Template uses $global_options, $defaults_options
-  concat::fragment { 'haproxy-base':
+  $_custom_fragment = $custom_fragment
+  concat::fragment { "${instance_name}-haproxy-base":
     target  => $config_file,
     order   => '10',
     content => template('haproxy/haproxy-base.cfg.erb'),
   }
 
-  if $haproxy::global_options['chroot'] {
-    file { $haproxy::global_options['chroot']:
+  if $global_options['chroot'] {
+    ensure_resource('file', $global_options['chroot'], {
       ensure => directory,
-      owner  => $haproxy::global_options['user'],
-      group  => $haproxy::global_options['group'],
-    }
+      owner  => $global_options['user'],
+      group  => $global_options['group'],
+    })
   }
 }

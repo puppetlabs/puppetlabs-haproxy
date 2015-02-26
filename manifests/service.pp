@@ -1,28 +1,35 @@
 # Private class
-class haproxy::service inherits haproxy {
+define haproxy::service (
+  $instance_name,
+  $service_ensure,
+  $service_manage,
+  $restart_command = undef,
+) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $haproxy::_service_manage {
+  if $service_manage {
     if ($::osfamily == 'Debian') {
-      file { '/etc/default/haproxy':
+      file { "/etc/default/${instance_name}":
         content => 'ENABLED=1',
-        before  => Service['haproxy'],
+        before  => Service[$instance_name],
       }
     }
 
-    service { 'haproxy':
-      ensure     => $haproxy::_service_ensure,
-      enable     => $haproxy::_service_ensure ? {
+    $_service_enable = $service_ensure ? {
         'running' => true,
         'stopped' => false,
-        default   => $haproxy::_service_ensure,
-      },
-      name       => 'haproxy',
+        default   => $service_ensure,
+    }
+
+    service { $instance_name:
+      ensure     => $service_ensure,
+      enable     => $_service_enable,
+      name       => $instance_name,
       hasrestart => true,
       hasstatus  => true,
-      restart    => $haproxy::restart_command,
+      restart    => $restart_command,
     }
   }
 }

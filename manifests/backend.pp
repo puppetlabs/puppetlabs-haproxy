@@ -57,17 +57,30 @@ define haproxy::backend (
       'ssl-hello-chk'
     ],
     'balance' => 'roundrobin'
-  }
+  },
+  $instance = 'haproxy',
 ) {
 
   if defined(Haproxy::Listen[$name]) {
     fail("An haproxy::listen resource was discovered with the same name (${name}) which is not supported")
   }
 
+  # We derive settings so that the caller only has to specify $instance.
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    #$config_dir = $haproxy::params::config_dir
+    $config_file = $haproxy::params::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    #$config_dir = inline_template($haproxy::params::config_dir_tmpl)
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
+
   # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${name}_backend_block":
+  concat::fragment { "${instance_name}-${name}_backend_block":
     order   => "20-${name}-00",
-    target  => $::haproxy::config_file,
+    target  => $config_file,
     content => template('haproxy/haproxy_backend_block.erb'),
   }
 
