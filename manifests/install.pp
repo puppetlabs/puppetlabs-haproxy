@@ -8,4 +8,12 @@ class haproxy::install inherits haproxy {
     ensure  => $_package_ensure,
     alias   => 'haproxy',
   }
+
+  # Create default configuration directory, gentoo portage does not create it
+  file { '/etc/haproxy':
+    ensure  => directory,
+    owner   => 'root',
+    group   => 'root',
+    require => Package["$package_name"]
+  }
 }

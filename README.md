@@ -420,7 +420,7 @@ An array of groups in the userlist. See http://cbonte.github.io/haproxy-dconv/co
 
 ##Limitations
 
-RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu and CentOS. 
+RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu, CentOS, Gentoo. 
 
 ##Development
 
