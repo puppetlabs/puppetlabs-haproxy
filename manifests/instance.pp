@@ -69,14 +69,15 @@
 # i.e. emulate Class['haproxy']
 #   package{ 'haproxy': ensure => present }->haproxy::instance { 'haproxy': }->
 #   haproxy::listen { 'puppet00':
+#     instance         => 'haproxy',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
 #     ports            => '8140',
 #   }
 #
 # Multiple instances of haproxy:
-#   package{ 'haproxy': ensure => present }
 #   haproxy::instance { 'group1': }
+#   haproxy::instance_service { 'group1': }
 #   haproxy::listen { 'puppet00':
 #     instance         => 'group1',
 #     collect_exported => false,
@@ -85,6 +86,7 @@
 #     requires         => Package['haproxy'],
 #   }
 #   haproxy::instance { 'group2': }
+#   haproxy::instance_service { 'group2': }
 #   haproxy::listen { 'puppet00':
 #     instance         => 'group2',
 #     collect_exported => false,
@@ -94,8 +96,8 @@
 #   }
 #
 # Multiple instances of haproxy, one with a custom haproxy package:
-#   package{ 'haproxy': ensure => present }
 #   haproxy::instance { 'group1': }
+#   haproxy::instance_service { 'group1': }
 #   haproxy::listen { 'puppet00':
 #     instance         => 'group1',
 #     collect_exported => false,
@@ -103,10 +105,8 @@
 #     ports            => '8800',
 #     requires         => Package['haproxy'],
 #   }
-#   package{ 'custom_haproxy': ensure => present }
-#   haproxy::instance { 'group2':
-#     haproxy_package  => 'custom_haproxy',
-#   }
+#   haproxy::instance { 'group2': }
+#   haproxy::instance_service { 'group2': 'custom_haproxy' }
 #   haproxy::listen { 'puppet00':
 #     instance         => 'group2',
 #     collect_exported => false,
@@ -114,6 +114,16 @@
 #     ports            => '9900',
 #     requires         => Package['haproxy'],
 #   }
+#
+#  When running multiple instances on one host, there must be a Service[] for
+#  each instance.  One way to create the situation where Service[] works is
+#  using haproxy::instance_service.
+#  However you may want to do it some other way. For example, you may
+#  not have packages for your custom haproxy binary. Or, you may wish
+#  to use the standard haproxy package but not create links to it, or
+#  you may have different init.d scripts.  In these cases, write your own
+#  puppet code that will result in Service[] working for you and do not
+#  call haproxy::instance_service.
 #
 define haproxy::instance (
   $package_ensure   = 'present',
