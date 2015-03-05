@@ -5,6 +5,7 @@ define haproxy::peer (
   $ensure       = 'present',
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $instance = 'haproxy',
 ) {
 
   # We derive these settings so that the caller only has to specify $instance.

@@ -1,6 +1,7 @@
-@
+#
 define haproxy::peers (
   $collect_exported = true,
+  $instance = 'haproxy',
 ) {
 
   # We derive these settings so that the caller only has to specify $instance.
