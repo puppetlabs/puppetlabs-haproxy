@@ -45,7 +45,7 @@ define haproxy::userlist (
     $config_file = inline_template($haproxy::params::config_file_tmpl)
   }
 
-  # Template usse $name, $users, $groups
+  # Template uses $name, $users, $groups
   concat::fragment { "${instance_name}-${name}_userlist_block":
     order   => "12-${name}-00",
     target  => $config_file,
