@@ -1,3 +1,18 @@
+##2015-03-10 - Supported Release 1.2.0
+###Summary
+This release adds flexibility for configuration of balancermembers and bind settings, and adds support for configuring peers. This release also renames the `tests` directory to `examples`
+
+####Features
+- Add support for loadbalancer members without ports
+- Add `haproxy_version` fact (MODULES-1619)
+- Add `haproxy::peer` and `haproxy::peers` defines
+- Make `bind` parameter processing more flexible
+
+####Bugfixes
+- Fix 'RedHat' name for osfamily case in `haproxy::params`
+- Fix lint warnings
+- Don't set a default for `ipaddress` so bind can be used (MODULES-1497)
+
 ##2014-11-04 - Supported Release 1.1.0
 ###Summary
 
