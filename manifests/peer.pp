@@ -8,8 +8,8 @@ define haproxy::peer (
 
   # Templats uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "peers-${peers_name}-${name}":
-    order   => "30-peers-01-${peers_name}-${name}",
     ensure  => $ensure,
+    order   => "30-peers-01-${peers_name}-${name}",
     target  => '/etc/haproxy/haproxy.cfg',
     content => template('haproxy/haproxy_peer.erb'),
   }
