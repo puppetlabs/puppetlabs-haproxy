@@ -4,9 +4,10 @@ describe 'haproxy::peer' do
   let(:title) { 'dero' }
   let(:facts) do
     {
-      :ipaddress => '1.1.1.1',
-      :hostname  => 'dero',
-      :osfamily  => 'Redhat',
+      :ipaddress      => '1.1.1.1',
+      :hostname       => 'dero',
+      :osfamily       => 'Redhat',
+      :concat_basedir => '/dne',
     }
   end
 

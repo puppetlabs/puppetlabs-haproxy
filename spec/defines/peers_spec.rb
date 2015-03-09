@@ -2,8 +2,9 @@ require 'spec_helper'
 
 describe 'haproxy::peers' do
   let(:facts) {{
-    :ipaddress => '1.1.1.1',
-    :osfamily  => 'Redhat',
+    :ipaddress      => '1.1.1.1',
+    :osfamily       => 'Redhat',
+    :concat_basedir => '/dne',
   }}
 
   context "when no options are passed" do

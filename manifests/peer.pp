@@ -22,8 +22,8 @@ define haproxy::peer (
 
   # Templates uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-peers-${peers_name}-${name}":
-    order   => "30-peers-01-${peers_name}-${name}",
     ensure  => $ensure,
+    order   => "30-peers-01-${peers_name}-${name}",
     target  => $config_file,
     content => template('haproxy/haproxy_peer.erb'),
   }
