@@ -2,7 +2,7 @@ fixtures:
   repositories:
     concat:
       repo: "git://github.com/puppetlabs/puppetlabs-concat.git"
-      ref: '1.2.0'
+      ref: '1.1.0'
     stdlib:
       repo: "git://github.com/puppetlabs/puppetlabs-stdlib.git"
       ref: '4.5.1'
