@@ -12,17 +12,20 @@
 # === Parameters
 #
 # [*package_ensure*]
-#   Chooses whether the haproxy package should be installed or uninstalled. Defaults to 'present'
+#   Chooses whether the haproxy package should be installed or uninstalled.
+#   Defaults to 'present'
 #
 # [*package_name*]
 #   The package name of haproxy. Defaults to 'haproxy'
+#   NOTE: haproxy::instance has a different default.
 #
 # [*service_ensure*]
 #   Chooses whether the haproxy service should be running & enabled at boot, or
 #   stopped and disabled at boot. Defaults to 'running'
 #
 # [*service_manage*]
-#   Chooses whether the haproxy service state should be managed by puppet at all. Defaults to true
+#   Chooses whether the haproxy service state should be managed by puppet at
+#   all. Defaults to true
 #
 # [*global_options*]
 #   A hash of all the haproxy global options. If you want to specify more
@@ -87,20 +90,17 @@ class haproxy (
   $defaults_options = $haproxy::params::defaults_options,
   $restart_command  = undef,
   $custom_fragment  = undef,
-  $config_file      = $haproxy::params::config_file,
+  $config_file      = $haproxy::params::config_file,  # TODO: Needed?
 
   # Deprecated
   $manage_service   = undef,
   $enable           = undef,
 ) inherits haproxy::params {
 
-  if $service_ensure != true and $service_ensure != false {
-    if ! ($service_ensure in [ 'running','stopped']) {
-      fail('service_ensure parameter must be running, stopped, true, or false')
-    }
-  }
-  validate_string($package_name,$package_ensure)
-  validate_bool($service_manage)
+  # NOTE: These deprecating parameters are handled in this class,
+  # not in haproxy::instance .  haproxy::instance is new and therefore
+  # there should be no legacy code that uses these deprecated
+  # parameters.
 
   # To support deprecating $enable
   if $enable != undef {
@@ -125,17 +125,15 @@ class haproxy (
     $_service_manage = $service_manage
   }
 
-  if $_package_ensure == 'absent' or $_package_ensure == 'purged' {
-    anchor { 'haproxy::begin': }
-    ~> class { 'haproxy::service': }
-    -> class { 'haproxy::config': }
-    -> class { 'haproxy::install': }
-    -> anchor { 'haproxy::end': }
-  } else {
-    anchor { 'haproxy::begin': }
-    -> class { 'haproxy::install': }
-    -> class { 'haproxy::config': }
-    ~> class { 'haproxy::service': }
-    -> anchor { 'haproxy::end': }
+  haproxy::instance{ $title:
+    package_ensure   => $_package_ensure,
+    package_name     => $package_name,
+    service_ensure   => $_service_ensure,
+    service_manage   => $_service_manage,
+    global_options   => $global_options,
+    defaults_options => $defaults_options,
+    restart_command  => $restart_command,
+    custom_fragment  => $custom_fragment,
   }
+
 }
