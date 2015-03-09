@@ -187,13 +187,15 @@ define haproxy::instance (
     }
   }
 
+  $_custom_fragment = $custom_fragment
+
   haproxy::config { $title:
     instance_name    => $instance_name,
     config_dir       => $_config_dir,
     config_file      => $_config_file,
     global_options   => $_global_options,
     defaults_options => $_defaults_options,
-    custom_fragment  => $custom_fragment,
+    custom_fragment  => $_custom_fragment,
   }
   haproxy::install { $title:
     package_name   => $package_name,
