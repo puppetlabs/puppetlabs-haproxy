@@ -56,7 +56,7 @@ define haproxy::instance_service (
   # If you have an instance called "foo", you know "haproxy-foo"
   # is the binary.
   if $haproxy_package == 'haproxy' {
-    $haproxy_link = '${bindir}/haproxy'
+    $haproxy_link = "${bindir}/haproxy"
     $haproxy_target = '/usr/sbin/haproxy'
   } else {
     $haproxy_link = "${bindir}/haproxy-${title}"
