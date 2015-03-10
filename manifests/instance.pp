@@ -19,6 +19,7 @@
 # [*package_name*]
 #   The package name of haproxy. Defaults to undef, and no package is installed.
 #   NOTE: Class['haproxy'] has a different default.
+#   
 #
 # [*service_ensure*]
 #   Chooses whether the haproxy service should be running & enabled at boot, or
@@ -47,7 +48,7 @@
 #
 #[*custom_fragment*]
 #  Allows arbitrary HAProxy configuration to be passed through to support
-#  additional configuration not available via parameters, or to short-circut
+#  additional configuration not available via parameters, or to short-circuit
 #  the defined resources such as haproxy::listen when an operater would rather
 #  just write plain configuration. Accepts a string (ie, output from the
 #  template() function). Defaults to undef
@@ -187,15 +188,13 @@ define haproxy::instance (
     }
   }
 
-  $_custom_fragment = $custom_fragment
-
   haproxy::config { $title:
     instance_name    => $instance_name,
     config_dir       => $_config_dir,
     config_file      => $_config_file,
     global_options   => $_global_options,
     defaults_options => $_defaults_options,
-    custom_fragment  => $_custom_fragment,
+    custom_fragment  => $custom_fragment,
   }
   haproxy::install { $title:
     package_name   => $package_name,
