@@ -1,7 +1,8 @@
 # == Class: haproxy
 #
 # A Puppet module, using storeconfigs, to model an haproxy configuration.
-# Currently VERY limited - assumes Redhat/CentOS setup. Pull requests accepted!
+# Currently VERY limited - assumes Redhat/CentOS or FreeBSD setup.
+# Pull requests accepted!
 #
 # === Requirement/Dependencies:
 #
