@@ -34,6 +34,7 @@ define haproxy::config (
   }
 
   # Template uses $global_options, $defaults_options
+  $_custom_fragment = $custom_fragment
   concat::fragment { "${instance_name}-haproxy-base":
     target  => $config_file,
     order   => '10',
