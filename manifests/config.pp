@@ -5,7 +5,7 @@ define haproxy::config (
   $config_file,
   $global_options,
   $defaults_options,
-  $custom_fragment = undef,
+  $custom_fragment,
 ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
