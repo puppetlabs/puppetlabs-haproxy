@@ -30,12 +30,25 @@
 define haproxy::userlist (
   $users = undef,
   $groups = undef,
+  $instance = 'haproxy',
 ) {
 
-  # Template usse $name, $users, $groups
-  concat::fragment { "${name}_userlist_block":
+  # We derive these settings so that the caller only has to specify $instance.
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    #$config_dir = $haproxy::params::config_dir
+    $config_file = $haproxy::params::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    #$config_dir = inline_template($haproxy::params::config_dir_tmpl)
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
+
+  # Template uses $name, $users, $groups
+  concat::fragment { "${instance_name}-${name}_userlist_block":
     order   => "12-${name}-00",
-    target  => $::haproxy::config_file,
+    target  => $config_file,
     content => template('haproxy/haproxy_userlist_block.erb'),
   }
 }

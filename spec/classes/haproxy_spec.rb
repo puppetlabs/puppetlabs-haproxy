@@ -44,7 +44,7 @@ describe 'haproxy', :type => :class do
             { 'custom_fragment' => "listen stats :9090\n  mode http\n  stats uri /\n  stats auth puppet:puppet\n" }
           end
           it 'should set the haproxy package' do
-            subject.should contain_concat__fragment('haproxy-base').with_content(
+            subject.should contain_concat__fragment('haproxy-haproxy-base').with_content(
               /listen stats :9090\n  mode http\n  stats uri \/\n  stats auth puppet:puppet\n/
             )
           end
@@ -73,20 +73,20 @@ describe 'haproxy', :type => :class do
             )
           end
           it 'should contain a header concat fragment' do
-            subject.should contain_concat__fragment('00-header').with(
+            subject.should contain_concat__fragment('haproxy-00-header').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '01',
               'content' => "# This file managed by Puppet\n"
             )
           end
-          it 'should contain a haproxy-base concat fragment' do
-            subject.should contain_concat__fragment('haproxy-base').with(
+          it 'should contain a haproxy-haproxy-base concat fragment' do
+            subject.should contain_concat__fragment('haproxy-haproxy-base').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '10'
             )
           end
           describe 'Base concat fragment contents' do
-            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
             # C9936 C9937
             it 'should contain global and defaults sections' do
               contents.should include('global')
@@ -141,20 +141,20 @@ describe 'haproxy', :type => :class do
             )
           end
           it 'should contain a header concat fragment' do
-            subject.should contain_concat__fragment('00-header').with(
+            subject.should contain_concat__fragment('haproxy-00-header').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '01',
               'content' => "# This file managed by Puppet\n"
             )
           end
           it 'should contain a haproxy-base concat fragment' do
-            subject.should contain_concat__fragment('haproxy-base').with(
+            subject.should contain_concat__fragment('haproxy-haproxy-base').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '10'
             )
           end
           describe 'Base concat fragment contents' do
-            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+            let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
             it 'should contain global and defaults sections' do
               contents.should include('global')
               contents.should include('defaults')
@@ -213,20 +213,20 @@ describe 'haproxy', :type => :class do
           )
         end
         it 'should contain a header concat fragment' do
-          subject.should contain_concat__fragment('00-header').with(
+          subject.should contain_concat__fragment('haproxy-00-header').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '01',
             'content' => "# This file managed by Puppet\n"
           )
         end
         it 'should contain a haproxy-base concat fragment' do
-          subject.should contain_concat__fragment('haproxy-base').with(
+          subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '10'
           )
         end
         describe 'Base concat fragment contents' do
-          let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+          let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
           # C9936 C9937
           it 'should contain global and defaults sections' do
             contents.should include('global')
@@ -275,20 +275,20 @@ describe 'haproxy', :type => :class do
           )
         end
         it 'should contain a header concat fragment' do
-          subject.should contain_concat__fragment('00-header').with(
+          subject.should contain_concat__fragment('haproxy-00-header').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '01',
             'content' => "# This file managed by Puppet\n"
           )
         end
         it 'should contain a haproxy-base concat fragment' do
-          subject.should contain_concat__fragment('haproxy-base').with(
+          subject.should contain_concat__fragment('haproxy-haproxy-base').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '10'
           )
         end
         describe 'Base concat fragment contents' do
-          let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+          let(:contents) { param_value(subject, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
           it 'should contain global and defaults sections' do
             contents.should include('global')
             contents.should include('defaults')
