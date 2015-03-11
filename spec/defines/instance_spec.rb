@@ -233,6 +233,12 @@ describe 'haproxy::instance' do
               'hasstatus'  => 'true'
             )
           end
+          it 'should not install the haproxy package' do
+            subject.should_not contain_package('haproxy')
+          end
+          it 'should not install the haproxy service' do
+            subject.should_not contain_service('haproxy')
+          end
         end
         # C9938
         context "on #{osfamily} when specifying custom content" do
