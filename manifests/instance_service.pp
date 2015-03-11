@@ -19,8 +19,8 @@
 # part of haproxy::instance.
 # 
 #
-# FIXME: This hasn't been tested on FreeBSD.
-# FIXME: This should take advantage of systemd instead of using init.d.
+# FIXME: This hasn't been tested on FreeBSD and most likely won't work.
+# FIXME: This should take advantage of systemd when available.
 # FIXME: Update haproxy.init to sync it up with the latest packaged script.
 #
 # === Parameters
@@ -55,11 +55,10 @@ define haproxy::instance_service (
   # to manage difference instances using different versions of haproxy.
   # If you have an instance called "foo", you know "haproxy-foo"
   # is the binary.
+  $haproxy_link = "${bindir}/haproxy-${title}"
   if $haproxy_package == 'haproxy' {
-    $haproxy_link = "${bindir}/haproxy"
     $haproxy_target = '/usr/sbin/haproxy'
   } else {
-    $haproxy_link = "${bindir}/haproxy-${title}"
     $haproxy_target = "/opt/${haproxy_package}/sbin/haproxy"
   }
   file { $haproxy_link:

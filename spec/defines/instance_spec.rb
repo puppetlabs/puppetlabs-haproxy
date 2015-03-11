@@ -532,6 +532,8 @@ describe 'haproxy::instance' do
       end
     end
 
+    # OS-specific configurations:
+
     describe 'for OS-specific configuration' do
       context 'only on Debian family operatingsystems' do
         let(:facts) do
@@ -549,6 +551,8 @@ describe 'haproxy::instance' do
       end
     end
   end
+
+  # Unsupported OSs:
 
   context 'on unsupported operatingsystems' do
     let(:title) { 'haproxy' }
