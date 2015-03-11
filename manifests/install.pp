@@ -1,6 +1,6 @@
 # Private class
 define haproxy::install (
-  $package_name,
+  $package_name = undef,
   $package_ensure,
 ) {
   if $caller_module_name != $module_name {
