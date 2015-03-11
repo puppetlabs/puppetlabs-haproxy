@@ -3,7 +3,7 @@ define haproxy::service (
   $instance_name,
   $service_ensure,
   $service_manage,
-  $restart_command,
+  $restart_command = undef,
 ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
