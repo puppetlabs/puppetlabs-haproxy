@@ -52,11 +52,11 @@
 define haproxy::backend (
   $collect_exported = true,
   $options          = {
+    'balance' => 'roundrobin',
     'option'  => [
       'tcplog',
       'ssl-hello-chk'
     ],
-    'balance' => 'roundrobin'
   }
 ) {
 
