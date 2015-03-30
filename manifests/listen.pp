@@ -82,11 +82,11 @@ define haproxy::listen (
   $mode                         = undef,
   $collect_exported             = true,
   $options                      = {
+    'balance' => 'roundrobin',
     'option'  => [
       'tcplog',
       'ssl-hello-chk'
     ],
-    'balance' => 'roundrobin'
   },
   # Deprecated
   $bind_options                 = '',
