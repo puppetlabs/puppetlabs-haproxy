@@ -213,5 +213,32 @@ describe 'haproxy::frontend' do
     ) }
   end
 
+  context "when frontend options are specified as an array of hashes" do
+    let(:params) do
+      {
+        :name => 'apache',
+        :bind => {
+          '0.0.0.0:48001-48003' => [],
+        },
+        :mode => 'http',
+        :options => [
+          { 'reqadd'                 => 'X-Forwarded-Proto:\ https' },
+          { 'default_backend'        => 'dev00_webapp' },
+          { 'capture request header' => [ 'X-Forwarded-For len 50', 'Host len 15', 'Referrer len 15' ] },
+          { 'acl'                    => [ 'dst_dev01 dst_port 48001', 'dst_dev02 dst_port 48002', 'dst_dev03 dst_port 48003' ] },
+          { 'use_backend'            => [ 'dev01_webapp if dst_dev01', 'dev02_webapp if dst_dev02', 'dev03_webapp if dst_dev03' ] },
+          { 'option'                 => [ 'httplog', 'http-server-close', 'forwardfor except 127.0.0.1' ] },
+          { 'compression'            => 'algo gzip',
+            'bind-process'           => 'all' }
+        ],
+      }
+    end
+    it { should contain_concat__fragment('apache_frontend_block').with(
+      'order'   => '15-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nfrontend apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  reqadd X-Forwarded-Proto:\\ https\n  default_backend dev00_webapp\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  bind-process all\n  compression algo gzip\n"
+    ) }
+  end
+
   # C9950 C9951 C9952 WONTFIX
 end
