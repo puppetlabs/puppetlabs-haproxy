@@ -222,7 +222,6 @@ describe 'haproxy::frontend' do
           '8.252.206.100:80'  => [],
           '8.252.206.101:80'  => [],
           '8.252.206.99:80'   => [],
-          '8.252.206.99:443'  => [ 'ssl', 'crt example.com' ],
           '1.1.1.1:80'        => [],
           ':443,:8443'        => [ 'ssl', 'crt public.puppetlabs.com', 'no-sslv3' ],
           '2.2.2.2:8000-8010' => [ 'ssl', 'crt public.puppetlabs.com' ],
@@ -232,7 +231,7 @@ describe 'haproxy::frontend' do
     it { should contain_concat__fragment('apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nfrontend apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 \n  bind 8.252.206.99:443 ssl crt example.com\n  bind 8.252.206.100:80 \n  bind 8.252.206.101:80 \n  bind 10.1.3.21:80 \n  option tcplog\n"
+      'content' => "\nfrontend apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 \n  bind 8.252.206.100:80 \n  bind 8.252.206.101:80 \n  bind 10.1.3.21:80 \n  option tcplog\n"
     ) }
   end
 
