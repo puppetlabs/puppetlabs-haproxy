@@ -1,6 +1,6 @@
 <% require 'ipaddr' -%>
 <%- if @bind -%>
-<%- @bind.sort.map do |address_port, bind_params| -%>
+<%- @bind.sort_by { |address_port, bind_params| address_port.split('.').map{ |octet| octet.to_i} }.map do |address_port, bind_params| -%>
   bind <%= address_port -%> <%= Array(bind_params).join(" ") %>
 <%- end -%>
 <%- else -%>
