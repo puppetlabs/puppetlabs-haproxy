@@ -92,6 +92,8 @@ class haproxy (
   # Deprecated
   $manage_service   = undef,
   $enable           = undef,
+  $frontend         = {},
+  $backend          = {},
 ) inherits haproxy::params {
 
   if $service_ensure != true and $service_ensure != false {
@@ -124,6 +126,9 @@ class haproxy (
   } else {
     $_service_manage = $service_manage
   }
+
+  create_resources('::haproxy::frontend', $frontend)
+  create_resources('::haproxy::backend', $backend)
 
   if $_package_ensure == 'absent' or $_package_ensure == 'purged' {
     anchor { 'haproxy::begin': }
