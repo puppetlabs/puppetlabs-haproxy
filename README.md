@@ -280,7 +280,7 @@ Using storeconfigs, you can export the `haproxy::balancermember` resources on al
 Sets the backend service's name. Generally, it will be the namevar of the defined resource type. This value appears right after the 'backend' statement in haproxy.cfg
 
 #####`options`
-A hash or array of options that are inserted into the backend service configuration block. If you need to control exactly the order in which these options will appear in the backend service configuration block supply the options as an array of hashes, where each hash has one key-value pair that represents the option and its value.
+A hash of options that are inserted into the backend service configuration block.
 
 #####`collect_exported`
 Enables exported resources from `haproxy::balancermember` to be collected, serving as a form of autodiscovery. Displays as a Boolean and defaults to 'true'.
@@ -300,22 +300,6 @@ haproxy::backend { 'puppet00':
     ],
     'balance' => 'roundrobin',
   },
-}
-```
-
-If option order is important use an array of hashes for the `options` parameter to have the backend options appear in the resulting backend configuration block in the exact order in which they are specified in Puppet:
-
-```puppet
-haproxy::backend { 'puppet00':
-  options => [
-    { 'option'  => [
-        'tcplog',
-        'ssl-hello-chk',
-      ]
-    },
-    { 'balance' => 'roundrobin' },
-    { 'cookie'  => 'C00 insert' },
-  ],
 }
 ```
 
@@ -353,7 +337,7 @@ Sets the mode of operation for the frontend service. Valid values are 'undef', '
 Sets the frontend service's name. Generally, it will be the namevar of the defined resource type. This value appears right after the 'fronted' statement in haproxy.cfg.
 
 #####`options`
-A hash or array of options that are inserted into the backend service configuration block. If you need to control exactly the order in which these options will appear in the backend service configuration block supply the options as an array of hashes, where each hash has one key-value pair that represents the option and its value. See Example section right below.
+A hash of options that are inserted into the frontend service configuration block.
 
 #####`ports`
 Sets the ports to listen on for the address specified in `ipaddress`. Accepts a single, comma-separated string or an array of strings, which may be ports or hyphenated port ranges.
@@ -369,33 +353,14 @@ haproxy::frontend { 'puppet00':
   mode          => 'tcp',
   bind_options  => 'accept-proxy',
   options       => {
-    'default_backend' => 'puppet_backend00',
+    'option'          => [ 'default_backend', 'puppet_backend00'],
     'timeout client'  => '30',
+    'balance'         => 'roundrobin'
     'option'          => [
       'tcplog',
       'accept-invalid-http-request',
     ],
   },
-}
-```
-
-If option order is important use an array of hashes for the `options` parameter to have the frontend options appear in the resulting frontned configuration block in the exact order in which they are specified in Puppet:
-
-```puppet
-haproxy::frontend { 'puppet00':
-  ipaddress     => $::ipaddress,
-  ports         => '18140',
-  mode          => 'tcp',
-  bind_options  => 'accept-proxy',
-  options       => [
-    { 'default_backend' => 'puppet_backend00' },
-    { 'timeout client'  => '30' },
-    { 'option'          => [
-        'tcplog',
-        'accept-invalid-http-request',
-      ],
-    }
-  ],
 }
 ```
 
@@ -440,7 +405,7 @@ Specifies the mode of operation for the listening service. Valid values are 'und
 Sets the listening service's name. Generally, it will be the namevar of the defined resource type. This value appears right after the 'listen' statement in haproxy.cfg.
 
 #####`options`
-A hash or array of options that are inserted into the backend service configuration block. If you need to control exactly the order in which these options will appear in the backend service configuration block supply the options as an array of hashes, where each hash has one key-value pair that represents the option and its value. See Example sections for backend and frontend above.
+A hash of options that are inserted into the listening service configuration block.
 
 #####`ports`
 Sets the ports to listen on for the address specified in `ipaddress`. Accepts a single, comma-separated string or an array of strings, which may be ports or hyphenated port ranges.
@@ -520,7 +485,7 @@ Sets the port on which the peer is going to share the state.
 
 ##Limitations
 
-RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu and CentOS.
+RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu and CentOS. It is compatible with Gentoo.
 
 ##Development
 
