@@ -520,7 +520,7 @@ Sets the port on which the peer is going to share the state.
 
 ##Limitations
 
-RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu and CentOS.
+RedHat and Debian family OSes are officially supported. Tested and built on Ubuntu and CentOS. It is compatible with Gentoo.
 
 ##Development
 
