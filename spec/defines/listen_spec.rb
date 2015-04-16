@@ -237,7 +237,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind fd@${FD_APP1} \n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  balance roundrobin\n  option tcplog\n  option ssl-hello-chk\n"
+      'content' => "\nlisten apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  balance roundrobin\n  option tcplog\n  option ssl-hello-chk\n"
     ) }
   end
 
@@ -260,7 +260,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind fd@${FD_APP1} \n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 name input99\n  bind 8.252.206.100:80 name input100\n  bind 8.252.206.101:80 name input101\n  bind 10.1.3.21:80 name input21\n  balance roundrobin\n  option tcplog\n  option ssl-hello-chk\n"
+      'content' => "\nlisten apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 name input99\n  bind 8.252.206.100:80 name input100\n  bind 8.252.206.101:80 name input101\n  bind 10.1.3.21:80 name input21\n  balance roundrobin\n  option tcplog\n  option ssl-hello-chk\n"
     ) }
   end
 

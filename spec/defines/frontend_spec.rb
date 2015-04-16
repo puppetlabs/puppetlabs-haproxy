@@ -209,7 +209,7 @@ describe 'haproxy::frontend' do
     it { should contain_concat__fragment('apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nfrontend apache\n  bind fd@${FD_APP1} \n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  option tcplog\n"
+      'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  option tcplog\n"
     ) }
   end
 
