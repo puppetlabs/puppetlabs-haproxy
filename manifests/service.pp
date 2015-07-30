@@ -6,9 +6,10 @@ class haproxy::service inherits haproxy {
 
   if $haproxy::_service_manage {
     if ($::osfamily == 'Debian') {
-      file { '/etc/default/haproxy':
-        content => 'ENABLED=1',
-        before  => Service['haproxy'],
+      shellvar { 'enable_haproxy':
+        target   => '/etc/default/haproxy',
+        variable => 'ENABLED',
+        value    => '1',
       }
     }
 
