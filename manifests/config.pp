@@ -4,6 +4,9 @@ class haproxy::config inherits haproxy {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
+  $global_options_merged   = haproxy_deep_merge($haproxy::params::global_options, $haproxy::global_options)
+  $defaults_options_merged = haproxy_deep_merge($haproxy::params::defaults_options, $haproxy::defaults_options)
+
   concat { $haproxy::config_file:
     owner => '0',
     group => '0',

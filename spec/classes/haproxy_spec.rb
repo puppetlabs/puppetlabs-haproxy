@@ -342,7 +342,91 @@ describe 'haproxy', :type => :class do
           { :osfamily => 'Gentoo' }.merge default_facts
         end
       end
+    end
 
+    describe 'when deep-merging global and defaults options' do
+      # For testing the deep-merging functionality we restrict ourselves to
+      # Debian OS family so that we don't have to juggle different sets of
+      # global_options and defaults_options (like for FreeBSD).
+      ['Debian' ].each do |osfamily|
+        context "on #{osfamily} family operatingsystems" do
+          let(:facts) do
+            { :osfamily => osfamily }.merge default_facts
+          end
+          let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-base', 'content').split("\n") }
+          let(:params) do
+            {
+              'global_options'  => {
+                'log-send-hostname' => '',
+                'stats'             => [
+                  'socket /var/lib/haproxy/admin.sock mode 660 level admin',
+                  'timeout 30s'
+                ]
+              },
+              'defaults_options' => {
+                'mode'    => 'http',
+                'option'  => [
+                  'abortonclose',
+                  'logasap',
+                  'dontlognull',
+                  'httplog',
+                  'http-server-close',
+                  'forwardfor except 127.0.0.1',
+                ],
+                'timeout' => [
+                  'connect 5s',
+                  'client 1m',
+                  'server 1m',
+                  'check 7s',
+                ]
+              },
+            }
+          end
+          it 'should contain global and defaults sections' do
+            contents.should include('global')
+            contents.should include('defaults')
+          end
+          it 'should send hostname with log in global options' do
+            contents.should include('  log-send-hostname  ')
+          end
+          it 'should enable admin stats and stats timeout in global options' do
+            contents.should include('  stats  socket /var/lib/haproxy/admin.sock mode 660 level admin')
+            contents.should include('  stats  timeout 30s')
+          end
+          it 'should log to an ip address for local0' do
+            contents.should be_any { |match| match =~ /  log  \d+(\.\d+){3} local0/ }
+          end
+          it 'should specify the correct user' do
+            contents.should include('  user  haproxy')
+          end
+          it 'should specify the correct group' do
+            contents.should include('  group  haproxy')
+          end
+          it 'should specify the correct pidfile' do
+            contents.should include('  pidfile  /var/run/haproxy.pid')
+          end
+          it 'should set mode http in default options' do
+            contents.should include('  mode  http')
+          end
+          it 'should set various options in defaults, including unchanged "redispatch"' do
+            contents.should include('  option  abortonclose')
+            contents.should include('  option  redispatch')
+            contents.should include('  option  logasap')
+            contents.should include('  option  dontlognull')
+            contents.should include('  option  httplog')
+            contents.should include('  option  http-server-close')
+            contents.should include('  option  forwardfor except 127.0.0.1')
+          end
+          it 'should set timeouts in defaults, including unchanged "http-request 10s"' do
+            contents.should include('  timeout  connect 5s')
+            contents.should include('  timeout  http-request 10s')
+            contents.should include('  timeout  queue 1m')
+            contents.should include('  timeout  check 7s')
+            contents.should include('  timeout  client 1m')
+            contents.should include('  timeout  server 1m')
+          end
+        end
+      end
     end
   end
 
@@ -356,4 +440,6 @@ describe 'haproxy', :type => :class do
       }.to raise_error(Puppet::Error, /operating system is not supported with the haproxy module/)
     end
   end
+
+
 end
