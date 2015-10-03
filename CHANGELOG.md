@@ -1,3 +1,17 @@
+## 2015-07-15 - Supported Release 1.3.0
+### Summary
+This release adds puppet 4 support, and adds the ability to specify the order
+of option entries for `haproxy::frontend` and `haproxy::listen` defined
+resources.
+
+#### Features
+- Adds puppet 4 compatibility
+- Updated readme
+- Gentoo compatibility
+- Suse compatibility
+- Add ability for frontend and listen to be ordered
+
+
 ##2015-03-10 - Supported Release 1.2.0
 ###Summary
 This release adds flexibility for configuration of balancermembers and bind settings, and adds support for configuring peers. This release also renames the `tests` directory to `examples`
