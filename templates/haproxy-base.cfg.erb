@@ -1,5 +1,7 @@
 global
-<% @global_options.sort.each do |key,val| -%>
+<% @global_options_merged.sort.each do |key,val| -%>
+<%# Skip options whose value is the special string "absent" -%>
+<% next if val == 'absent' -%>
 <% if val.is_a?(Array) -%>
 <% val.each do |item| -%>
   <%= key %>  <%= item %>
@@ -10,7 +12,9 @@ global
 <% end -%>
 
 defaults
-<% @defaults_options.sort.each do |key,val| -%>
+<% @defaults_options_merged.sort.each do |key,val| -%>
+<%# Skip options whose value is the special string "absent" -%>
+<% next if val == 'absent' -%>
 <% if val.is_a?(Array) -%>
 <% val.each do |item| -%>
   <%= key %>  <%= item %>
