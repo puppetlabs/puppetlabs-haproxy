@@ -19,6 +19,10 @@
 #   The namevar of the defined resource type is the backend service's name.
 #    This name goes right after the 'backend' statement in haproxy.cfg
 #
+# [*mode*]
+#   The mode of operation for the backend service. Valid values are undef,
+#    'tcp', 'http', and 'health'.
+#
 # [*options*]
 #   A hash of options that are inserted into the backend configuration block.
 #
@@ -50,6 +54,7 @@
 # Jeremy Kitchen <jeremy@nationbuilder.com>
 #
 define haproxy::backend (
+  $mode             = undef,
   $collect_exported = true,
   $options          = {
     'option'  => [
