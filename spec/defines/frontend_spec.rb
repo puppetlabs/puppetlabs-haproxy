@@ -209,7 +209,29 @@ describe 'haproxy::frontend' do
     it { should contain_concat__fragment('apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  option tcplog\n"
+      'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  option tcplog\n"
+    ) }
+  end
+
+  context "when bind parameter is used with ip addresses that sort wrong lexigraphically" do
+    let(:params) do
+      {
+        :name  => 'apache',
+        :bind  => {
+          '10.1.3.21:80'      => [],
+          '8.252.206.100:80'  => [],
+          '8.252.206.101:80'  => [],
+          '8.252.206.99:80'   => [],
+          '1.1.1.1:80'        => [],
+          ':443,:8443'        => [ 'ssl', 'crt public.puppetlabs.com', 'no-sslv3' ],
+          '2.2.2.2:8000-8010' => [ 'ssl', 'crt public.puppetlabs.com' ],
+        },
+      }
+    end
+    it { should contain_concat__fragment('apache_frontend_block').with(
+      'order'   => '15-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nfrontend apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 \n  bind 8.252.206.100:80 \n  bind 8.252.206.101:80 \n  bind 10.1.3.21:80 \n  option tcplog\n"
     ) }
   end
 
