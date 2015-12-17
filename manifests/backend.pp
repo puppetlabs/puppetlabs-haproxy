@@ -23,6 +23,10 @@
 #   The mode of operation for the backend service. Valid values are undef,
 #    'tcp', 'http', and 'health'.
 #
+# [*mode*]
+#   The mode of operation for the backend service. Valid values are undef,
+#    'tcp', 'http', and 'health'.
+#
 # [*options*]
 #   A hash of options that are inserted into the backend configuration block.
 #
