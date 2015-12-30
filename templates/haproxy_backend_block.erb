@@ -1,3 +1,4 @@
 
 backend <%= @section_name %>
+<%= scope.function_template(['haproxy/fragments/_mode.erb']) -%>
 <%= scope.function_template(['haproxy/fragments/_options.erb']) -%>
