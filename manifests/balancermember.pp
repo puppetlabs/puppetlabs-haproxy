@@ -39,6 +39,10 @@
 #   The ip address used to contact the balancer member server.
 #    Can be an array, see documentation to server_names.
 #
+# [*weights*]
+#   The weight(s) used for balancer member.
+#    Can be an array, see documentation to weights.
+#
 # [*ensure*]
 #   If the balancermember should be present or absent.
 #    Defaults to present.
@@ -87,6 +91,7 @@ define haproxy::balancermember (
   $ports        = undef,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $weight       = undef,
   $ensure       = 'present',
   $options      = '',
   $define_cookies = false,
