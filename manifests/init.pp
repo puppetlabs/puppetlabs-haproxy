@@ -12,17 +12,29 @@
 # === Parameters
 #
 # [*package_ensure*]
-#   Chooses whether the haproxy package should be installed or uninstalled. Defaults to 'present'
+#   Chooses whether the haproxy package should be installed or uninstalled.
+#   Defaults to 'present'
 #
 # [*package_name*]
 #   The package name of haproxy. Defaults to 'haproxy'
+#   NOTE: haproxy::instance has a different default.
 #
 # [*service_ensure*]
 #   Chooses whether the haproxy service should be running & enabled at boot, or
 #   stopped and disabled at boot. Defaults to 'running'
 #
 # [*service_manage*]
-#   Chooses whether the haproxy service state should be managed by puppet at all. Defaults to true
+#   Chooses whether the haproxy service state should be managed by puppet at
+#   all. Defaults to true
+#
+# [*service_options*]
+#   Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\n" on Debian, and is ignored on other systems.
+#
+# [*service_options*]
+#   Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\n" on Debian, and is ignored on other systems.
+#
+# [*service_options*]
+#   Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\n" on Debian, and is ignored on other systems.
 #
 # [*global_options*]
 #   A hash of all the haproxy global options. If you want to specify more
@@ -36,17 +48,28 @@
 #    options as an array and you will get a line for each of them in the
 #    resultant haproxy.cfg file.
 #
-#[*restart_command*]
+# [*merge_options*]
+#   Whether to merge the user-supplied `global_options`/`defaults_options`
+#   hashes with their default values set in params.pp. Merging allows to change
+#   or add options without having to recreate the entire hash. Defaults to
+#   false, but will default to true in future releases.
+#
+# [*restart_command*]
 #   Command to use when restarting the on config changes.
 #    Passed directly as the <code>'restart'</code> parameter to the service resource.
 #    Defaults to undef i.e. whatever the service default is.
 #
-#[*custom_fragment*]
-#  Allows arbitrary HAProxy configuration to be passed through to support
-#  additional configuration not available via parameters, or to short-circute
-#  the defined resources such as haproxy::listen when an operater would rather
-#  just write plain configuration. Accepts a string (ie, output from the
-#  template() function). Defaults to undef
+# [*custom_fragment*]
+#   Allows arbitrary HAProxy configuration to be passed through to support
+#   additional configuration not available via parameters, or to short-circute
+#   the defined resources such as haproxy::listen when an operater would rather
+#   just write plain configuration. Accepts a string (ie, output from the
+#   template() function). Defaults to undef
+#
+# [*config_dir*]
+#   Path to the directory in which the main configuration file `haproxy.cfg`
+#   resides. Will also be used for storing any managed map files (see
+#   `haproxy::mapfile`). Default depends on platform.
 #
 # === Examples
 #
@@ -83,10 +106,13 @@ class haproxy (
   $package_name     = $haproxy::params::package_name,
   $service_ensure   = 'running',
   $service_manage   = true,
+  $service_options  = $haproxy::params::service_options,
   $global_options   = $haproxy::params::global_options,
   $defaults_options = $haproxy::params::defaults_options,
+  $merge_options    = $haproxy::params::merge_options,
   $restart_command  = undef,
   $custom_fragment  = undef,
+  $config_dir       = $haproxy::params::config_dir,
   $config_file      = $haproxy::params::config_file,
 
   # Deprecated
@@ -101,6 +127,15 @@ class haproxy (
   }
   validate_string($package_name,$package_ensure)
   validate_bool($service_manage)
+  validate_bool($merge_options)
+  validate_string($service_options)
+  validate_hash($global_options, $defaults_options)
+  validate_absolute_path($config_dir)
+
+  # NOTE: These deprecating parameters are implemented in this class,
+  # not in haproxy::instance.  haproxy::instance is new and therefore
+  # there should be no legacy code that uses these deprecated
+  # parameters.
 
   # To support deprecating $enable
   if $enable != undef {
@@ -125,17 +160,19 @@ class haproxy (
     $_service_manage = $service_manage
   }
 
-  if $_package_ensure == 'absent' or $_package_ensure == 'purged' {
-    anchor { 'haproxy::begin': }
-    ~> class { 'haproxy::service': }
-    -> class { 'haproxy::config': }
-    -> class { 'haproxy::install': }
-    -> anchor { 'haproxy::end': }
-  } else {
-    anchor { 'haproxy::begin': }
-    -> class { 'haproxy::install': }
-    -> class { 'haproxy::config': }
-    ~> class { 'haproxy::service': }
-    -> anchor { 'haproxy::end': }
+  haproxy::instance{ $title:
+    package_ensure   => $_package_ensure,
+    package_name     => $package_name,
+    service_ensure   => $_service_ensure,
+    service_manage   => $_service_manage,
+    global_options   => $global_options,
+    defaults_options => $defaults_options,
+    restart_command  => $restart_command,
+    custom_fragment  => $custom_fragment,
+    config_dir       => $config_dir,
+    config_file      => $config_file,
+    merge_options    => $merge_options,
+    service_options  => $service_options,
   }
+
 }

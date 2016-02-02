@@ -19,7 +19,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('croy_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-croy_frontend_block').with(
       'order'   => '15-croy-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n"
@@ -38,7 +38,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n"
@@ -54,7 +54,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n"
@@ -70,7 +70,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  option tcplog\n"
@@ -141,7 +141,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.24:80 \n  option tcplog\n"
@@ -157,7 +157,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 1.1.1.1:80 the options go here\n  bind 1.1.1.1:8080 the options go here\n  option tcplog\n"
@@ -172,7 +172,7 @@ describe 'haproxy::frontend' do
       }
     end
 
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n"
@@ -186,7 +186,7 @@ describe 'haproxy::frontend' do
         :bind  => {'1.1.1.1:80' => []},
       }
     end
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 1.1.1.1:80 \n  option tcplog\n"
@@ -206,10 +206,32 @@ describe 'haproxy::frontend' do
         },
       }
     end
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  option tcplog\n"
+      'content' => "\nfrontend apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  option tcplog\n"
+    ) }
+  end
+
+  context "when bind parameter is used with ip addresses that sort wrong lexigraphically" do
+    let(:params) do
+      {
+        :name  => 'apache',
+        :bind  => {
+          '10.1.3.21:80'      => [],
+          '8.252.206.100:80'  => [],
+          '8.252.206.101:80'  => [],
+          '8.252.206.99:80'   => [],
+          '1.1.1.1:80'        => [],
+          ':443,:8443'        => [ 'ssl', 'crt public.puppetlabs.com', 'no-sslv3' ],
+          '2.2.2.2:8000-8010' => [ 'ssl', 'crt public.puppetlabs.com' ],
+        },
+      }
+    end
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
+      'order'   => '15-apache-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nfrontend apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 \n  bind 8.252.206.100:80 \n  bind 8.252.206.101:80 \n  bind 10.1.3.21:80 \n  option tcplog\n"
     ) }
   end
 
@@ -233,10 +255,26 @@ describe 'haproxy::frontend' do
         ],
       }
     end
-    it { should contain_concat__fragment('apache_frontend_block').with(
+    it { should contain_concat__fragment('haproxy-apache_frontend_block').with(
       'order'   => '15-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
       'content' => "\nfrontend apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  reqadd X-Forwarded-Proto:\\ https\n  default_backend dev00_webapp\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  bind-process all\n  compression algo gzip\n"
+    ) }
+  end
+
+  context "when configurung custom options for stick-tables" do
+    let(:title) { 'baz' }
+    let(:buzz) { 'type string len 180 size 32m expire 5m store http_req_rate(10s)' }
+    let(:params) do
+      { :options => [
+          { 'stick-table' => buzz },
+          { 'stick' => 'on dst' }]}
+    end
+
+    it { should contain_concat__fragment('haproxy-baz_frontend_block').with(
+      'order'   => '15-baz-00',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "\nfrontend baz\n  stick-table #{buzz}\n  stick on dst\n"                                                                                                               
     ) }
   end
 

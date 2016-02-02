@@ -1,30 +1,36 @@
 # Private class
-class haproxy::service inherits haproxy {
+define haproxy::service (
+  $instance_name,
+  $service_ensure,
+  $service_manage,
+  $restart_command = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
+  $service_options = $haproxy::params::service_options,
+) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
   }
 
-  if $haproxy::_service_manage {
+  if $service_manage {
     if ($::osfamily == 'Debian') {
-      file { '/etc/default/haproxy':
-        content => 'ENABLED=1',
-        before  => Service['haproxy'],
+      file { "/etc/default/${instance_name}":
+        content => $service_options,
+        before  => Service[$instance_name],
       }
     }
 
-    $_service_enable = $haproxy::_service_ensure ? {
-      'running' => true,
-      'stopped' => false,
-      default   => $haproxy::_service_ensure,
+    $_service_enable = $service_ensure ? {
+        'running' => true,
+        'stopped' => false,
+        default   => $service_ensure,
     }
 
-    service { 'haproxy':
-      ensure     => $haproxy::_service_ensure,
+    service { $instance_name:
+      ensure     => $service_ensure,
       enable     => $_service_enable,
-      name       => 'haproxy',
+      name       => $instance_name,
       hasrestart => true,
       hasstatus  => true,
-      restart    => $haproxy::restart_command,
+      restart    => $restart_command,
     }
   }
 }

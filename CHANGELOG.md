@@ -1,3 +1,24 @@
+## Supported Release 1.4.0
+###Summary
+
+This release adds the addition of the capability to create multiple instances of haproxy on a host. It also adds Debian 8 compatibility, some updates on current features and numerous bug fixes.
+
+####Features
+- Debian 8 compatibility added.
+- Adds haproxy::instance for the creation of multiple instances of haproxy on a host (MODULES-1783)
+- Addition of `service_options` parameter for `/etc/defaults/haproxy` file on Debian.
+- Merge of global and default options with user-supplied options - Allows the ability to override or add arbitrary keys and values to the `global_options` and `defaults_options` hashes without having to reproduce the whole hash.
+- Addition of a defined type haproxy::mapfile to manage map files.
+
+####Bugfixes
+- Prevents warning on puppet 4 from bind_options.
+- Value specified for timeout client now in seconds instead of milliseconds.
+- Consistent use of ::haproxy::config_file added (MODULES-2704)
+- Fixed bug in which Ruby 1.8 doesn't have `.match` for symbols.
+- Fix determining $haproxy::config_dir in haproxy::instance.
+- Removed ssl-hello-chk from default options.
+
+
 ## Supported Release 1.3.1
 ###Summary
 

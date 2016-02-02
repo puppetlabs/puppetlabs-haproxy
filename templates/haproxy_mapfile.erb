@@ -1,0 +1,18 @@
+# HAProxy map file "<%= @mapfile_name -%>"
+# Managed by Puppet
+
+<%# Iterate over array elements; If element is a Hash sort it by its keys, -%>
+<%# just in case, then output each key-value pair. If element is a String -%>
+<%# then simply output the String value. Fail if the array contains anything -%>
+<%# other than Hashes or Strings. -%>
+<%- @mappings.each do |mapping| -%>
+<%- if mapping.is_a?(Hash) -%>
+<%- mapping.sort.map do |key, val| -%>
+<%= key -%> <%= val %>
+<%- end -%>
+<%- elsif mapping.is_a?(String) -%>
+<%= mapping %>
+<%- else -%>
+<% scope.function_fail(["Haproxy::Mapfile[#{@mapfile_name}]: $mappings array must contain only Hashes or Strings"]) -%>
+<%- end -%>
+<%- end -%>

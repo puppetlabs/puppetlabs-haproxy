@@ -16,10 +16,6 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The title of the resource is arbitrary and only utilized in the concat
-#    fragment name.
-#
 # [*listening_service*]
 #   The haproxy service's instance name (or, the title of the
 #    haproxy::listen resource). This must match up with a declared
@@ -93,14 +89,24 @@ define haproxy::balancermember (
   $ipaddresses  = $::ipaddress,
   $ensure       = 'present',
   $options      = '',
-  $define_cookies = false
+  $define_cookies = false,
+  $instance     = 'haproxy',
 ) {
 
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $config_file = $haproxy::params::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
+
   # Template uses $ipaddresses, $server_name, $ports, $option
-  concat::fragment { "${listening_service}_balancermember_${name}":
+  concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
     ensure  => $ensure,
     order   => "20-${listening_service}-01-${name}",
-    target  => $::haproxy::config_file,
+    target  => $config_file,
     content => template('haproxy/haproxy_balancermember.erb'),
   }
 }

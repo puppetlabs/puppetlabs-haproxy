@@ -11,9 +11,9 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The namevar of the define resource type is the userlist name.
+# [*section_name*]
 #    This name goes right after the 'userlist' statement in haproxy.cfg
+#    Default: $name (the namevar of the resource).
 #
 # [*users*]
 #   An array of users in the userlist.
@@ -30,12 +30,22 @@
 define haproxy::userlist (
   $users = undef,
   $groups = undef,
+  $instance = 'haproxy',
+  $section_name = $name,
 ) {
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $config_file = $haproxy::params::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
 
-  # Template usse $name, $users, $groups
-  concat::fragment { "${name}_userlist_block":
-    order   => "12-${name}-00",
-    target  => $::haproxy::config_file,
+  # Template uses $section_name, $users, $groups
+  concat::fragment { "${instance_name}-${section_name}_userlist_block":
+    order   => "12-${section_name}-00",
+    target  => $config_file,
     content => template('haproxy/haproxy_userlist_block.erb'),
   }
 }

@@ -11,9 +11,9 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The namevar of the defined resource type is the frontend service's name.
+# [*section_name*]
 #    This name goes right after the 'frontend' statement in haproxy.cfg
+#    Default: $name (the namevar of the resource).
 #
 # [*ports*]
 #   Ports on which the proxy will listen for connections on the ip address
@@ -56,7 +56,7 @@
 #        'tcplog',
 #        'accept-invalid-http-request',
 #      ],
-#      'timeout client' => '30',
+#      'timeout client' => '30s',
 #      'balance'    => 'roundrobin'
 #    },
 #  }
@@ -76,10 +76,11 @@ define haproxy::frontend (
       'tcplog',
     ],
   },
+  $instance         = 'haproxy',
+  $section_name     = $name,
   # Deprecated
-  $bind_options     = '',
+  $bind_options     = undef,
 ) {
-
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
   }
@@ -92,10 +93,20 @@ define haproxy::frontend (
   if $bind {
     validate_hash($bind)
   }
-  # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${name}_frontend_block":
-    order   => "15-${name}-00",
-    target  => $::haproxy::config_file,
+
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $config_file = $haproxy::params::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
+
+  # Template uses: $section_name, $ipaddress, $ports, $options
+  concat::fragment { "${instance_name}-${section_name}_frontend_block":
+    order   => "15-${section_name}-00",
+    target  => $config_file,
     content => template('haproxy/haproxy_frontend_block.erb'),
   }
 }

@@ -1,7 +1,7 @@
 # == Define Resource Type: haproxy::peer
 #
 # This type will set up a peer entry inside the peers configuration block in
-# /etc/haproxy/haproxy.cfg on the load balancer. Currently, it has the ability to
+# haproxy.cfg on the load balancer. Currently, it has the ability to
 # specify the instance name, ip address, ports and server_names.
 #
 # Automatic discovery of peer nodes may be implemented by exporting the peer resource
@@ -39,13 +39,23 @@ define haproxy::peer (
   $ensure       = 'present',
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $instance = 'haproxy',
 ) {
 
-  # Templats uses $ipaddresses, $server_name, $ports, $option
-  concat::fragment { "peers-${peers_name}-${name}":
+  include haproxy::params
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $config_file = $::haproxy::config_file
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $config_file = inline_template($haproxy::params::config_file_tmpl)
+  }
+
+  # Templates uses $ipaddresses, $server_name, $ports, $option
+  concat::fragment { "${instance_name}-peers-${peers_name}-${name}":
     ensure  => $ensure,
     order   => "30-peers-01-${peers_name}-${name}",
-    target  => '/etc/haproxy/haproxy.cfg',
+    target  => $config_file,
     content => template('haproxy/haproxy_peer.erb'),
   }
 }
