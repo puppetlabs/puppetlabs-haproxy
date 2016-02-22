@@ -33,11 +33,16 @@
 #    listening service's configuration block. This defaults to the
 #    hostname. Can be an array of the same length as ipaddresses,
 #    in which case a balancermember is created for each pair of
-#    server_names and ipaddresses (in lockstep).
+#    server_names and ipaddresses (in lockstep). Also, weights if provided, 
+#    will also be part of the lockstep.
 #
 # [*ipaddresses*]
 #   The ip address used to contact the balancer member server.
 #    Can be an array, see documentation to server_names.
+#
+# [*weights*]
+#   The weight(s) used for balancer member.
+#    Can be an array, see documentation to weights.
 #
 # [*ensure*]
 #   If the balancermember should be present or absent.
@@ -87,6 +92,7 @@ define haproxy::balancermember (
   $ports        = undef,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $weights      = undef,
   $ensure       = 'present',
   $options      = '',
   $define_cookies = false,
