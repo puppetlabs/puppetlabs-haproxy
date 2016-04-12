@@ -216,6 +216,7 @@ define haproxy::instance (
     service_manage  => $service_manage,
     restart_command => $restart_command,
     service_options => $service_options,
+    config_file     => $_config_file,
   }
 
   if $package_ensure == 'absent' or $package_ensure == 'purged' {
