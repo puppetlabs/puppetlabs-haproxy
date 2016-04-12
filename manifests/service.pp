@@ -3,6 +3,7 @@ define haproxy::service (
   $instance_name,
   $service_ensure,
   $service_manage,
+  $config_file,
   $restart_command = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $service_options = $haproxy::params::service_options,
 ) {
@@ -24,6 +25,12 @@ define haproxy::service (
         default   => $service_ensure,
     }
 
+    exec { "ConfigCheck_${instance_name}":
+      path      => ['/bin','/usr/bin','/sbin','/usr/sbin'],
+      command   => "haproxy -f ${config_file}",
+      logoutput => 'on_failure',
+    }
+
     service { $instance_name:
       ensure     => $service_ensure,
       enable     => $_service_enable,
@@ -31,6 +38,7 @@ define haproxy::service (
       hasrestart => true,
       hasstatus  => true,
       restart    => $restart_command,
+      require    => Exec["ConfigCheck_${instance_name}"],
     }
   }
 }
