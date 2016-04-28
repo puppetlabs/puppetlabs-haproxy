@@ -7,6 +7,7 @@ define haproxy::config (
   $config_dir = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $custom_fragment = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $merge_options = $haproxy::merge_options,
+  $config_validate = $haproxy::config_validate,
 ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
@@ -40,7 +41,7 @@ define haproxy::config (
     owner        => '0',
     group        => '0',
     mode         => '0644',
-    validate_cmd => '/usr/sbin/haproxy -f %',
+    validate_cmd => $config_validate,
   }
 
   # Simple Header

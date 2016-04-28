@@ -44,6 +44,7 @@ class haproxy::params {
       # Multi-instance:
       $config_dir_tmpl  = '/etc/<%= @instance_name %>'
       $config_file_tmpl = "${config_dir_tmpl}/<%= @instance_name %>.cfg"
+      $config_validate  = '/usr/sbin/haproxy -f %'
     }
     'FreeBSD': {
       $package_name     = 'haproxy'
@@ -77,6 +78,7 @@ class haproxy::params {
       # Multi-instance:
       $config_dir_tmpl  = '/usr/local/etc/<%= @instance_name %>'
       $config_file_tmpl = "${config_dir_tmpl}/<%= @instance_name %>.conf"
+      $config_validate  = '/usr/sbin/haproxy -f %'
     }
     default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
   }

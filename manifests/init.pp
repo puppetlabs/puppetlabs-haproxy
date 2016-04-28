@@ -114,6 +114,7 @@ class haproxy (
   $custom_fragment  = undef,
   $config_dir       = $haproxy::params::config_dir,
   $config_file      = $haproxy::params::config_file,
+  $config_validate  = $haproxy::params::config_validate,
 
   # Deprecated
   $manage_service   = undef,
