@@ -132,6 +132,7 @@ class haproxy (
   validate_string($service_options)
   validate_hash($global_options, $defaults_options)
   validate_absolute_path($config_dir)
+  validate_string($config_validate)
 
   # NOTE: These deprecating parameters are implemented in this class,
   # not in haproxy::instance.  haproxy::instance is new and therefore
