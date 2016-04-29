@@ -147,6 +147,7 @@ define haproxy::instance (
   $config_file      = undef,
   $merge_options    = $haproxy::params::merge_options,
   $service_options  = $haproxy::params::service_options,
+  $config_validate  = $haproxy::params::config_validate,
 ) {
 
   if $service_ensure != true and $service_ensure != false {
@@ -205,6 +206,7 @@ define haproxy::instance (
     defaults_options => $_defaults_options,
     custom_fragment  => $custom_fragment,
     merge_options    => $merge_options,
+    config_validate  => $config_validate,
   }
   haproxy::install { $title:
     package_name   => $package_name,

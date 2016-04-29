@@ -175,6 +175,7 @@ class haproxy (
     config_file      => $config_file,
     merge_options    => $merge_options,
     service_options  => $service_options,
+    config_validate  => $config_validate,
   }
 
 }
