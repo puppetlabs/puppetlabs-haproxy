@@ -63,6 +63,13 @@
 #    The parent directory will be created automatically.
 #  Defaults to undef.
 #
+#[*config_validate*]
+#  Boolean value to enable/disable config validation. Validation requires the 
+#  'config_validate_path'.
+#
+#[*config_validate_path*]
+#  Path to the HaProxy validation binary. 
+#
 # === Examples
 #
 # A single instance of haproxy with all defaults

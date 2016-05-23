@@ -71,6 +71,13 @@
 #   resides. Will also be used for storing any managed map files (see
 #   `haproxy::mapfile`). Default depends on platform.
 #
+#[*config_validate*]
+#  Boolean value to enable/disable config validation. Validation requires the 
+#  'config_validate_path'.
+#
+#[*config_validate_path*]
+#  Path to the HaProxy validation binary. 
+#
 # === Examples
 #
 #  class { 'haproxy':
