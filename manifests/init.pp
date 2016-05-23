@@ -71,12 +71,12 @@
 #   resides. Will also be used for storing any managed map files (see
 #   `haproxy::mapfile`). Default depends on platform.
 #
-#[*config_validate*]
-#  Boolean value to enable/disable config validation. Validation requires the 
-#  'config_validate_path'.
+# [*config_validate*]
+#   Boolean value to enable/disable config validation. Validation requires the 
+#   'config_validate_path'.
 #
-#[*config_validate_path*]
-#  Path to the HaProxy validation binary. 
+# [*config_validate_path*]
+#   Path to the HaProxy validation binary. 
 #
 # === Examples
 #
@@ -172,20 +172,20 @@ class haproxy (
   }
 
   haproxy::instance{ $title:
-    package_ensure        => $_package_ensure,
-    package_name          => $package_name,
-    service_ensure        => $_service_ensure,
-    service_manage        => $_service_manage,
-    global_options        => $global_options,
-    defaults_options      => $defaults_options,
-    restart_command       => $restart_command,
-    custom_fragment       => $custom_fragment,
-    config_dir            => $config_dir,
-    config_file           => $config_file,
-    merge_options         => $merge_options,
-    service_options       => $service_options,
-    config_validate       => $config_validate,
-    config_validate_path  => $config_validate_path,
+    package_ensure       => $_package_ensure,
+    package_name         => $package_name,
+    service_ensure       => $_service_ensure,
+    service_manage       => $_service_manage,
+    global_options       => $global_options,
+    defaults_options     => $defaults_options,
+    restart_command      => $restart_command,
+    custom_fragment      => $custom_fragment,
+    config_dir           => $config_dir,
+    config_file          => $config_file,
+    merge_options        => $merge_options,
+    service_options      => $service_options,
+    config_validate      => $config_validate,
+    config_validate_path => $config_validate_path,
   }
 
 }
