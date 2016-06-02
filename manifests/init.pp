@@ -71,6 +71,13 @@
 #   resides. Will also be used for storing any managed map files (see
 #   `haproxy::mapfile`). Default depends on platform.
 #
+# [*config_validate*]
+#   Boolean value to enable/disable config validation. Validation requires the 
+#   'config_validate_path'.
+#
+# [*config_validate_path*]
+#   Path to the HaProxy validation binary. 
+#
 # === Examples
 #
 #  class { 'haproxy':
@@ -102,18 +109,20 @@
 #  }
 #
 class haproxy (
-  $package_ensure   = 'present',
-  $package_name     = $haproxy::params::package_name,
-  $service_ensure   = 'running',
-  $service_manage   = true,
-  $service_options  = $haproxy::params::service_options,
-  $global_options   = $haproxy::params::global_options,
-  $defaults_options = $haproxy::params::defaults_options,
-  $merge_options    = $haproxy::params::merge_options,
-  $restart_command  = undef,
-  $custom_fragment  = undef,
-  $config_dir       = $haproxy::params::config_dir,
-  $config_file      = $haproxy::params::config_file,
+  $package_ensure        = 'present',
+  $package_name          = $haproxy::params::package_name,
+  $service_ensure        = 'running',
+  $service_manage        = true,
+  $service_options       = $haproxy::params::service_options,
+  $global_options        = $haproxy::params::global_options,
+  $defaults_options      = $haproxy::params::defaults_options,
+  $merge_options         = $haproxy::params::merge_options,
+  $restart_command       = undef,
+  $custom_fragment       = undef,
+  $config_dir            = $haproxy::params::config_dir,
+  $config_file           = $haproxy::params::config_file,
+  $config_validate       = $haproxy::params::config_validate,
+  $config_validate_path  = $haproxy::params::config_validate_path,
 
   # Deprecated
   $manage_service   = undef,
@@ -131,6 +140,8 @@ class haproxy (
   validate_string($service_options)
   validate_hash($global_options, $defaults_options)
   validate_absolute_path($config_dir)
+  validate_bool($config_validate)
+  validate_string($config_validate_path)
 
   # NOTE: These deprecating parameters are implemented in this class,
   # not in haproxy::instance.  haproxy::instance is new and therefore
@@ -161,18 +172,20 @@ class haproxy (
   }
 
   haproxy::instance{ $title:
-    package_ensure   => $_package_ensure,
-    package_name     => $package_name,
-    service_ensure   => $_service_ensure,
-    service_manage   => $_service_manage,
-    global_options   => $global_options,
-    defaults_options => $defaults_options,
-    restart_command  => $restart_command,
-    custom_fragment  => $custom_fragment,
-    config_dir       => $config_dir,
-    config_file      => $config_file,
-    merge_options    => $merge_options,
-    service_options  => $service_options,
+    package_ensure       => $_package_ensure,
+    package_name         => $package_name,
+    service_ensure       => $_service_ensure,
+    service_manage       => $_service_manage,
+    global_options       => $global_options,
+    defaults_options     => $defaults_options,
+    restart_command      => $restart_command,
+    custom_fragment      => $custom_fragment,
+    config_dir           => $config_dir,
+    config_file          => $config_file,
+    merge_options        => $merge_options,
+    service_options      => $service_options,
+    config_validate      => $config_validate,
+    config_validate_path => $config_validate_path,
   }
 
 }

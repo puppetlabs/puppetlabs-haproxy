@@ -63,6 +63,13 @@
 #    The parent directory will be created automatically.
 #  Defaults to undef.
 #
+#[*config_validate*]
+#  Boolean value to enable/disable config validation. Validation requires the 
+#  'config_validate_path'.
+#
+#[*config_validate_path*]
+#  Path to the HaProxy validation binary. 
+#
 # === Examples
 #
 # A single instance of haproxy with all defaults
@@ -135,18 +142,20 @@
 #  call haproxy::instance_service.
 #
 define haproxy::instance (
-  $package_ensure   = 'present',
-  $package_name     = undef,
-  $service_ensure   = 'running',
-  $service_manage   = true,
-  $global_options   = undef,
-  $defaults_options = undef,
-  $restart_command  = undef,
-  $custom_fragment  = undef,
-  $config_dir       = undef,
-  $config_file      = undef,
-  $merge_options    = $haproxy::params::merge_options,
-  $service_options  = $haproxy::params::service_options,
+  $package_ensure       = 'present',
+  $package_name         = undef,
+  $service_ensure       = 'running',
+  $service_manage       = true,
+  $global_options       = undef,
+  $defaults_options     = undef,
+  $restart_command      = undef,
+  $custom_fragment      = undef,
+  $config_dir           = undef,
+  $config_file          = undef,
+  $merge_options        = $haproxy::params::merge_options,
+  $service_options      = $haproxy::params::service_options,
+  $config_validate      = $haproxy::params::config_validate,
+  $config_validate_path = $haproxy::params::config_validate_path,
 ) {
 
   if $service_ensure != true and $service_ensure != false {
@@ -198,13 +207,16 @@ define haproxy::instance (
   }
 
   haproxy::config { $title:
-    instance_name    => $instance_name,
-    config_dir       => $_config_dir,
-    config_file      => $_config_file,
-    global_options   => $_global_options,
-    defaults_options => $_defaults_options,
-    custom_fragment  => $custom_fragment,
-    merge_options    => $merge_options,
+    instance_name        => $instance_name,
+    config_dir           => $_config_dir,
+    config_file          => $_config_file,
+    global_options       => $_global_options,
+    defaults_options     => $_defaults_options,
+    custom_fragment      => $custom_fragment,
+    merge_options        => $merge_options,
+    config_validate      => $config_validate,
+    config_validate_path => $config_validate_path,
+
   }
   haproxy::install { $title:
     package_name   => $package_name,

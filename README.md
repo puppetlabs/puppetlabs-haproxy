@@ -562,6 +562,10 @@ Main class, includes all other classes.
 
 * `config_dir`: Path to the directory in which the main configuration file `haproxy.cfg` resides. Will also be used for storing any managed map files (see [`haproxy::mapfile`](#define-haproxymapfile). Default depends on platform.
 
+* `config_validate`: Validate the HaProxy configuration before applying the changes. Requires the 'config_validate_path' variable. Default: 'true'.
+
+* `config_validate_path`: Path to HaProxy validation script. Default: `/usr/sbin/haproxy -f %`.
+
 #### Class: `haproxy::globals`
 
 For global configuration options used by all haproxy instances.
