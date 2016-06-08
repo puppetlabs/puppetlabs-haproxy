@@ -560,6 +560,8 @@ Main class, includes all other classes.
 
 * `service_options`: Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\n" on Debian, and is ignored on other systems.
 
+* `sysconfig_options`: Contents for the `/etc/sysconfig/haproxy` file on RedHat(-based) systems. Defaults to OPTIONS="" on RedHat(-based) systems and is ignored on others
+
 * `config_dir`: Path to the directory in which the main configuration file `haproxy.cfg` resides. Will also be used for storing any managed map files (see [`haproxy::mapfile`](#define-haproxymapfile). Default depends on platform.
 
 #### Class: `haproxy::globals`
