@@ -5,6 +5,7 @@ define haproxy::service (
   $service_manage,
   $restart_command = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $service_options = $haproxy::params::service_options,
+  $sysconfig_options = $haproxy::params::sysconfig_options,
 ) {
   if $caller_module_name != $module_name {
     fail("Use of private class ${name} by ${caller_module_name}")
