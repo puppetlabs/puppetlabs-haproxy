@@ -135,18 +135,19 @@
 #  call haproxy::instance_service.
 #
 define haproxy::instance (
-  $package_ensure   = 'present',
-  $package_name     = undef,
-  $service_ensure   = 'running',
-  $service_manage   = true,
-  $global_options   = undef,
-  $defaults_options = undef,
-  $restart_command  = undef,
-  $custom_fragment  = undef,
-  $config_dir       = undef,
-  $config_file      = undef,
-  $merge_options    = $haproxy::params::merge_options,
-  $service_options  = $haproxy::params::service_options,
+  $package_ensure    = 'present',
+  $package_name      = undef,
+  $service_ensure    = 'running',
+  $service_manage    = true,
+  $global_options    = undef,
+  $defaults_options  = undef,
+  $restart_command   = undef,
+  $custom_fragment   = undef,
+  $config_dir        = undef,
+  $config_file       = undef,
+  $merge_options     = $haproxy::params::merge_options,
+  $service_options   = $haproxy::params::service_options,
+  $sysconfig_options = $haproxy::params::sysconfig_options,
 ) {
 
   if $service_ensure != true and $service_ensure != false {
@@ -211,11 +212,12 @@ define haproxy::instance (
     package_ensure => $package_ensure,
   }
   haproxy::service { $title:
-    instance_name   => $instance_name,
-    service_ensure  => $service_ensure,
-    service_manage  => $service_manage,
-    restart_command => $restart_command,
-    service_options => $service_options,
+    instance_name     => $instance_name,
+    service_ensure    => $service_ensure,
+    service_manage    => $service_manage,
+    restart_command   => $restart_command,
+    service_options   => $service_options,
+    sysconfig_options => $sysconfig_options,
   }
 
   if $package_ensure == 'absent' or $package_ensure == 'purged' {

@@ -566,6 +566,10 @@ describe 'haproxy::instance' do
         let(:facts) do
           { :osfamily => 'RedHat' }.merge default_facts
         end
+        it 'should manage haproxy sysconfig options' do
+          subject.should contain_file('/etc/sysconfig/haproxy-group1')
+          verify_contents(catalogue, '/etc/sysconfig/haproxy-group1', ['OPTIONS=""'])
+        end
       end
     end
   end

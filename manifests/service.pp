@@ -17,6 +17,12 @@ define haproxy::service (
         before  => Service[$instance_name],
       }
     }
+    if ($::osfamily == 'Redhat') {
+      file {"/etc/sysconfig/${instance_name}":
+        content => $sysconfig_options,
+        before  => Service[$instance_name],
+      }
+    }
 
     $_service_enable = $service_ensure ? {
         'running' => true,

@@ -9,6 +9,7 @@ class haproxy::params {
   $merge_options = false
 
   $service_options  = "ENABLED=1\n"  # Only used by Debian.
+  $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
 
   case $::osfamily {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
