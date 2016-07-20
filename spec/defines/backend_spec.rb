@@ -16,7 +16,7 @@ describe 'haproxy::backend' do
     it { should contain_concat__fragment('haproxy-bar_backend_block').with(
       'order'   => '20-bar-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nbackend bar\n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nbackend bar\n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
 
@@ -32,7 +32,7 @@ describe 'haproxy::backend' do
     it { should contain_concat__fragment('haproxy-baz_backend_block').with(
       'order'   => '20-baz-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nbackend baz\n  stick-table #{buzz}\n  stick on src\n"
+      'content' => "\nbackend baz\n  http-request del-header Proxy\n  stick-table #{buzz}\n  stick on src\n"
     ) }
   end
 
@@ -64,7 +64,7 @@ describe 'haproxy::backend' do
     it { should contain_concat__fragment('haproxy-baz_backend_block').with(
       'order' => '20-baz-00',
       'target' => '/etc/non-default.cfg',
-      'content' => "\nbackend baz\n  balance roundrobin\n",
+      'content' => "\nbackend baz\n  balance roundrobin\n  http-request del-header Proxy\n",
     ) }
   end
 

@@ -22,7 +22,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-croy_listen_block').with(
       'order'   => '20-croy-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten croy\n  bind 1.1.1.1:18140 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten croy\n  bind 1.1.1.1:18140 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   # C9940
@@ -41,7 +41,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   # C9940
@@ -57,7 +57,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   # C9962
@@ -73,7 +73,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   # C9963
@@ -117,7 +117,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind some-hostname:80 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind some-hostname:80 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   context "when a * is passed for ip address" do
@@ -132,7 +132,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind *:80 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind *:80 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   context "when a bind parameter hash is passed" do
@@ -146,7 +146,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 10.0.0.1:333 ssl crt public.puppetlabs.com\n  bind 192.168.122.1:8082 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind 10.0.0.1:333 ssl crt public.puppetlabs.com\n  bind 192.168.122.1:8082 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   context "when a ports parameter and a bind parameter are passed" do
@@ -203,7 +203,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 1.1.1.1:80 the options go here\n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind 1.1.1.1:80 the options go here\n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   context "when bind parameter is used without ipaddress parameter" do
@@ -217,7 +217,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 1.1.1.1:80 \n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind 1.1.1.1:80 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
 
@@ -237,7 +237,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind /var/run/ssl-frontend.sock user root mode 600 accept-proxy\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
   context "when bind parameter is used with ip addresses that sort wrong lexigraphically" do
@@ -259,7 +259,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 name input99\n  bind 8.252.206.100:80 name input100\n  bind 8.252.206.101:80 name input101\n  bind 10.1.3.21:80 name input21\n  balance roundrobin\n  option tcplog\n"
+      'content' => "\nlisten apache\n  bind :443,:8443 ssl crt public.puppetlabs.com no-sslv3\n  bind fd@${FD_APP1} \n  bind 1.1.1.1:80 \n  bind 2.2.2.2:8000-8010 ssl crt public.puppetlabs.com\n  bind 8.252.206.99:80 name input99\n  bind 8.252.206.100:80 name input100\n  bind 8.252.206.101:80 name input101\n  bind 10.1.3.21:80 name input21\n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n"
     ) }
   end
 
@@ -277,6 +277,7 @@ describe 'haproxy::listen' do
           { 'capture request header' => [ 'X-Forwarded-For len 50', 'Host len 15', 'Referrer len 15' ] },
           { 'acl'                    => [ 'dst_dev01 dst_port 48001', 'dst_dev02 dst_port 48002', 'dst_dev03 dst_port 48003' ] },
           { 'use_backend'            => [ 'dev01_webapp if dst_dev01', 'dev02_webapp if dst_dev02', 'dev03_webapp if dst_dev03' ] },
+          { 'http-request'           => [ 'set-method POST if METH_GET url_login', 'add-header X-Forwarded-For %[src]'] },
           { 'option'                 => [ 'httplog', 'http-server-close', 'forwardfor except 127.0.0.1' ] },
           { 'compression'            => 'algo gzip',
             'bind-process'           => 'all' }
@@ -286,7 +287,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  reqadd X-Forwarded-Proto:\\ https\n  default_backend dev00_webapp\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  bind-process all\n  compression algo gzip\n"
+      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  http-request del-header Proxy\n  reqadd X-Forwarded-Proto:\\ https\n  default_backend dev00_webapp\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  http-request set-method POST if METH_GET url_login\n  http-request add-header X-Forwarded-For %[src]\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  bind-process all\n  compression algo gzip\n"
     ) }
   end
 
@@ -314,7 +315,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  bind-process all\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  compression algo gzip\n  default_backend dev00_webapp\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  reqadd X-Forwarded-Proto:\\ https\n  reqidel ^X-Forwarded-For:.*\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n"
+      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  bind-process all\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  compression algo gzip\n  default_backend dev00_webapp\n  http-request del-header Proxy\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  reqadd X-Forwarded-Proto:\\ https\n  reqidel ^X-Forwarded-For:.*\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n"
     ) }
   end
 
@@ -343,7 +344,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-apache_listen_block').with(
       'order'   => '20-apache-00',
       'target'  => '/etc/haproxy/haproxy.cfg',
-      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  bind-process all\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  compression algo gzip\n  default_backend dev00_webapp\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  reqidel ^X-Forwarded-For:.*\n  reqadd X-Forwarded-Proto:\\ https\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n"
+      'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  bind-process all\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  compression algo gzip\n  default_backend dev00_webapp\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  http-request del-header Proxy\n  reqidel ^X-Forwarded-For:.*\n  reqadd X-Forwarded-Proto:\\ https\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n"
     ) }
   end
 
@@ -366,7 +367,7 @@ describe 'haproxy::listen' do
     it { should contain_concat__fragment('haproxy-bar_listen_block').with(
       'order' => '20-bar-00',
       'target' => '/etc/non-default.cfg',
-      'content' => "\nlisten bar\n  bind *:5000 \n  balance roundrobin\n  option tcplog\n",
+      'content' => "\nlisten bar\n  bind *:5000 \n  balance roundrobin\n  http-request del-header Proxy\n  option tcplog\n",
     ) }
   end
 
