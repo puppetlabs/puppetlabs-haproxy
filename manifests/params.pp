@@ -10,7 +10,7 @@ class haproxy::params {
 
   $service_options  = "ENABLED=1\n"  # Only used by Debian.
   $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
-  $config_validate_cmd = '/usr/sbin/haproxy -f % -c',
+  $config_validate_cmd = '/usr/sbin/haproxy -f % -c'
 
   case $::osfamily {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
