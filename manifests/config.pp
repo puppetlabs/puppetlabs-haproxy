@@ -46,7 +46,7 @@ define haproxy::config (
     concat { $_config_file:
       owner        => '0',
       group        => '0',
-      mode         => '0644',
+      mode         => '0640',
       validate_cmd => '/usr/sbin/haproxy -f % -c',
     }
 
