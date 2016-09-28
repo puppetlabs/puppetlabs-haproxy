@@ -47,7 +47,13 @@ define haproxy::config (
       owner        => '0',
       group        => '0',
       mode         => '0644',
-      validate_cmd => '/usr/sbin/haproxy -f % -c',
+    }
+
+    # validate_cmd introduced in Puppet 3.5
+    if versioncmp($::puppetversion, '3.5') >= 0 and ($::serverversion == undef or versioncmp($::serverversion, '3.5') >= 0) {
+      Concat[$_config_file] {
+        validate_cmd => '/usr/sbin/haproxy -f % -c'
+      }
     }
 
     # Simple Header
