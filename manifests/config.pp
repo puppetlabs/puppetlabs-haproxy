@@ -50,7 +50,7 @@ define haproxy::config (
     }
 
     # validate_cmd introduced in Puppet 3.5
-    if versioncmp($::puppetversion, '3.5') >= 0 and ($::serverversion == undef or versioncmp($::serverversion, '3.5') >= 0) {
+    if ((!defined('$::puppetversion') or (versioncmp($::puppetversion, '3.5') >= 0)) and (!defined('$::serverversion') or versioncmp($::serverversion, '3.5') >= 0)) {
       Concat[$_config_file] {
         validate_cmd => '/usr/sbin/haproxy -f % -c'
       }
