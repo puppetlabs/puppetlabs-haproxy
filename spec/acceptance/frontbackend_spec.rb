@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe "frontend backend defines", :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe "frontend backend defines" do
   it 'should be able to configure the frontend/backend with puppet' do
     pp = <<-EOS
       class { 'haproxy': }

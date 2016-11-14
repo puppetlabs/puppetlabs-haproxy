@@ -11,9 +11,9 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The namevar of the define resource type is the userlist name.
+# [*section_name*]
 #    This name goes right after the 'userlist' statement in haproxy.cfg
+#    Default: $name (the namevar of the resource).
 #
 # [*users*]
 #   An array of users in the userlist.
@@ -23,6 +23,11 @@
 #   An array of groups in the userlist.
 #   See http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#3.4-group
 #
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
 # === Authors
 #
 # Jeremy Kitchen <jeremy@nationbuilder.com>
@@ -30,12 +35,27 @@
 define haproxy::userlist (
   $users = undef,
   $groups = undef,
+  $instance = 'haproxy',
+  $section_name = $name,
+  $config_file = undef,
 ) {
 
-  # Template usse $name, $users, $groups
-  concat::fragment { "${name}_userlist_block":
-    order   => "12-${name}-00",
-    target  => $::haproxy::config_file,
+  include haproxy::params
+
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $_config_file = pick($config_file, $haproxy::config_file)
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
+  }
+
+  validate_absolute_path(dirname($_config_file))
+
+  # Template uses $section_name, $users, $groups
+  concat::fragment { "${instance_name}-${section_name}_userlist_block":
+    order   => "12-${section_name}-00",
+    target  => $_config_file,
     content => template('haproxy/haproxy_userlist_block.erb'),
   }
 }

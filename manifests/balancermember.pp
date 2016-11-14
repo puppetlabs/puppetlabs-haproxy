@@ -16,10 +16,6 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The title of the resource is arbitrary and only utilized in the concat
-#    fragment name.
-#
 # [*listening_service*]
 #   The haproxy service's instance name (or, the title of the
 #    haproxy::listen resource). This must match up with a declared
@@ -43,10 +39,6 @@
 #   The ip address used to contact the balancer member server.
 #    Can be an array, see documentation to server_names.
 #
-# [*ensure*]
-#   If the balancermember should be present or absent.
-#    Defaults to present.
-#
 # [*options*]
 #   An array of options to be specified after the server declaration
 #    in the listening service's configuration block.
@@ -54,6 +46,15 @@
 # [*define_cookies*]
 #   If true, then add "cookie SERVERID" stickiness options.
 #    Default false.
+#
+# [*defaults*]
+#   Name of the defaults section the backend or listener use.
+#   Defaults to undef.
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
 #
 # === Examples
 #
@@ -91,16 +92,34 @@ define haproxy::balancermember (
   $ports        = undef,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
-  $ensure       = 'present',
   $options      = '',
-  $define_cookies = false
+  $define_cookies = false,
+  $instance     = 'haproxy',
+  $defaults     = undef,
+  $config_file  = undef,
 ) {
 
+  include haproxy::params
+
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $_config_file = pick($config_file, $haproxy::config_file)
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
+  }
+
+  validate_absolute_path(dirname($_config_file))
+
+  if $defaults == undef {
+    $order = "20-${listening_service}-01-${name}"
+  } else {
+    $order = "25-${defaults}-${listening_service}-02-${name}"
+  }
   # Template uses $ipaddresses, $server_name, $ports, $option
-  concat::fragment { "${listening_service}_balancermember_${name}":
-    ensure  => $ensure,
-    order   => "20-${listening_service}-01-${name}",
-    target  => $::haproxy::config_file,
+  concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
+    order   => $order,
+    target  => $_config_file,
     content => template('haproxy/haproxy_balancermember.erb'),
   }
 }

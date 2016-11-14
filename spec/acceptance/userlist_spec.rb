@@ -1,7 +1,7 @@
 require 'spec_helper_acceptance'
 
 # lucid ships with haproxy 1.3 which does not have userlist support by default
-describe "userlist define", :unless => (UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) or (fact('lsbdistcodename') == 'lucid') or (fact('osfamily') == 'RedHat' and fact('operatingsystemmajrelease') == '5')) do
+describe "userlist define", :unless => (['Darwin', 'Suse','windows','AIX','Solaris'].include?(fact('osfamily')) or (fact('lsbdistcodename') == 'lucid') or (fact('osfamily') == 'RedHat' and fact('operatingsystemmajrelease') == '5')) do
   it 'should be able to configure the listen with puppet' do
     # C9966 C9970
     pp = <<-EOS

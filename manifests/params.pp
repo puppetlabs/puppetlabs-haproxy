@@ -5,10 +5,16 @@
 #  extended by changing package names and configuration file paths.
 #
 class haproxy::params {
+  # XXX: This will change to true in the next major release
+  $merge_options = false
+
+  $service_options  = "ENABLED=1\n"  # Only used by Debian.
+  $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
+
   case $::osfamily {
-    'Archlinux', 'Debian', 'RedHat': {
-      $package_name     = 'haproxy'
-      $global_options   = {
+    'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
+      $package_name      = 'haproxy'
+      $global_options    = {
         'log'     => "${::ipaddress} local0",
         'chroot'  => '/var/lib/haproxy',
         'pidfile' => '/var/run/haproxy.pid',
@@ -18,10 +24,10 @@ class haproxy::params {
         'daemon'  => '',
         'stats'   => 'socket /var/lib/haproxy/stats'
       }
-      $defaults_options = {
+      $defaults_options  = {
         'log'     => 'global',
         'stats'   => 'enable',
-        'option'  => 'redispatch',
+        'option'  => [ 'redispatch' ],
         'retries' => '3',
         'timeout' => [
           'http-request 10s',
@@ -33,11 +39,17 @@ class haproxy::params {
         ],
         'maxconn' => '8000'
       }
-      $config_file      = '/etc/haproxy/haproxy.cfg'
+      # Single instance:
+      $config_dir        = '/etc/haproxy'
+      $config_file       = '/etc/haproxy/haproxy.cfg'
+      $manage_config_dir = true
+      # Multi-instance:
+      $config_dir_tmpl   = '/etc/<%= @instance_name %>'
+      $config_file_tmpl  = "${config_dir_tmpl}/<%= @instance_name %>.cfg"
     }
     'FreeBSD': {
-      $package_name     = 'haproxy'
-      $global_options   = {
+      $package_name      = 'haproxy'
+      $global_options    = {
         'log'     => [
           '127.0.0.1 local0',
           '127.0.0.1 local1 notice',
@@ -47,7 +59,7 @@ class haproxy::params {
         'maxconn' => '4096',
         'daemon'  => '',
       }
-      $defaults_options = {
+      $defaults_options  = {
         'log'        => 'global',
         'mode'       => 'http',
         'option'     => [
@@ -61,8 +73,17 @@ class haproxy::params {
         'clitimeout' => '50000',
         'srvtimeout' => '50000',
       }
-      $config_file      = '/usr/local/etc/haproxy.conf'
+      # Single instance:
+      $config_dir        = '/usr/local/etc'
+      $config_file       = '/usr/local/etc/haproxy.conf'
+      $manage_config_dir = false
+      # Multi-instance:
+      $config_dir_tmpl  = '/usr/local/etc/<%= @instance_name %>'
+      $config_file_tmpl = "${config_dir_tmpl}/<%= @instance_name %>.conf"
     }
     default: { fail("The ${::osfamily} operating system is not supported with the haproxy module") }
   }
 }
+
+# TODO: test that the $config_file generated for FreeBSD instances
+#  and RedHat instances is as expected.

@@ -1,5 +1,7 @@
 global
-<% @global_options.sort.each do |key,val| -%>
+<% @_global_options.sort.each do |key,val| -%>
+<%# Skip options whose value is undef/nil -%>
+<% next if val == :undef or val.nil? -%>
 <% if val.is_a?(Array) -%>
 <% val.each do |item| -%>
   <%= key %>  <%= item %>
@@ -10,7 +12,9 @@ global
 <% end -%>
 
 defaults
-<% @defaults_options.sort.each do |key,val| -%>
+<% @_defaults_options.sort.each do |key,val| -%>
+<%# Skip options whose value is undef/nil -%>
+<% next if val == :undef or val.nil? -%>
 <% if val.is_a?(Array) -%>
 <% val.each do |item| -%>
   <%= key %>  <%= item %>

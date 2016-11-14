@@ -1,12 +1,16 @@
 {
   "name": "puppetlabs-haproxy",
-  "version": "1.1.0",
+  "version": "1.5.0",
   "author": "Puppet Labs",
   "summary": "Configures HAProxy servers and manages the configuration of backend member servers.",
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-haproxy",
   "project_page": "https://github.com/puppetlabs/puppetlabs-haproxy",
   "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
+  "dependencies": [
+    {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0"},
+    {"name":"puppetlabs/concat","version_requirement":">= 1.2.3 < 3.0.0"}
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "RedHat",
@@ -44,7 +48,8 @@
       "operatingsystem": "Debian",
       "operatingsystemrelease": [
         "6",
-        "7"
+        "7",
+        "8"
       ]
     },
     {
@@ -52,22 +57,19 @@
       "operatingsystemrelease": [
         "10.04",
         "12.04",
-        "14.04"
+        "14.04",
+        "16.04"
       ]
     }
   ],
   "requirements": [
     {
       "name": "pe",
-      "version_requirement": "3.x"
+      "version_requirement": ">= 3.0.0 < 2015.4.0"
     },
     {
       "name": "puppet",
-      "version_requirement": "3.x"
+      "version_requirement": ">= 3.5.0 < 5.0.0"
     }
-  ],
-  "dependencies": [
-    {"name":"puppetlabs/stdlib","version_requirement":">= 2.4.0"},
-    {"name":"puppetlabs/concat","version_requirement":">= 1.1.0"}
   ]
 }

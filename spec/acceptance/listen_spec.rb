@@ -1,6 +1,6 @@
 require 'spec_helper_acceptance'
 
-describe "listen define", :unless => UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
+describe "listen define" do
   it 'should be able to configure the listen with puppet' do
     pp = <<-EOS
       class { 'haproxy': }

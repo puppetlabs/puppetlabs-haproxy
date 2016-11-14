@@ -15,9 +15,13 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The namevar of the defined resource type is the backend service's name.
+# [*section_name*]
 #    This name goes right after the 'backend' statement in haproxy.cfg
+#    Default: $name (the namevar of the resource).
+#
+# [*mode*]
+#   The mode of operation for the backend service. Valid values are undef,
+#    'tcp', 'http', and 'health'.
 #
 # [*options*]
 #   A hash of options that are inserted into the backend configuration block.
@@ -29,6 +33,19 @@
 #    the case when you know the full set of balancermember in advance and use
 #    haproxy::balancermember with array arguments, which allows you to deploy
 #    everything in 1 run)
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
+# [*sort_options_alphabetic*]
+#   Sort options either alphabetic or custom like haproxy internal sorts them.
+#   Defaults to true.
+#
+# [*defaults*]
+#   Name of the defaults section this backend will use.
+#   Defaults to undef which means the global defaults section will be used.
 #
 # === Examples
 #
@@ -50,29 +67,55 @@
 # Jeremy Kitchen <jeremy@nationbuilder.com>
 #
 define haproxy::backend (
-  $collect_exported = true,
-  $options          = {
+  $mode                    = undef,
+  $collect_exported        = true,
+  $options                 = {
     'option'  => [
       'tcplog',
-      'ssl-hello-chk'
     ],
-    'balance' => 'roundrobin'
-  }
+    'balance' => 'roundrobin',
+  },
+  $instance                = 'haproxy',
+  $section_name            = $name,
+  $sort_options_alphabetic = undef,
+  $defaults                = undef,
+  $config_file             = undef,
 ) {
 
-  if defined(Haproxy::Listen[$name]) {
-    fail("An haproxy::listen resource was discovered with the same name (${name}) which is not supported")
+  if defined(Haproxy::Listen[$section_name]) {
+    fail("An haproxy::listen resource was discovered with the same name (${section_name}) which is not supported")
   }
 
-  # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${name}_backend_block":
-    order   => "20-${name}-00",
-    target  => $::haproxy::config_file,
+  include haproxy::params
+
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $_config_file = pick($config_file, $haproxy::config_file)
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
+  }
+
+  validate_absolute_path(dirname($_config_file))
+
+  include ::haproxy::globals
+  $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
+
+  if $defaults == undef {
+    $order = "20-${section_name}-00"
+  } else {
+    $order = "25-${defaults}-${section_name}-01"
+  }
+
+  # Template uses: $section_name, $ipaddress, $ports, $options
+  concat::fragment { "${instance_name}-${section_name}_backend_block":
+    order   => $order,
+    target  => $_config_file,
     content => template('haproxy/haproxy_backend_block.erb'),
   }
 
   if $collect_exported {
-    haproxy::balancermember::collect_exported { $name: }
+    haproxy::balancermember::collect_exported { $section_name: }
   }
   # else: the resources have been created and they introduced their
   # concat fragments. We don't have to do anything about them.

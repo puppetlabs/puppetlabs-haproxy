@@ -1,20 +1,7 @@
 require 'beaker-rspec'
+require 'beaker/puppet_install_helper'
 
-UNSUPPORTED_PLATFORMS = ['Darwin', 'Suse','windows','AIX','Solaris']
-
-unless ENV['RS_PROVISION'] == 'no' or ENV['BEAKER_provision'] == 'no'
-  # This will install the latest available package on el and deb based
-  # systems fail on windows and osx, and install via gem on other *nixes
-  foss_opts = { :default_action => 'gem_install' }
-
-  if default.is_pe?; then install_pe; else install_puppet( foss_opts ); end
-
-  hosts.each do |host|
-    on host, "mkdir -p #{host['distmoduledir']}"
-    # Windows doesn't have a hieraconf variable
-    on host, "touch #{host['hieraconf']}" if fact('osfamily') != 'windows'
-  end
-end
+run_puppet_install_helper
 
 RSpec.configure do |c|
   # Project root
@@ -40,39 +27,40 @@ RSpec.configure do |c|
           include apt::backports
         })
       end
-      if ! UNSUPPORTED_PLATFORMS.include?(fact('osfamily'))
-        pp = <<-EOS
-          $netcat = $::osfamily ? {
-            'RedHat' => $::operatingsystemmajrelease ? {
-              '7'     => 'nmap-ncat',
-              default => 'nc',
-            },
-            'Debian' => 'netcat-openbsd',
+      pp = <<-EOS
+        package { 'socat': ensure => present, }
+        package { 'screen': ensure => present, }
+        if $::osfamily == 'RedHat' {
+          class { 'epel': before => Package['socat'], }
+          service { 'iptables': ensure => stopped, }
+          exec { 'setenforce 0':
+            path   => ['/bin','/usr/bin','/sbin','/usr/sbin'],
+            onlyif => 'which getenforce && getenforce | grep Enforcing',
           }
-          package { $netcat: ensure => present, }
-          package { 'screen': ensure => present, }
-          if $::osfamily == 'RedHat' {
-            class { 'epel': }
-            service { 'iptables': ensure => stopped, }
-            exec { 'setenforce Permissive':
-              path   => ['/bin','/usr/bin','/sbin','/usr/sbin'],
-              onlyif => 'getenforce | grep Enforcing',
-            }
-            if $::operatingsystemmajrelease == '7' {
-              # For `netstat` for serverspec
-              package { 'net-tools': ensure => present, }
-            }
+          if $::operatingsystemmajrelease == '7' {
+            # For `netstat` for serverspec
+            package { 'net-tools': ensure => present, }
           }
-        EOS
-        apply_manifest(pp, :catch_failures => true)
+        }
+      EOS
+      apply_manifest(pp, :catch_failures => true)
 
-        ['5556','5557'].each do |port|
-          shell(%{echo 'while :; do echo "HTTP/1.1 200 OK\r\n\r\nResponse on #{port}" | nc -l #{port} ; done' > /root/script-#{port}.sh})
-          shell(%{/usr/bin/screen -dmS script-#{port} sh /root/script-#{port}.sh})
-          sleep 1
-          shell(%{netstat -tnl|grep ':#{port}'})
+      ['5556','5557'].each do |port|
+        content = "socat -v tcp-l:#{port},reuseaddr,fork system:\"printf \\'HTTP/1.1 200 OK\r\n\r\nResponse on #{port}\\'\",nofork"
+        create_remote_file(host, "/root/script-#{port}.sh", content)
+        shell(%{/usr/bin/screen -dmS script-#{port} sh /root/script-#{port}.sh})
+        sleep 1
+        shell(%{netstat -tnl|grep ':#{port}'})
         end
-      end
+    end
+  end
+
+  # FM-5470, this was added to reset failed count and work around puppet 3.x
+  if ( (fact('operatingsystem') == 'SLES' and fact('operatingsystemmajrelease') == '12') or (fact('osfamily') == 'RedHat' and fact('operatingsystemmajrelease') == '7') )
+    c.after :each do
+      # not all tests have a haproxy service, so the systemctl call can fail,
+      # but we don't care as we only need to reset when it does.
+      shell('systemctl reset-failed haproxy.service || true')
     end
   end
 end

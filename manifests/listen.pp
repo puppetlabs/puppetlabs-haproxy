@@ -16,9 +16,9 @@
 #
 # === Parameters
 #
-# [*name*]
-#   The namevar of the defined resource type is the listening service's name.
+# [*section_name*]
 #    This name goes right after the 'listen' statement in haproxy.cfg
+#    Default: $name (the namevar of the resource).
 #
 # [*ports*]
 #   Ports on which the proxy will listen for connections on the ip address
@@ -54,6 +54,19 @@
 #    know the full set of balancermembers in advance and use haproxy::balancermember
 #    with array arguments, which allows you to deploy everything in 1 run)
 #
+# [*sort_options_alphabetic*]
+#   Sort options either alphabetic or custom like haproxy internal sorts them.
+#   Defaults to true.
+#
+# [*defaults*]
+#   Name of the defaults section this backend will use.
+#   Defaults to undef which means the global defaults section will be used.
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -84,40 +97,67 @@ define haproxy::listen (
   $options                      = {
     'option'  => [
       'tcplog',
-      'ssl-hello-chk'
     ],
     'balance' => 'roundrobin'
   },
+  $instance                     = 'haproxy',
+  $section_name                 = $name,
+  $sort_options_alphabetic      = undef,
+  $defaults                     = undef,
+  $config_file                  = undef,
   # Deprecated
   $bind_options                 = '',
 ) {
-
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
   }
   if $ipaddress and $bind {
     fail('The use of $ipaddress and $bind is mutually exclusive, please choose either one')
   }
-  if $bind_options {
+  if $ipaddress == undef and $bind == undef {
+    fail('Either $ipaddress or $bind is needed, please choose one')
+  }
+  if $bind_options != '' {
     warning('The $bind_options parameter is deprecated; please use $bind instead')
   }
   if $bind {
     validate_hash($bind)
   }
 
-  if defined(Haproxy::Backend[$name]) {
-    fail("An haproxy::backend resource was discovered with the same name (${name}) which is not supported")
+  if defined(Haproxy::Backend[$section_name]) {
+    fail("An haproxy::backend resource was discovered with the same name (${section_name}) which is not supported")
   }
 
-  # Template uses: $name, $ipaddress, $ports, $options
-  concat::fragment { "${name}_listen_block":
-    order   => "20-${name}-00",
-    target  => $::haproxy::config_file,
+  include haproxy::params
+
+  if $instance == 'haproxy' {
+    $instance_name = 'haproxy'
+    $_config_file = pick($config_file, $haproxy::config_file)
+  } else {
+    $instance_name = "haproxy-${instance}"
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
+  }
+
+  validate_absolute_path(dirname($_config_file))
+
+  include haproxy::globals
+  $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
+
+  if $defaults == undef {
+    $order = "20-${section_name}-00"
+  } else {
+    $order = "25-${defaults}-${section_name}-00"
+  }
+
+  # Template uses: $section_name, $ipaddress, $ports, $options
+  concat::fragment { "${instance_name}-${section_name}_listen_block":
+    order   => $order,
+    target  => $_config_file,
     content => template('haproxy/haproxy_listen_block.erb'),
   }
 
   if $collect_exported {
-    haproxy::balancermember::collect_exported { $name: }
+    haproxy::balancermember::collect_exported { $section_name: }
   }
   # else: the resources have been created and they introduced their
   # concat fragments. We don't have to do anything about them.
