@@ -598,6 +598,8 @@ Configures a service inside a listening or backend service configuration block i
 
 * `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
 
+* `verifyhost`: *Optional.* Will add the verifyhost option to the server line, using the specific host from server_names as an argument.  Defaults to false
+
 #### Define: `haproxy::backend`
 
 Sets up a backend service configuration block inside haproxy.cfg. Each backend service needs one or more balancermember services (declared with the [`haproxy::balancermember` define](#define-haproxybalancermember)).

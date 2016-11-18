@@ -56,6 +56,11 @@
 #   Assumes that the parent directory exists.
 #   Default: $haproxy::params::config_file
 #
+# [*verifyhost*]
+#   Optional. Will add the verifyhost option to the server line, using the
+#   specific host from server_names as an argument.
+#   Default: false
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -97,6 +102,7 @@ define haproxy::balancermember (
   $instance     = 'haproxy',
   $defaults     = undef,
   $config_file  = undef,
+  $verifyhost   = false,
 ) {
 
   include haproxy::params

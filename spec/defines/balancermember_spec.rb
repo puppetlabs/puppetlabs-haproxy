@@ -63,6 +63,24 @@ describe 'haproxy::balancermember' do
       'content' => "  server dero 1.1.1.1:18140 cookie dero check close\n"
     ) }
   end
+
+  context 'with verifyhost' do
+    let(:params) do
+      {
+        :name              => 'tyler',
+        :listening_service => 'croy',
+        :ports             => '18140',
+        :options           => ['check', 'close'],
+        :verifyhost        => true
+      }
+    end
+
+    it { should contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+      'order'   => '20-croy-01-tyler',
+      'target'  => '/etc/haproxy/haproxy.cfg',
+      'content' => "  server dero 1.1.1.1:18140 check close verifyhost dero\n"
+    ) }
+  end
   context 'with multiple servers' do
     let(:params) do
       {
