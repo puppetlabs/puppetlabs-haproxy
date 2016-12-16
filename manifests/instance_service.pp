@@ -37,11 +37,21 @@
 # [*haproxy_init_source*]
 #   The init.d script that will start/restart/reload this instance.
 #
+# [*haproxy_bin*]
+#   The path to the haproxy binary.
+#   Defaults to '/usr/sbin/haproxy'
+#
+# [*haproxy_systemd_wrapper*]
+#   The path to the haproxy-systemd_wrapper binary.
+#   Defaults to '/usr/sbin/haproxy-systemd-wrapper'
+#
 define haproxy::instance_service (
   $haproxy_init_source = undef,
   $haproxy_unit_template = undef,
   $haproxy_package = 'haproxy',
   $bindir = '/opt/haproxy/bin',
+  $haproxy_bin = $haproxy::haproxy_bin,
+  $haproxy_systemd_wrapper = $haproxy::haproxy_systemd_wrapper,
 ) {
 
   ensure_resource('package', $haproxy_package, {
@@ -62,9 +72,9 @@ define haproxy::instance_service (
   # is the binary.
   $haproxy_link = "${bindir}/haproxy-${title}"
   if $haproxy_package == 'haproxy' {
-    $haproxy_target = '/usr/sbin/haproxy'
+    $haproxy_target = $haproxy_bin
   } else {
-    $haproxy_target = "/opt/${haproxy_package}/sbin/haproxy"
+    $haproxy_target = "/opt/${haproxy_package}${haproxy_bin}"
   }
   file { $haproxy_link:
     ensure => link,
@@ -95,9 +105,9 @@ define haproxy::instance_service (
       # systemd:
       validate_string($haproxy_unit_template)
       if $haproxy_package == 'haproxy' {
-        $wrapper = '/usr/sbin/haproxy-systemd-wrapper'
+        $wrapper = $haproxy_systemd_wrapper
       } else {
-        $wrapper = "/opt/${haproxy_package}/sbin/haproxy-systemd-wrapper"
+        $wrapper = "/opt/${haproxy_package}${haproxy_systemd_wrapper}"
       }
 
       $unitfile = "/usr/lib/systemd/system/haproxy-${title}.service"

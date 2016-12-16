@@ -72,6 +72,14 @@
 #   Optional. Path to the haproxy config file.
 #   Default depends on platform.
 #
+# [*haproxy_bin*]
+#   The path to the haproxy binary.
+#   Defaults to '/usr/sbin/haproxy'
+#
+# [*haproxy_systemd_wrapper*]
+#   The path to the haproxy-systemd_wrapper binary.
+#   Defaults to '/usr/sbin/haproxy-systemd-wrapper'
+#
 # === Examples
 #
 #  class { 'haproxy':
@@ -117,6 +125,8 @@ class haproxy (
   $config_dir        = $haproxy::params::config_dir,
   $config_file       = $haproxy::params::config_file,
   $manage_config_dir = $haproxy::params::manage_config_dir,
+  $haproxy_bin       = $haproxy::params::haproxy_bin,
+  $haproxy_systemd_wrapper = $haproxy::params::haproxy_systemd_wrapper,
 
   # Deprecated
   $manage_service   = undef,
