@@ -35,7 +35,7 @@
 <%# option with a default value of 0 if the option is not found in the -%>
 <%# option_order hash and the second element the option itself. -%>
 <% @options.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.each do |key, val| -%>
-<% Array(val).each do |item| -%>
+<% Array(val).reject{|v| v == :undef }.each do |item| -%>
   <%= key %> <%= item %>
 <% end -%>
 <% end -%>
@@ -46,7 +46,7 @@
 <%# value (or values, one per line) -%>
 <% @options.each do |option| -%>
 <% option.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.map do |key, val| -%>
-<% Array(val).each do |item| -%>
+<% Array(val).reject{|v| v == :undef }.each do |item| -%>
   <%= key %> <%= item %>
 <% end -%>
 <% end -%>

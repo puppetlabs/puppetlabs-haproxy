@@ -56,6 +56,11 @@
 #   configuration file before the backend configuration.
 #   Defaults to true.
 #
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -95,6 +100,7 @@ define haproxy::frontend (
   $sort_options_alphabetic = undef,
   $defaults                = undef,
   $defaults_use_backend    = true,
+  $config_file             = undef,
   # Deprecated
   $bind_options            = undef,
 ) {
@@ -112,13 +118,17 @@ define haproxy::frontend (
   }
 
   include haproxy::params
+
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $haproxy::config_file
+    $_config_file = pick($config_file, $haproxy::config_file)
   } else {
     $instance_name = "haproxy-${instance}"
-    $config_file = inline_template($haproxy::params::config_file_tmpl)
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
+
+  validate_absolute_path(dirname($_config_file))
+
   include haproxy::globals
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
@@ -134,7 +144,7 @@ define haproxy::frontend (
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_frontend_block":
     order   => $order,
-    target  => $config_file,
+    target  => $_config_file,
     content => template('haproxy/haproxy_frontend_block.erb'),
   }
 }

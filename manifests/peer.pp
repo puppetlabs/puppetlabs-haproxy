@@ -28,6 +28,11 @@
 #
 # [*ports*]
 #  Sets the port on which the peer is going to share the state.
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
 
 define haproxy::peer (
   $peers_name,
@@ -35,6 +40,7 @@ define haproxy::peer (
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
   $instance     = 'haproxy',
+  $config_file  = undef,
 
   #Deprecated
   $ensure       = undef,
@@ -43,18 +49,21 @@ define haproxy::peer (
     warning('ensure is deprecated')
   }
   include ::haproxy::params
+
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $::haproxy::config_file
+    $_config_file = pick($config_file, $haproxy::config_file)
   } else {
     $instance_name = "haproxy-${instance}"
-    $config_file = inline_template($haproxy::params::config_file_tmpl)
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
+
+  validate_absolute_path(dirname($_config_file))
 
   # Templates uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-peers-${peers_name}-${name}":
     order   => "30-peers-01-${peers_name}-${name}",
-    target  => $config_file,
+    target  => $_config_file,
     content => template('haproxy/haproxy_peer.erb'),
   }
 }

@@ -11,26 +11,35 @@
 #  Sets the peers' name. Generally it will be the namevar of the
 #   defined resource type. This value appears right after the
 #   'peers' statement in haproxy.cfg
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
 
 define haproxy::peers (
   $collect_exported = true,
   $instance = 'haproxy',
+  $config_file = undef,
 ) {
 
   # We derive these settings so that the caller only has to specify $instance.
   include ::haproxy::params
+
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $::haproxy::config_file
+    $_config_file = pick($config_file, $haproxy::config_file)
   } else {
     $instance_name = "haproxy-${instance}"
-    $config_file = inline_template($haproxy::params::config_file_tmpl)
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
+
+  validate_absolute_path(dirname($_config_file))
 
   # Template uses: $name
   concat::fragment { "${instance_name}-${name}_peers_block":
     order   => "30-peers-00-${name}",
-    target  => $config_file,
+    target  => $_config_file,
     content => template('haproxy/haproxy_peers_block.erb'),
   }
 

@@ -34,6 +34,11 @@
 #    haproxy::balancermember with array arguments, which allows you to deploy
 #    everything in 1 run)
 #
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
 # [*sort_options_alphabetic*]
 #   Sort options either alphabetic or custom like haproxy internal sorts them.
 #   Defaults to true.
@@ -74,19 +79,25 @@ define haproxy::backend (
   $section_name            = $name,
   $sort_options_alphabetic = undef,
   $defaults                = undef,
+  $config_file             = undef,
 ) {
+
   if defined(Haproxy::Listen[$section_name]) {
     fail("An haproxy::listen resource was discovered with the same name (${section_name}) which is not supported")
   }
 
-  include ::haproxy::params
+  include haproxy::params
+
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $haproxy::config_file
+    $_config_file = pick($config_file, $haproxy::config_file)
   } else {
     $instance_name = "haproxy-${instance}"
-    $config_file = inline_template($haproxy::params::config_file_tmpl)
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
+
+  validate_absolute_path(dirname($_config_file))
+
   include ::haproxy::globals
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
@@ -99,7 +110,7 @@ define haproxy::backend (
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_backend_block":
     order   => $order,
-    target  => $config_file,
+    target  => $_config_file,
     content => template('haproxy/haproxy_backend_block.erb'),
   }
 

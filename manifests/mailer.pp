@@ -28,6 +28,11 @@
 #
 # [*ports*]
 #  Sets the port on which the mailer is going to share the state.
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
 
 define haproxy::mailer (
   $mailers_name,

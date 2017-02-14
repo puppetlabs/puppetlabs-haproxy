@@ -45,10 +45,16 @@ define haproxy::config (
     file { $_config_file: ensure => absent }
   } else {
     concat { $_config_file:
-      owner        => '0',
-      group        => '0',
-      mode         => '0644',
-      validate_cmd => $config_validate_cmd,
+      owner => '0',
+      group => '0',
+      mode  => '0640',
+    }
+
+    # validate_cmd introduced in Puppet 3.5
+    if ((!defined('$::puppetversion') or (versioncmp($::puppetversion, '3.5') >= 0)) and (!defined('$::serverversion') or versioncmp($::serverversion, '3.5') >= 0)) {
+      Concat[$_config_file] {
+        validate_cmd => $config_validate_cmd,
+      }
     }
 
     # Simple Header

@@ -51,6 +51,16 @@
 #   Name of the defaults section the backend or listener use.
 #   Defaults to undef.
 #
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
+#
+# [*verifyhost*]
+#   Optional. Will add the verifyhost option to the server line, using the
+#   specific host from server_names as an argument.
+#   Default: false
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -91,16 +101,21 @@ define haproxy::balancermember (
   $define_cookies = false,
   $instance     = 'haproxy',
   $defaults     = undef,
+  $config_file  = undef,
+  $verifyhost   = false,
 ) {
 
   include haproxy::params
+
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
-    $config_file = $haproxy::config_file
+    $_config_file = pick($config_file, $haproxy::config_file)
   } else {
     $instance_name = "haproxy-${instance}"
-    $config_file = inline_template($haproxy::params::config_file_tmpl)
+    $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
+
+  validate_absolute_path(dirname($_config_file))
 
   if $defaults == undef {
     $order = "20-${listening_service}-01-${name}"
@@ -110,7 +125,7 @@ define haproxy::balancermember (
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
     order   => $order,
-    target  => $config_file,
+    target  => $_config_file,
     content => template('haproxy/haproxy_balancermember.erb'),
   }
 }

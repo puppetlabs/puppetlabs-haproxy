@@ -9,6 +9,11 @@
 #  Sets the mailers' name. Generally it will be the namevar of the
 #   defined resource type. This value appears right after the
 #   'mailers' statement in haproxy.cfg
+#
+# [*config_file*]
+#   Optional. Path of the config file where this entry will be added.
+#   Assumes that the parent directory exists.
+#   Default: $haproxy::params::config_file
 
 define haproxy::mailers (
   $collect_exported = true,

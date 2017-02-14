@@ -68,6 +68,10 @@
 #   resides. Will also be used for storing any managed map files (see
 #   `haproxy::mapfile`). Default depends on platform.
 #
+# [*config_file*]
+#   Optional. Path to the haproxy config file.
+#   Default depends on platform.
+#
 # === Examples
 #
 #  class { 'haproxy':

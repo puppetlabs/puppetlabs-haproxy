@@ -10,7 +10,8 @@
 #
 # Notes:
 #   None
-if Facter::Util::Resolution.which('haproxy')
+# workaround Ubuntu 12.04: https://tickets.puppetlabs.com/browse/MODULES-2881
+if defined?(Facter::Util::Resolution.which) and Facter::Util::Resolution.which('haproxy')
   Facter.add('haproxy_version') do
     haproxy_version_cmd = 'haproxy -v 2>&1'
     haproxy_version_result = Facter::Util::Resolution.exec(haproxy_version_cmd)

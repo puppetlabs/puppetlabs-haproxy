@@ -596,6 +596,10 @@ Configures a service inside a listening or backend service configuration block i
 
 * `defaults`: *Optional.* Name of the defaults section the backend or listener use. Defaults to undef.
 
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
+
+* `verifyhost`: *Optional.* Will add the verifyhost option to the server line, using the specific host from server_names as an argument.  Defaults to false
+
 #### Define: `haproxy::backend`
 
 Sets up a backend service configuration block inside haproxy.cfg. Each backend service needs one or more balancermember services (declared with the [`haproxy::balancermember` define](#define-haproxybalancermember)).
@@ -608,8 +612,11 @@ Sets up a backend service configuration block inside haproxy.cfg. Each backend s
 
 * `options`: *Optional.* Adds one or more options to the backend service's configuration block in haproxy.cfg. Valid options: a hash or an array. To control the ordering of these options within the configuration block, supply an array of hashes where each hash contains one 'option => value' pair. Default:
 
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
+
   ```puppet
   {
+
     'option'  => [
       'tcplog',
       'ssl-hello-chk'
@@ -672,6 +679,8 @@ For more information, see the [HAProxy Configuration Manual](http://cbonte.githu
 
 * `defaults_use_backend`: If defaults are used and a default backend is configured use the backend name for ordering. This means that the frontend is placed in the configuration file before the backend configuration. Defaults to true.
 
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
+
 #### Define: `haproxy::listen`
 
 Sets up a listening service configuration block inside haproxy.cfg. Each listening service configuration needs one or more balancermember services (declared with the [`haproxy::balancermember` define](#define-haproxybalancermember)).
@@ -710,6 +719,8 @@ For more information, see the [HAProxy Configuration Manual](http://cbonte.githu
 
 * `defaults`: *Optional* Name of the defaults section this listen section will use. Defaults to undef which means the global defaults section will be used.
 
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
+
 #### Define: `haproxy::userlist`
 
 Sets up a [userlist configuration block](http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#3.4) inside haproxy.cfg.
@@ -724,6 +735,8 @@ Sets up a [userlist configuration block](http://cbonte.github.io/haproxy-dconv/c
 
 * `instance`: *Optional.* When using `haproxy::instance` to run multiple instances of Haproxy on the same machine, this indicates which instance.  Defaults to "haproxy".
 
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
+
 #### Define: `haproxy::peers`
 
 Sets up a peers entry in haproxy.cfg on the load balancer. This entry is required to share the current state of HAProxy with other HAProxy instances in high-availability configurations.
@@ -735,6 +748,8 @@ Sets up a peers entry in haproxy.cfg on the load balancer. This entry is require
 * `name`: *Optional.* Appends a name to the peers entry in haproxy.cfg. Valid options: a string. Default: the title of your declared resource.
 
 * `instance`: *Optional.* When using `haproxy::instance` to run multiple instances of Haproxy on the same machine, this indicates which instance.  Defaults to "haproxy".
+
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
 
 #### Define: `haproxy::peer`
 
@@ -778,6 +793,8 @@ Sets up a mailer entry inside the mailers configuration block in haproxy.cfg.
 * `server_names`: *Required unless the `collect_exported` parameter of your `haproxy::mailers` resource is set to `true`.* Sets the name of the email server as listed in the mailers configuration block. Valid options: a string or an array. If you pass an array, it must contain the same number of elements as the array you pass to `ipaddresses`. Puppet pairs up the elements from both arrays and creates a mailer for each pair of values. Default: the value of the `$::hostname` fact.
 
 * `instance`: *Optional.* When using `haproxy::instance` to run multiple instances of Haproxy on the same machine, this indicates which instance.  Defaults to "haproxy".
+
+* `config_file`: *Optional.* Path of the config file where this entry will be added. Assumes that the parent directory exists. Defaults to `haproxy::params::config_file`.
 
 #### Define: `haproxy::instance`
 
