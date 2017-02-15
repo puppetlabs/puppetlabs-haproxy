@@ -8,7 +8,7 @@ define haproxy::config (
   $config_dir = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $custom_fragment = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $merge_options = $haproxy::merge_options,
-  $config_validate_cmd = $haproxy::config_validate_cmd,
+  $config_validate_cmd = $haproxy::config_validate_cmd
 ) {
 
   if $caller_module_name != $module_name {
