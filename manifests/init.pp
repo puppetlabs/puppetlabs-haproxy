@@ -72,6 +72,11 @@
 #   Optional. Path to the haproxy config file.
 #   Default depends on platform.
 #
+# [*config_validate_cmd*]
+#   Optional. Command used by concat validate_cmd to validate new
+#   config file concat is a valid haproxy config.
+#   Default /usr/sbin/haproxy -f % -c
+#
 # === Examples
 #
 #  class { 'haproxy':
@@ -165,19 +170,20 @@ class haproxy (
   }
 
   haproxy::instance{ $title:
-    package_ensure    => $_package_ensure,
-    package_name      => $package_name,
-    service_ensure    => $_service_ensure,
-    service_manage    => $_service_manage,
-    global_options    => $global_options,
-    defaults_options  => $defaults_options,
-    restart_command   => $restart_command,
-    custom_fragment   => $custom_fragment,
-    config_dir        => $config_dir,
-    config_file       => $config_file,
-    merge_options     => $merge_options,
-    service_options   => $service_options,
-    sysconfig_options => $sysconfig_options,
+    package_ensure      => $_package_ensure,
+    package_name        => $package_name,
+    service_ensure      => $_service_ensure,
+    service_manage      => $_service_manage,
+    global_options      => $global_options,
+    defaults_options    => $defaults_options,
+    restart_command     => $restart_command,
+    custom_fragment     => $custom_fragment,
+    config_dir          => $config_dir,
+    config_file         => $config_file,
+    merge_options       => $merge_options,
+    service_options     => $service_options,
+    sysconfig_options   => $sysconfig_options,
+    config_validate_cmd => $config_validate_cmd,
   }
 
 }
