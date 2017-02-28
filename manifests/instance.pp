@@ -63,6 +63,11 @@
 #    The parent directory will be created automatically.
 #  Defaults to undef.
 #
+# [*config_validate_cmd*]
+#   Command used by concat validate_cmd to validate new
+#   config file concat is a valid haproxy config.
+#   Default /usr/sbin/haproxy -f % -c
+#
 # === Examples
 #
 # A single instance of haproxy with all defaults
