@@ -35,18 +35,14 @@
 #   multiple HAproxy instances. Default: `[ 'haproxy' ]`
 #
 define haproxy::mapfile (
-  $mappings  = [],
-  $ensure    = 'present',
+  Array $mappings  = [],
+  Enum['present', 'absent'] $ensure    = 'present',
   $owner     = 'root',
   $group     = 'root',
   $mode      = '0644',
-  $instances = [ 'haproxy' ],
+  Array $instances = [ 'haproxy' ],
 ) {
   $mapfile_name = $title
-
-  validate_re($ensure, '^present|absent$', "Haproxy::Mapfile[${mapfile_name}]: '${ensure}' is not supported for ensure. Allowed values are 'present' and 'absent'.") # lint:ignore:140chars
-  validate_array($mappings)
-  validate_array($instances)
 
   $_instances = flatten($instances)
 

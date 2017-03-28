@@ -37,17 +37,12 @@
 define haproxy::peer (
   $peers_name,
   $port,
-  $server_names = $::hostname,
-  $ipaddresses  = $::ipaddress,
-  $instance     = 'haproxy',
-  $config_file  = undef,
+  $server_names                               = $::hostname,
+  $ipaddresses                                = $::ipaddress,
+  $instance                                   = 'haproxy',
+  Optional[Stdlib::Absolutepath] $config_file = undef,
 
-  #Deprecated
-  $ensure       = undef,
 ) {
-  if $ensure {
-    warning('ensure is deprecated')
-  }
   include ::haproxy::params
 
   if $instance == 'haproxy' {
@@ -57,8 +52,6 @@ define haproxy::peer (
     $instance_name = "haproxy-${instance}"
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
-
-  validate_absolute_path(dirname($_config_file))
 
   # Templates uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-peers-${peers_name}-${name}":

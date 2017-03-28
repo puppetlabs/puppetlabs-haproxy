@@ -89,24 +89,24 @@
 # Gary Larizza <gary@puppetlabs.com>
 #
 define haproxy::listen (
-  $ports                        = undef,
-  $ipaddress                    = undef,
-  $bind                         = undef,
-  $mode                         = undef,
-  $collect_exported             = true,
-  $options                      = {
-    'option'  => [
+  $ports                                       = undef,
+  $ipaddress                                   = undef,
+  Optional[Hash] $bind                         = undef,
+  $mode                                        = undef,
+  $collect_exported                            = true,
+  $options                                     = {
+    'option'                                  => [
       'tcplog',
     ],
-    'balance' => 'roundrobin',
+    'balance'                                 => 'roundrobin'
   },
-  $instance                     = 'haproxy',
-  $section_name                 = $name,
-  $sort_options_alphabetic      = undef,
-  $defaults                     = undef,
-  $config_file                  = undef,
+  $instance                                    = 'haproxy',
+  $section_name                                = $name,
+  $sort_options_alphabetic                     = undef,
+  $defaults                                    = undef,
+  Optional[Stdlib::Absolutepath] $config_file  = undef,
   # Deprecated
-  $bind_options                 = '',
+  $bind_options                                = '',
 ) {
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
@@ -119,9 +119,6 @@ define haproxy::listen (
   }
   if $bind_options != '' {
     warning('The $bind_options parameter is deprecated; please use $bind instead')
-  }
-  if $bind {
-    validate_hash($bind)
   }
 
   if defined(Haproxy::Backend[$section_name]) {
@@ -138,9 +135,8 @@ define haproxy::listen (
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
 
-  validate_absolute_path(dirname($_config_file))
-
   include ::haproxy::globals
+
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
   if $defaults == undef {

@@ -35,9 +35,9 @@
 define haproxy::userlist (
   $users = undef,
   $groups = undef,
-  $instance = 'haproxy',
-  $section_name = $name,
-  $config_file = undef,
+  String $instance = 'haproxy',
+  String $section_name = $name,
+  Optional[Stdlib::Absolutepath] $config_file = undef,
 ) {
 
   include ::haproxy::params
@@ -49,8 +49,6 @@ define haproxy::userlist (
     $instance_name = "haproxy-${instance}"
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
-
-  validate_absolute_path(dirname($_config_file))
 
   # Template uses $section_name, $users, $groups
   concat::fragment { "${instance_name}-${section_name}_userlist_block":

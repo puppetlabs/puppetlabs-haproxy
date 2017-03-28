@@ -9,7 +9,6 @@
 #   Defaults to true.
 #
 class haproxy::globals (
-  $sort_options_alphabetic = true,
+  Boolean $sort_options_alphabetic = true,
 ) {
-  validate_bool($sort_options_alphabetic)
 }

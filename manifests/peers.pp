@@ -18,9 +18,9 @@
 #   Default: $haproxy::params::config_file
 
 define haproxy::peers (
-  $collect_exported = true,
-  $instance = 'haproxy',
-  $config_file = undef,
+  Boolean $collect_exported = true,
+  String $instance = 'haproxy',
+  Optional[Stdlib::Absolutepath] $config_file = undef,
 ) {
 
   # We derive these settings so that the caller only has to specify $instance.
@@ -33,8 +33,6 @@ define haproxy::peers (
     $instance_name = "haproxy-${instance}"
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
-
-  validate_absolute_path(dirname($_config_file))
 
   # Template uses: $name
   concat::fragment { "${instance_name}-${name}_peers_block":

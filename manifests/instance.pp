@@ -140,29 +140,21 @@
 #  call haproxy::instance_service.
 #
 define haproxy::instance (
-  $package_ensure    = 'present',
-  $package_name      = undef,
-  $service_ensure    = 'running',
-  $service_manage    = true,
-  $global_options    = undef,
-  $defaults_options  = undef,
-  $restart_command   = undef,
-  $custom_fragment   = undef,
-  $config_dir        = undef,
-  $config_file       = undef,
-  $merge_options     = $haproxy::params::merge_options,
-  $service_options   = $haproxy::params::service_options,
-  $sysconfig_options = $haproxy::params::sysconfig_options,
-  $config_validate_cmd = $haproxy::params::config_validate_cmd,
+  Optional[String] $package_name = undef,
+  Enum['absent', 'latest', 'present'] $package_ensure          = 'present',
+  Variant[Enum['running', 'stopped'], Boolean] $service_ensure = 'running',
+  Boolean $service_manage                                      = true,
+  Optional[Hash] $global_options                               = undef,
+  Optional[Hash] $defaults_options                             = undef,
+  $restart_command                                             = undef,
+  $custom_fragment                                             = undef,
+  $config_dir                                                  = undef,
+  Optional[Stdlib::Absolutepath] $config_file                  = undef,
+  $merge_options                                               = $haproxy::params::merge_options,
+  $service_options                                             = $haproxy::params::service_options,
+  $sysconfig_options                                           = $haproxy::params::sysconfig_options,
+  $config_validate_cmd                                         = $haproxy::params::config_validate_cmd,
 ) {
-
-  if $service_ensure != true and $service_ensure != false {
-    if ! ($service_ensure in [ 'running','stopped']) {
-      fail('service_ensure parameter must be running, stopped, true, or false')
-    }
-  }
-  validate_string($package_name,$package_ensure)
-  validate_bool($service_manage)
 
   # Since this is a 'define', we can not use 'inherts haproxy::params'.
   # Therefore, we "include haproxy::params" for any parameters we need.
@@ -170,7 +162,6 @@ define haproxy::instance (
 
   $_global_options = pick($global_options, $haproxy::params::global_options)
   $_defaults_options = pick($defaults_options, $haproxy::params::defaults_options)
-  validate_hash($_global_options,$_defaults_options)
 
   # Determine instance_name based on:
   #   single-instance hosts: haproxy
@@ -190,8 +181,6 @@ define haproxy::instance (
   } else {
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
-
-  validate_absolute_path(dirname($_config_file))
 
   if $instance_name == 'haproxy' {
     $_config_dir = pick($config_dir, $haproxy::params::config_dir)

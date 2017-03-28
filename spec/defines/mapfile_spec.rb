@@ -26,6 +26,7 @@ describe 'haproxy::mapfile' do
       }
     end
 
+    it { should compile.with_all_deps }
     it { should contain_file('haproxy_mapfile_domains-to-backends').that_notifies('Haproxy::Service[haproxy]') }
     it { should contain_file('haproxy_mapfile_domains-to-backends').with(
       'path'    => '/etc/haproxy/domains-to-backends.map',
@@ -33,16 +34,4 @@ describe 'haproxy::mapfile' do
       'content' => "# HAProxy map file \"domains-to-backends\"\n# Managed by Puppet\n\napp01.example.com bk_app01\napp02.example.com bk_app02\napp03.example.com bk_app03\napp04.example.com bk_app04\napp05.example.com bk_app05\napp06.example.com bk_app06\n" ) }
   end
 
-  context "fail if a non-array is supplied for mappings" do
-    let(:params) do
-      {
-        :ensure => 'present',
-        :mappings => { 'foo' => 'bar' },
-      }
-    end
-
-    it 'should raise error' do
-      expect { catalogue }.to raise_error Puppet::Error, /is not an Array/
-    end
-  end
 end

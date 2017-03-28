@@ -547,66 +547,15 @@ describe 'haproxy', :type => :class do
       end
     end
 
-    describe 'when specifying global_options with arrays instead of hashes' do
-      # For testing input validation we restrict ourselves to
-      # Debian OS family so that we don't have to juggle different sets of
-      # global_options and defaults_options (like for FreeBSD).
-      ['Debian' ].each do |osfamily|
-        context "on #{osfamily} family operatingsystems" do
-          let(:facts) do
-            { :osfamily => osfamily }.merge default_facts
-          end
-          let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
-          let(:params) do
-            {
-              'merge_options'   => true,
-              'global_options'  => [ 'log-send-hostname', 'chroot /srv/haproxy-chroot' ]
-            }
-          end
-          it 'should raise error' do
-            expect { catalogue }.to raise_error Puppet::Error, /is not a Hash/
-          end
-        end
+    context 'on unsupported operatingsystems' do
+      let(:facts) do
+        { :osfamily => 'windows' }.merge default_facts
       end
-    end
-    describe 'when specifying defaults_options with arrays instead of hashes' do
-      # For testing input validation we restrict ourselves to
-      # Debian OS family so that we don't have to juggle different sets of
-      # global_options and defaults_options (like for FreeBSD).
-      ['Debian' ].each do |osfamily|
-        context "on #{osfamily} family operatingsystems" do
-          let(:facts) do
-            { :osfamily => osfamily }.merge default_facts
-          end
-          let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
-          let(:params) do
-            {
-              'merge_options'   => true,
-              'defaults_options' => [
-                'mode http',
-                'timeout connect 5s',
-                'timeout client 1m'
-              ]
-            }
-          end
-          it 'should raise error' do
-            expect { catalogue }.to raise_error Puppet::Error, /is not a Hash/
-          end
-        end
+      it do
+        expect {
+          should contain_service('haproxy')
+        }.to raise_error(Puppet::Error, /operating system is not supported with the haproxy module/)
       end
     end
   end
-
-  context 'on unsupported operatingsystems' do
-    let(:facts) do
-      { :osfamily => 'windows' }.merge default_facts
-    end
-    it do
-      expect {
-        should contain_service('haproxy')
-      }.to raise_error(Puppet::Error, /operating system is not supported with the haproxy module/)
-    end
-  end
-
-
 end
