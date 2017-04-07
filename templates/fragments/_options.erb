@@ -34,6 +34,7 @@
 <%# provides a two element array, the first element a classification of the -%>
 <%# option with a default value of 0 if the option is not found in the -%>
 <%# option_order hash and the second element the option itself. -%>
+<% @options['http-request'] = Array(@options['http-request']).push('del-header Proxy').flatten.compact unless scope.resource.type == 'Haproxy::Defaults' -%>
 <% @options.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.each do |key, val| -%>
 <% Array(val).reject{|v| v == :undef }.each do |item| -%>
   <%= key %> <%= item %>
@@ -44,6 +45,7 @@
 <%# pairs); in case a hash contains more than one key-value pair the hash is -%>
 <%# sorted by key name before outputting the key name (= option name) and its -%>
 <%# value (or values, one per line) -%>
+<% @options.unshift({'http-request' => 'del-header Proxy'}) unless scope.resource.type == 'Haproxy::Defaults' -%>
 <% @options.each do |option| -%>
 <% option.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.map do |key, val| -%>
 <% Array(val).reject{|v| v == :undef }.each do |item| -%>
