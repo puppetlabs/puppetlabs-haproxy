@@ -1,0 +1,3 @@
+{{range service "<%= @name %>"}}
+server {{.ID}} {{.Address}}:{{.Port}} <% if @define_cookies %><%= " cookie " %>{{.Name}}<% end %> <%= Array(@options).sort.join(" ") %>
+{{end}}
