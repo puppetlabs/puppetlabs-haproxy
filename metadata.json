@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "source": "https://github.com/puppetlabs/puppetlabs-haproxy",
   "project_page": "https://github.com/puppetlabs/puppetlabs-haproxy",
-  "issues_url": "https://tickets.puppetlabs.com/browse/MODULES",
+  "issues_url": "https://tickets.puppetlabs.com/CreateIssueDetails!init.jspa?pid=10707&issuetype=1&team=Modules&customfield_14200=14302&labels=triage&customfield_10005=2147&summary=Issue+found+with+module%3A+puppetlabs-haproxy",
   "dependencies": [
     {"name":"puppetlabs/stdlib","version_requirement":">= 3.2.0 < 5.0.0"},
     {"name":"puppetlabs/concat","version_requirement":">= 1.2.3 < 3.0.0"}
