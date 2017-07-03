@@ -12,7 +12,7 @@ class haproxy::params {
   $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
 
   case $::osfamily {
-    'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
+    'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse', 'CentOS' : {
       $package_name      = 'haproxy'
       $global_options    = {
         'log'     => "${::ipaddress} local0",
