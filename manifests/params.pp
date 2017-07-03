@@ -10,6 +10,8 @@ class haproxy::params {
 
   $service_options  = "ENABLED=1\n"  # Only used by Debian.
   $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
+  $haproxy_bin = '/usr/sbin/haproxy'
+  $haproxy_systemd_wrapper = '/usr/sbin/haproxy-systemd-wrapper'
 
   case $::osfamily {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
