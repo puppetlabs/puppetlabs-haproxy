@@ -24,7 +24,7 @@ define haproxy::config (
     warning("${module_name}: The \$merge_options parameter will default to true in the next major release. Please review the documentation regarding the implications.")
   }
 
-  if $haproxy::params::manage_config_dir {
+  if $haproxy::manage_config_dir {
     if $config_dir != undef {
       file { $config_dir:
         ensure => directory,
