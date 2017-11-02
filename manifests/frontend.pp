@@ -52,7 +52,7 @@
 #
 # [*defaults_use_backend*]
 #   If defaults are used and a default backend is configured use the backend
-#   name for ordering. This means that the frontend is placed in the 
+#   name for ordering. This means that the frontend is placed in the
 #   configuration file before the backend configuration.
 #   Defaults to true.
 #
@@ -85,24 +85,24 @@
 # Gary Larizza <gary@puppetlabs.com>
 #
 define haproxy::frontend (
-  $ports                   = undef,
-  $ipaddress               = undef,
-  $bind                    = undef,
-  $mode                    = undef,
-  $collect_exported        = true,
-  $options                 = {
-    'option'  => [
+  $ports                                       = undef,
+  $ipaddress                                   = undef,
+  Optional[Hash] $bind                         = undef,
+  $mode                                        = undef,
+  $collect_exported                            = true,
+  $options                                     = {
+    'option'                                  => [
       'tcplog',
     ],
   },
-  $instance                = 'haproxy',
-  $section_name            = $name,
-  $sort_options_alphabetic = undef,
-  $defaults                = undef,
-  $defaults_use_backend    = true,
-  $config_file             = undef,
+  $instance                                    = 'haproxy',
+  $section_name                                = $name,
+  $sort_options_alphabetic                     = undef,
+  $defaults                                    = undef,
+  $defaults_use_backend                        = true,
+  Optional[Stdlib::Absolutepath] $config_file  = undef,
   # Deprecated
-  $bind_options            = undef,
+  $bind_options                                = undef,
 ) {
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')
@@ -112,9 +112,6 @@ define haproxy::frontend (
   }
   if $bind_options != '' {
     warning('The $bind_options parameter is deprecated; please use $bind instead')
-  }
-  if $bind {
-    validate_hash($bind)
   }
 
   include ::haproxy::params
@@ -127,9 +124,8 @@ define haproxy::frontend (
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
 
-  validate_absolute_path(dirname($_config_file))
-
   include ::haproxy::globals
+
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
   if $defaults == undef {

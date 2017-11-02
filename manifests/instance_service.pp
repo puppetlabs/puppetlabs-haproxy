@@ -38,10 +38,10 @@
 #   The init.d script that will start/restart/reload this instance.
 #
 define haproxy::instance_service (
-  $haproxy_init_source = undef,
-  $haproxy_unit_template = undef,
-  $haproxy_package = 'haproxy',
-  $bindir = '/opt/haproxy/bin',
+  Optional[String] $haproxy_init_source  = undef,
+  Optional[String]$haproxy_unit_template = undef,
+  String $haproxy_package                = 'haproxy',
+  Stdlib::Absolutepath $bindir           = '/opt/haproxy/bin',
 ) {
 
   ensure_resource('package', $haproxy_package, {
@@ -80,7 +80,6 @@ define haproxy::instance_service (
     if $::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6' {
 
       # init.d:
-      validate_string($haproxy_init_source)
       file { $initfile:
         ensure => file,
         mode   => '0744',
@@ -93,7 +92,6 @@ define haproxy::instance_service (
     } else {
 
       # systemd:
-      validate_string($haproxy_unit_template)
       if $haproxy_package == 'haproxy' {
         $wrapper = '/usr/sbin/haproxy-systemd-wrapper'
       } else {

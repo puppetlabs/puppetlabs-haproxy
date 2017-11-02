@@ -107,27 +107,26 @@
 #      'maxconn' => '8000'
 #    },
 #  }
-#
-class haproxy (
-  $package_ensure      = 'present',
-  $package_name        = $haproxy::params::package_name,
-  $service_ensure      = 'running',
-  $service_manage      = true,
-  $service_options     = $haproxy::params::service_options,
-  $sysconfig_options   = $haproxy::params::sysconfig_options,
-  $global_options      = $haproxy::params::global_options,
-  $defaults_options    = $haproxy::params::defaults_options,
-  $merge_options       = $haproxy::params::merge_options,
-  $restart_command     = undef,
-  $custom_fragment     = undef,
-  $config_dir          = $haproxy::params::config_dir,
-  $config_file         = $haproxy::params::config_file,
-  $manage_config_dir   = $haproxy::params::manage_config_dir,
-  $config_validate_cmd = $haproxy::params::config_validate_cmd,
 
+class haproxy (
+  Enum['present', 'absent', 'latest'] $package_ensure          = 'present',
+  $package_name                                                = $haproxy::params::package_name,
+  Variant[Enum['running', 'stopped'], Boolean] $service_ensure = 'running',
+  Boolean $service_manage                                      = true,
+  String $service_options                                      = $haproxy::params::service_options,
+  $sysconfig_options                                           = $haproxy::params::sysconfig_options,
+  Hash $global_options                                         = $haproxy::params::global_options,
+  Hash $defaults_options                                       = $haproxy::params::defaults_options,
+  Boolean $merge_options                                       = $haproxy::params::merge_options,
+  $restart_command                                             = undef,
+  $custom_fragment                                             = undef,
+  Stdlib::Absolutepath $config_dir                             = $haproxy::params::config_dir,
+  Optional[Stdlib::Absolutepath] $config_file                  = $haproxy::params::config_file,
+  $manage_config_dir                                           = $haproxy::params::manage_config_dir,
+  $config_validate_cmd                                         = $haproxy::params::config_validate_cmd,
   # Deprecated
-  $manage_service   = undef,
-  $enable           = undef,
+  $manage_service                                              = undef,
+  $enable                                                      = undef,
 ) inherits haproxy::params {
 
   if $service_ensure != true and $service_ensure != false {
@@ -135,12 +134,6 @@ class haproxy (
       fail('service_ensure parameter must be running, stopped, true, or false')
     }
   }
-  validate_string($package_name,$package_ensure)
-  validate_bool($service_manage)
-  validate_bool($merge_options)
-  validate_string($service_options)
-  validate_hash($global_options, $defaults_options)
-  validate_absolute_path($config_dir)
 
   # NOTE: These deprecating parameters are implemented in this class,
   # not in haproxy::instance.  haproxy::instance is new and therefore
