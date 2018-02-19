@@ -15,7 +15,7 @@ class haproxy::params {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse' : {
       $package_name      = 'haproxy'
       $global_options    = {
-        'log'     => "${::ipaddress} local0",
+        'log'     => "${::ipaddress_primary} local0",
         'chroot'  => '/var/lib/haproxy',
         'pidfile' => '/var/run/haproxy.pid',
         'maxconn' => '4000',
