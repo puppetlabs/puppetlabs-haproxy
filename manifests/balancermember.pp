@@ -65,6 +65,14 @@
 #   Optional. Will add the weight option to the server line
 #   Default: undef
 #
+# [*fragment_name_suffix*]
+#   Optional. Will set the suffix of the fragment name. This can be useful
+#   if your balancemember name must be long to be unique, but the fragment
+#   can use an index number as name suffix because it's already unique due
+#   the listening_service prefix. This can avoid too long fragment file
+#   name errors.
+#   Default: $name
+#
 # === Examples
 #
 #  Exporting the resource for a balancer member:
@@ -108,6 +116,7 @@ define haproxy::balancermember (
   Optional[Stdlib::Absolutepath] $config_file  = undef,
   $verifyhost   = false,
   $weight       = undef,
+  $fragment_name_suffix = $name,
 ) {
 
   include ::haproxy::params
@@ -121,12 +130,12 @@ define haproxy::balancermember (
   }
 
   if $defaults == undef {
-    $order = "20-${listening_service}-01-${name}"
+    $order = "20-${listening_service}-01-${fragment_name_suffix}"
   } else {
-    $order = "25-${defaults}-${listening_service}-02-${name}"
+    $order = "25-${defaults}-${listening_service}-02-${fragment_name_suffix}"
   }
   # Template uses $ipaddresses, $server_name, $ports, $option
-  concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
+  concat::fragment { "${instance_name}-${listening_service}_balancermember_${fragment_name_suffix}":
     order   => $order,
     target  => $_config_file,
     content => template('haproxy/haproxy_balancermember.erb'),
