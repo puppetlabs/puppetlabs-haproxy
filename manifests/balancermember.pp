@@ -98,9 +98,13 @@
 #
 define haproxy::balancermember (
   $listening_service,
+  $type         = 'server',
   $ports        = undef,
   $server_names = $::hostname,
   $ipaddresses  = $::ipaddress,
+  $prefix       = 'server',
+  $amount       = '1',
+  $fqdn_records = $::fqdn,
   $options      = '',
   $define_cookies = false,
   $instance     = 'haproxy',
