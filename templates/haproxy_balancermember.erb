@@ -1,4 +1,4 @@
-<% if @type == 'server' -%>>
+<% if @type == 'server' -%>
 <% Array(@ipaddresses).zip(Array(@server_names)).each do |ipaddress,host| -%>
 <% if @ports -%>
 <%- Array(@ports).each do |port| -%>
