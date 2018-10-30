@@ -187,4 +187,230 @@ describe 'haproxy::balancermember' do
       )
     }
   end
+
+#   server-template
+
+  context 'server-template' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template server 1 myserver.example.local \n",
+          )
+    }
+  end
+
+  context 'server-template with port' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template server 1 myserver.example.local:8080 \n",
+          )
+    }
+  end
+
+  context 'server-template with port with num amount' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '5',
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template server 5 myserver.example.local:8080 \n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template server 1-10 myserver.example.local:8080 \n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+          prefix: 'srv'
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template srv 1-10 myserver.example.local:8080 \n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix with options' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+          prefix: 'srv',
+          options: 'check',
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template srv 1-10 myserver.example.local:8080 check\n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix with multiple options' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+          prefix: 'srv',
+          options: ['check', 'close'],
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template srv 1-10 myserver.example.local:8080 check close\n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix with options with weight' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+          prefix: 'srv',
+          options: 'check',
+          weight: 100,
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template srv 1-10 myserver.example.local:8080 check weight 100\n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix with options with weight with cookies' do
+    let(:params) do
+      {
+          name: 'tyler',
+          type: 'server-template',
+          listening_service: 'croy',
+          fqdn: 'myserver.example.local',
+          port: '8080',
+          amount: '1-10',
+          prefix: 'srv',
+          options: 'check',
+          weight: 100,
+          define_cookies: true,
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+          'order'   => '20-croy-01-tyler',
+          'target'  => '/etc/haproxy/haproxy.cfg',
+          'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check weight 100\n",
+          )
+    }
+  end
+
+  context 'server-template with port with range amount with server prefix with options with weight with cookies with verifyhost' do
+  let(:params) do
+    {
+        name: 'tyler',
+        type: 'server-template',
+        listening_service: 'croy',
+        fqdn: 'myserver.example.local',
+        port: '8080',
+        amount: '1-10',
+        prefix: 'srv',
+        options: 'check',
+        weight: 100,
+        define_cookies: true,
+        verifyhost: true,
+    }
+  end
+
+  it {
+    is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
+        'order'   => '20-croy-01-tyler',
+        'target'  => '/etc/haproxy/haproxy.cfg',
+        'content' => "  server-template srv 1-10 myserver.example.local:8080 cookie myserver.example.local check verifyhost myserver.example.local weight 100\n",
+        )
+  }
+end
 end
