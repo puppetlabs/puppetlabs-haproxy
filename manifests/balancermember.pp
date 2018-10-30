@@ -109,6 +109,7 @@
 #    options           => 'check',
 #  }
 #
+#  Implemented in HAPROXY 1.8:
 #  Set a template to initialize servers with shared parameters.
 #  The names of these servers are built from <prefix> and <amount> parameters.
 #
