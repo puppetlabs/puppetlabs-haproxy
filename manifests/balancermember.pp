@@ -28,6 +28,9 @@
 #    configuration. If you use an array in server_names and ipaddresses, the
 #    same port is used for all balancermembers.
 #
+# [*port*]
+#    A port for server-template. It is an optional specification.
+#
 # [*server_names*]
 #   The name of the balancer member server as known to haproxy in the
 #    listening service's configuration block. This defaults to the
@@ -38,6 +41,18 @@
 # [*ipaddresses*]
 #   The ip address used to contact the balancer member server.
 #    Can be an array, see documentation to server_names.
+#
+# [*prefix*]
+#   A prefix for the server-template for the server names to be built.
+#
+# [*amount*]
+#   If "amount" is provided, the server-template initializes <num> servers
+#    with 1 up to <num> as server name suffixes. A range of numbers
+#    <num_low>-<num_high> may also be used to use <num_low> up to
+#    <num_high> as server name suffixes.
+#
+# [*fqdn*]
+#   A FQDN for all the servers the server-template initializes.
 #
 # [*options*]
 #   An array of options to be specified after the server declaration
@@ -94,6 +109,22 @@
 #    options           => 'check',
 #  }
 #
+#  Set a template to initialize servers with shared parameters.
+#  The names of these servers are built from <prefix> and <amount> parameters.
+#
+#    Initializes 5 servers with srv1, srv2, srv3, srv4 and srv5 as names,
+#    myserver.example.com as FQDN, 8140 as port, and health-check enabled.
+#
+#  haproxy::balancermember { 'haproxy':
+#    listening_service => 'puppet00',
+#    type              => 'server-template'
+#    port              => '8140',
+#    prefix            => 'srv',
+#    amount            => '1-5',
+#    fqdn              => 'myserver.example.com',
+#    options           => 'check',
+#  }
+#
 #  (this resource can be declared anywhere)
 #
 define haproxy::balancermember (
@@ -105,7 +136,7 @@ define haproxy::balancermember (
   $ipaddresses  = $::ipaddress,
   $prefix       = 'server',
   $amount       = '1',
-  $fqdn_records = '',
+  $fqdn         = '',
   $options      = '',
   $define_cookies = false,
   $instance     = 'haproxy',
