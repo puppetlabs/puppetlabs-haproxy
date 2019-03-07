@@ -128,7 +128,7 @@ define haproxy::resolver (
     if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
       fail('$accepted_payload_size must be atleast 512 and not more than 8192')
     }
-  } 
+  }
 
   # Template uses: $section_name
   concat::fragment { "${instance_name}-${section_name}_resolver_block":
