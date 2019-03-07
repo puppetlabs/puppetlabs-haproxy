@@ -122,11 +122,13 @@ define haproxy::resolver (
     $order = "25-${defaults}-${section_name}-02"
   }
 
-  # verify accepted_payload_size is withing the allowed range per HAProxy docs
+  # verify accepted_payload_size is withing the allowed range per HAProxy docs and only set if specified
   # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
-  if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
-    fail('$accepted_payload_size must be atleast 512 and not more than 8192')
-  }
+  if $accepted_payload_size != undef {
+    if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
+      fail('$accepted_payload_size must be atleast 512 and not more than 8192')
+    }
+  } 
 
   # Template uses: $section_name
   concat::fragment { "${instance_name}-${section_name}_resolver_block":
