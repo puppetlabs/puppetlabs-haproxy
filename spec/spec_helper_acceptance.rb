@@ -34,7 +34,17 @@ RSpec.configure do |c|
         package { 'socat': ensure => present, }
         package { 'screen': ensure => present, }
         if $::osfamily == 'RedHat' {
-          class { 'epel': before => Package['socat'], }
+          if $::operatingsystemmajrelease == '5' {
+            class { 'epel':
+              epel_baseurl => 'http://osmirror.delivery.puppetlabs.net/epel5-$basearch/RPMS.all',
+              epel_mirrorlist => 'http://osmirror.delivery.puppetlabs.net/epel5-$basearch/RPMS.all',
+              before => Package['socat'],
+            }
+          } else {
+            class { 'epel': 
+              before => Package['socat'],
+            }
+          }
           service { 'iptables': ensure => stopped, }
           exec { 'setenforce 0':
             path   => ['/bin','/usr/bin','/sbin','/usr/sbin'],
