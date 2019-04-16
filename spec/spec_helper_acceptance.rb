@@ -34,10 +34,10 @@ RSpec.configure do |c|
         package { 'socat': ensure => present, }
         package { 'screen': ensure => present, }
         if $::osfamily == 'RedHat' {
-          if $::operatingsystemmajrelease == '5' {
+          if $::operatingsystemmajrelease == '5' or ($::osfamily == 'RedHat' and $::operatingsystemmajrelease == '6'){
             class { 'epel':
-              epel_baseurl => 'http://osmirror.delivery.puppetlabs.net/epel5-$basearch/RPMS.all',
-              epel_mirrorlist => 'http://osmirror.delivery.puppetlabs.net/epel5-$basearch/RPMS.all',
+              epel_baseurl => 'http://osmirror.delivery.puppetlabs.net/epel$releasever-$basearch/RPMS.all',
+              epel_mirrorlist => 'http://osmirror.delivery.puppetlabs.net/epel$releasever-$basearch/RPMS.all',
               before => Package['socat'],
             }
           } else {
