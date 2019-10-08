@@ -112,7 +112,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '01',
-              'content' => "# This file managed by Puppet\n",
+              'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-haproxy-base concat fragment' do
@@ -185,7 +185,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat__fragment('haproxy-00-header').with(
               'target'  => '/etc/haproxy/haproxy.cfg',
               'order'   => '01',
-              'content' => "# This file managed by Puppet\n",
+              'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-base concat fragment' do
@@ -324,7 +324,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
               'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
               'order'   => '01',
-              'content' => "# This file managed by Puppet\n",
+              'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
@@ -397,7 +397,7 @@ describe 'haproxy::instance' do
             subject.should contain_concat__fragment('haproxy-group1-00-header').with(
               'target'  => '/etc/haproxy-group1/haproxy-group1.cfg',
               'order'   => '01',
-              'content' => "# This file managed by Puppet\n",
+              'content' => "# This file is managed by Puppet\n",
             )
           end
           it 'contains a haproxy-group1-haproxy-base concat fragment' do
@@ -478,7 +478,7 @@ describe 'haproxy::instance' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '01',
-            'content' => "# This file managed by Puppet\n",
+            'content' => "# This file is managed by Puppet\n",
           )
         end
         it 'contains a haproxy-base concat fragment' do
@@ -545,7 +545,7 @@ describe 'haproxy::instance' do
           subject.should contain_concat__fragment('haproxy-00-header').with(
             'target'  => '/usr/local/etc/haproxy.conf',
             'order'   => '01',
-            'content' => "# This file managed by Puppet\n",
+            'content' => "# This file is managed by Puppet\n",
           )
         end
         it 'contains a haproxy-base concat fragment' do
