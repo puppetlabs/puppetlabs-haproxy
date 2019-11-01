@@ -24,6 +24,7 @@
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
     -
       bundler_args:
       dist: trusty
@@ -38,6 +39,7 @@
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
     -
       bundler_args:
       dist: trusty
@@ -51,6 +53,7 @@
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
     -
       bundler_args:
       dist: trusty
@@ -64,6 +67,7 @@
       - bundle exec rake litmus:acceptance:parallel
       services: docker
       sudo: required
+      stage: acceptance
 
 .rubocop.yml:
    default_configs:
