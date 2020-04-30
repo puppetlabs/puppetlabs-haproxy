@@ -29,6 +29,7 @@ end
 
 RSpec.configure do |c|
   c.before :suite do
+    run_shell('setenforce 0', expect_failures: true) if os[:family] =~ %r{redhat|oracle}
     if os[:family] == 'redhat' && os[:release].to_i != 8
       run_shell('puppet module install stahnma/epel')
       if os[:release][0] =~ %r{5|6}
