@@ -5,7 +5,6 @@ ERROR_MATCHER         = %r{(no valid OpenPGP data found|keyserver timed out|keys
 
 require 'singleton'
 
-
 class LitmusHelper
   include Singleton
   include PuppetLitmus
