@@ -49,7 +49,7 @@ file on an haproxy load balancer.
 
 ## Classes
 
-### `haproxy`
+### <a name="haproxy"></a>`haproxy`
 
 A Puppet module, using storeconfigs, to model an haproxy configuration.
 Currently VERY limited - assumes Redhat/CentOS setup. Pull requests accepted!
@@ -94,9 +94,28 @@ class { 'haproxy':
 
 #### Parameters
 
-The following parameters are available in the `haproxy` class.
+The following parameters are available in the `haproxy` class:
 
-##### `package_ensure`
+* [`package_ensure`](#package_ensure)
+* [`package_name`](#package_name)
+* [`service_ensure`](#service_ensure)
+* [`service_manage`](#service_manage)
+* [`service_name`](#service_name)
+* [`service_options`](#service_options)
+* [`sysconfig_options`](#sysconfig_options)
+* [`global_options`](#global_options)
+* [`defaults_options`](#defaults_options)
+* [`merge_options`](#merge_options)
+* [`restart_command`](#restart_command)
+* [`custom_fragment`](#custom_fragment)
+* [`config_dir`](#config_dir)
+* [`config_file`](#config_file)
+* [`config_validate_cmd`](#config_validate_cmd)
+* [`manage_config_dir`](#manage_config_dir)
+* [`manage_service`](#manage_service)
+* [`enable`](#enable)
+
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String[1]`
 
@@ -105,7 +124,7 @@ Defaults to 'present'
 
 Default value: `'present'`
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -114,7 +133,7 @@ NOTE: haproxy::instance has a different default.
 
 Default value: `$haproxy::params::package_name`
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Variant[Enum['running', 'stopped'], Boolean]`
 
@@ -123,7 +142,7 @@ stopped and disabled at boot. Defaults to 'running'
 
 Default value: `'running'`
 
-##### `service_manage`
+##### <a name="service_manage"></a>`service_manage`
 
 Data type: `Boolean`
 
@@ -132,7 +151,7 @@ all. Defaults to true
 
 Default value: ``true``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `String`
 
@@ -141,7 +160,7 @@ NOTE: haproxy::instance has a different default.
 
 Default value: `$haproxy::params::service_name`
 
-##### `service_options`
+##### <a name="service_options"></a>`service_options`
 
 Data type: `String`
 
@@ -149,7 +168,7 @@ Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\
 
 Default value: `$haproxy::params::service_options`
 
-##### `sysconfig_options`
+##### <a name="sysconfig_options"></a>`sysconfig_options`
 
 Data type: `Any`
 
@@ -158,7 +177,7 @@ Defaults to OPTIONS="" on RedHat(-based) systems and is ignored on others
 
 Default value: `$haproxy::params::sysconfig_options`
 
-##### `global_options`
+##### <a name="global_options"></a>`global_options`
 
 Data type: `Hash`
 
@@ -169,7 +188,7 @@ A hash of all the haproxy global options. If you want to specify more
 
 Default value: `$haproxy::params::global_options`
 
-##### `defaults_options`
+##### <a name="defaults_options"></a>`defaults_options`
 
 Data type: `Hash`
 
@@ -180,7 +199,7 @@ A hash of all the haproxy defaults options. If you want to specify more
 
 Default value: `$haproxy::params::defaults_options`
 
-##### `merge_options`
+##### <a name="merge_options"></a>`merge_options`
 
 Data type: `Boolean`
 
@@ -191,7 +210,7 @@ false, but will default to true in future releases.
 
 Default value: `$haproxy::params::merge_options`
 
-##### `restart_command`
+##### <a name="restart_command"></a>`restart_command`
 
 Data type: `Any`
 
@@ -201,7 +220,7 @@ Command to use when restarting the on config changes.
 
 Default value: ``undef``
 
-##### `custom_fragment`
+##### <a name="custom_fragment"></a>`custom_fragment`
 
 Data type: `Any`
 
@@ -213,7 +232,7 @@ template() function). Defaults to undef
 
 Default value: ``undef``
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -223,7 +242,7 @@ resides. Will also be used for storing any managed map files (see
 
 Default value: `$haproxy::params::config_dir`
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -232,7 +251,7 @@ Default depends on platform.
 
 Default value: `$haproxy::params::config_file`
 
-##### `config_validate_cmd`
+##### <a name="config_validate_cmd"></a>`config_validate_cmd`
 
 Data type: `Any`
 
@@ -242,7 +261,7 @@ Default /usr/sbin/haproxy -f % -c
 
 Default value: `$haproxy::params::config_validate_cmd`
 
-##### `manage_config_dir`
+##### <a name="manage_config_dir"></a>`manage_config_dir`
 
 Data type: `Any`
 
@@ -250,7 +269,7 @@ Optional.
 
 Default value: `$haproxy::params::manage_config_dir`
 
-##### `manage_service`
+##### <a name="manage_service"></a>`manage_service`
 
 Data type: `Any`
 
@@ -258,7 +277,7 @@ Deprecated
 
 Default value: ``undef``
 
-##### `enable`
+##### <a name="enable"></a>`enable`
 
 Data type: `Any`
 
@@ -266,15 +285,17 @@ Deprecated
 
 Default value: ``undef``
 
-### `haproxy::globals`
+### <a name="haproxyglobals"></a>`haproxy::globals`
 
 For global configuration options used by all haproxy instances.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::globals` class.
+The following parameters are available in the `haproxy::globals` class:
 
-##### `sort_options_alphabetic`
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Boolean`
 
@@ -283,7 +304,7 @@ Defaults to true.
 
 Default value: ``true``
 
-### `haproxy::params`
+### <a name="haproxyparams"></a>`haproxy::params`
 
 This is a container class holding default parameters for for haproxy class.
 
@@ -292,7 +313,7 @@ extended by changing package names and configuration file paths.
 
 ## Defined types
 
-### `haproxy::backend`
+### <a name="haproxybackend"></a>`haproxy::backend`
 
 === Authors
 
@@ -323,9 +344,18 @@ haproxy::backend { 'puppet00':
 
 #### Parameters
 
-The following parameters are available in the `haproxy::backend` defined type.
+The following parameters are available in the `haproxy::backend` defined type:
 
-##### `section_name`
+* [`section_name`](#section_name)
+* [`mode`](#mode)
+* [`options`](#options)
+* [`collect_exported`](#collect_exported)
+* [`config_file`](#config_file)
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+* [`defaults`](#defaults)
+* [`instance`](#instance)
+
+##### <a name="section_name"></a>`section_name`
 
 Data type: `Any`
 
@@ -334,7 +364,7 @@ Default: $name (the namevar of the resource).
 
 Default value: `$name`
 
-##### `mode`
+##### <a name="mode"></a>`mode`
 
 Data type: `Any`
 
@@ -343,7 +373,7 @@ The mode of operation for the backend service. Valid values are undef,
 
 Default value: ``undef``
 
-##### `options`
+##### <a name="options"></a>`options`
 
 Data type: `Any`
 
@@ -353,7 +383,7 @@ Default value: `{
     'balance' => 'roundrobin',
   }`
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Any`
 
@@ -366,7 +396,7 @@ Boolean, default 'true'. True means 'collect exported @@balancermember
 
 Default value: ``true``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -376,7 +406,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `sort_options_alphabetic`
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Any`
 
@@ -385,7 +415,7 @@ Defaults to true.
 
 Default value: ``undef``
 
-##### `defaults`
+##### <a name="defaults"></a>`defaults`
 
 Data type: `Any`
 
@@ -394,7 +424,7 @@ Defaults to undef which means the global defaults section will be used.
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -402,7 +432,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-### `haproxy::balancermember`
+### <a name="haproxybalancermember"></a>`haproxy::balancermember`
 
 This type will setup a balancer member inside a listening service
 configuration block in /etc/haproxy/haproxy.cfg on the load balancer.
@@ -474,9 +504,26 @@ haproxy::balancermember { 'haproxy':
 
 #### Parameters
 
-The following parameters are available in the `haproxy::balancermember` defined type.
+The following parameters are available in the `haproxy::balancermember` defined type:
 
-##### `listening_service`
+* [`listening_service`](#listening_service)
+* [`ports`](#ports)
+* [`port`](#port)
+* [`server_names`](#server_names)
+* [`ipaddresses`](#ipaddresses)
+* [`prefix`](#prefix)
+* [`amount`](#amount)
+* [`fqdn`](#fqdn)
+* [`options`](#options)
+* [`define_cookies`](#define_cookies)
+* [`defaults`](#defaults)
+* [`config_file`](#config_file)
+* [`verifyhost`](#verifyhost)
+* [`weight`](#weight)
+* [`instance`](#instance)
+* [`type`](#type)
+
+##### <a name="listening_service"></a>`listening_service`
 
 Data type: `Any`
 
@@ -484,7 +531,7 @@ The haproxy service's instance name (or, the title of the
  haproxy::listen resource). This must match up with a declared
  haproxy::listen resource.
 
-##### `ports`
+##### <a name="ports"></a>`ports`
 
 Data type: `Any`
 
@@ -496,7 +543,7 @@ An array or commas-separated list of ports for which the balancer member
 
 Default value: ``undef``
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Any`
 
@@ -504,7 +551,7 @@ A port for server-template. It is an optional specification.
 
 Default value: ``undef``
 
-##### `server_names`
+##### <a name="server_names"></a>`server_names`
 
 Data type: `Any`
 
@@ -516,7 +563,7 @@ The name of the balancer member server as known to haproxy in the
 
 Default value: `$::hostname`
 
-##### `ipaddresses`
+##### <a name="ipaddresses"></a>`ipaddresses`
 
 Data type: `Any`
 
@@ -525,7 +572,7 @@ The ip address used to contact the balancer member server.
 
 Default value: `$::ipaddress`
 
-##### `prefix`
+##### <a name="prefix"></a>`prefix`
 
 Data type: `Any`
 
@@ -533,7 +580,7 @@ A prefix for the server-template for the server names to be built.
 
 Default value: `'server'`
 
-##### `amount`
+##### <a name="amount"></a>`amount`
 
 Data type: `Any`
 
@@ -544,7 +591,7 @@ If "amount" is provided, the server-template initializes <num> servers
 
 Default value: `'1'`
 
-##### `fqdn`
+##### <a name="fqdn"></a>`fqdn`
 
 Data type: `Any`
 
@@ -552,7 +599,7 @@ A FQDN for all the servers the server-template initializes.
 
 Default value: `''`
 
-##### `options`
+##### <a name="options"></a>`options`
 
 Data type: `Any`
 
@@ -561,7 +608,7 @@ An array of options to be specified after the server declaration
 
 Default value: `''`
 
-##### `define_cookies`
+##### <a name="define_cookies"></a>`define_cookies`
 
 Data type: `Any`
 
@@ -570,7 +617,7 @@ If true, then add "cookie SERVERID" stickiness options.
 
 Default value: ``false``
 
-##### `defaults`
+##### <a name="defaults"></a>`defaults`
 
 Data type: `Any`
 
@@ -579,7 +626,7 @@ Defaults to undef.
 
 Default value: ``undef``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -589,7 +636,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `verifyhost`
+##### <a name="verifyhost"></a>`verifyhost`
 
 Data type: `Any`
 
@@ -599,7 +646,7 @@ Default: false
 
 Default value: ``false``
 
-##### `weight`
+##### <a name="weight"></a>`weight`
 
 Data type: `Any`
 
@@ -608,7 +655,7 @@ Default: undef
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -616,7 +663,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-##### `type`
+##### <a name="type"></a>`type`
 
 Data type: `Any`
 
@@ -624,7 +671,7 @@ Optional. Defaults to 'server'
 
 Default value: `'server'`
 
-### `haproxy::defaults`
+### <a name="haproxydefaults"></a>`haproxy::defaults`
 
 This type will setup a additional defaults configuration block inside the
 haproxy.cfg file on an haproxy load balancer.
@@ -636,9 +683,13 @@ defaults name.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::defaults` defined type.
+The following parameters are available in the `haproxy::defaults` defined type:
 
-##### `options`
+* [`options`](#options)
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+* [`instance`](#instance)
+
+##### <a name="options"></a>`options`
 
 Data type: `Any`
 
@@ -646,7 +697,7 @@ A hash of options that are inserted into the defaults configuration block.
 
 Default value: `{}`
 
-##### `sort_options_alphabetic`
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Any`
 
@@ -655,7 +706,7 @@ Defaults to true.
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -663,7 +714,7 @@ Optional. Defaults to 'haproxy'.
 
 Default value: `'haproxy'`
 
-### `haproxy::frontend`
+### <a name="haproxyfrontend"></a>`haproxy::frontend`
 
 === Authors
 
@@ -698,9 +749,23 @@ haproxy::frontend { 'puppet00':
 
 #### Parameters
 
-The following parameters are available in the `haproxy::frontend` defined type.
+The following parameters are available in the `haproxy::frontend` defined type:
 
-##### `section_name`
+* [`section_name`](#section_name)
+* [`ports`](#ports)
+* [`bind`](#bind)
+* [`ipaddress`](#ipaddress)
+* [`mode`](#mode)
+* [`bind_options`](#bind_options)
+* [`options`](#options)
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+* [`defaults`](#defaults)
+* [`defaults_use_backend`](#defaults_use_backend)
+* [`config_file`](#config_file)
+* [`collect_exported`](#collect_exported)
+* [`instance`](#instance)
+
+##### <a name="section_name"></a>`section_name`
 
 Data type: `Any`
 
@@ -709,7 +774,7 @@ Default: $name (the namevar of the resource).
 
 Default value: `$name`
 
-##### `ports`
+##### <a name="ports"></a>`ports`
 
 Data type: `Any`
 
@@ -720,7 +785,7 @@ Ports on which the proxy will listen for connections on the ip address
 
 Default value: ``undef``
 
-##### `bind`
+##### <a name="bind"></a>`bind`
 
 Data type: `Optional[Hash]`
 
@@ -729,7 +794,7 @@ $bind = { '10.0.0.1:80' => ['ssl', 'crt', '/path/to/my/crt.pem'] }
 
 Default value: ``undef``
 
-##### `ipaddress`
+##### <a name="ipaddress"></a>`ipaddress`
 
 Data type: `Any`
 
@@ -739,7 +804,7 @@ The ip address the proxy binds to.
 
 Default value: ``undef``
 
-##### `mode`
+##### <a name="mode"></a>`mode`
 
 Data type: `Any`
 
@@ -748,7 +813,7 @@ The mode of operation for the frontend service. Valid values are undef,
 
 Default value: ``undef``
 
-##### `bind_options`
+##### <a name="bind_options"></a>`bind_options`
 
 Data type: `Any`
 
@@ -757,7 +822,7 @@ Data type: `Any`
 
 Default value: `''`
 
-##### `options`
+##### <a name="options"></a>`options`
 
 Data type: `Any`
 
@@ -770,7 +835,7 @@ Default value: `{
     ],
   }`
 
-##### `sort_options_alphabetic`
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Any`
 
@@ -779,7 +844,7 @@ Defaults to true.
 
 Default value: ``undef``
 
-##### `defaults`
+##### <a name="defaults"></a>`defaults`
 
 Data type: `Any`
 
@@ -788,7 +853,7 @@ Defaults to undef which means the global defaults section will be used.
 
 Default value: ``undef``
 
-##### `defaults_use_backend`
+##### <a name="defaults_use_backend"></a>`defaults_use_backend`
 
 Data type: `Any`
 
@@ -799,7 +864,7 @@ Defaults to true.
 
 Default value: ``true``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -809,7 +874,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Any`
 
@@ -817,7 +882,7 @@ Boolean. Default true
 
 Default value: ``true``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -825,7 +890,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-### `haproxy::instance`
+### <a name="haproxyinstance"></a>`haproxy::instance`
 
 template() function). Defaults to undef
 
@@ -907,9 +972,25 @@ Multiple instances of haproxy, one with a custom haproxy package:
 
 #### Parameters
 
-The following parameters are available in the `haproxy::instance` defined type.
+The following parameters are available in the `haproxy::instance` defined type:
 
-##### `package_ensure`
+* [`package_ensure`](#package_ensure)
+* [`package_name`](#package_name)
+* [`service_ensure`](#service_ensure)
+* [`service_manage`](#service_manage)
+* [`service_name`](#service_name)
+* [`global_options`](#global_options)
+* [`defaults_options`](#defaults_options)
+* [`restart_command`](#restart_command)
+* [`custom_fragment`](#custom_fragment)
+* [`config_file`](#config_file)
+* [`config_validate_cmd`](#config_validate_cmd)
+* [`config_dir`](#config_dir)
+* [`merge_options`](#merge_options)
+* [`service_options`](#service_options)
+* [`sysconfig_options`](#sysconfig_options)
+
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String[1]`
 
@@ -918,7 +999,7 @@ Defaults to 'present'
 
 Default value: `'present'`
 
-##### `package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `Optional[String]`
 
@@ -927,7 +1008,7 @@ NOTE: Class['haproxy'] has a different default.
 
 Default value: ``undef``
 
-##### `service_ensure`
+##### <a name="service_ensure"></a>`service_ensure`
 
 Data type: `Variant[Enum['running', 'stopped'], Boolean]`
 
@@ -936,7 +1017,7 @@ stopped and disabled at boot. Defaults to 'running'
 
 Default value: `'running'`
 
-##### `service_manage`
+##### <a name="service_manage"></a>`service_manage`
 
 Data type: `Boolean`
 
@@ -945,7 +1026,7 @@ all. Defaults to true
 
 Default value: ``true``
 
-##### `service_name`
+##### <a name="service_name"></a>`service_name`
 
 Data type: `Optional[String]`
 
@@ -955,7 +1036,7 @@ NOTE: Class['haproxy'] has a different default.
 
 Default value: ``undef``
 
-##### `global_options`
+##### <a name="global_options"></a>`global_options`
 
 Data type: `Optional[Hash]`
 
@@ -966,7 +1047,7 @@ A hash of all the haproxy global options. If you want to specify more
 
 Default value: ``undef``
 
-##### `defaults_options`
+##### <a name="defaults_options"></a>`defaults_options`
 
 Data type: `Optional[Hash]`
 
@@ -977,7 +1058,7 @@ A hash of all the haproxy defaults options. If you want to specify more
 
 Default value: ``undef``
 
-##### `restart_command`
+##### <a name="restart_command"></a>`restart_command`
 
 Data type: `Any`
 
@@ -987,7 +1068,7 @@ Command to use when restarting the on config changes.
 
 Default value: ``undef``
 
-##### `custom_fragment`
+##### <a name="custom_fragment"></a>`custom_fragment`
 
 Data type: `Any`
 
@@ -998,7 +1079,7 @@ just write plain configuration. Accepts a string (ie, output from the
 
 Default value: ``undef``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1014,7 +1095,7 @@ Defaults to undef.
 
 Default value: ``undef``
 
-##### `config_validate_cmd`
+##### <a name="config_validate_cmd"></a>`config_validate_cmd`
 
 Data type: `Any`
 
@@ -1024,7 +1105,7 @@ Default /usr/sbin/haproxy -f % -c
 
 Default value: `$haproxy::params::config_validate_cmd`
 
-##### `config_dir`
+##### <a name="config_dir"></a>`config_dir`
 
 Data type: `Any`
 
@@ -1032,7 +1113,7 @@ Optional. Default undef.
 
 Default value: ``undef``
 
-##### `merge_options`
+##### <a name="merge_options"></a>`merge_options`
 
 Data type: `Any`
 
@@ -1040,7 +1121,7 @@ Data type: `Any`
 
 Default value: `$haproxy::params::merge_options`
 
-##### `service_options`
+##### <a name="service_options"></a>`service_options`
 
 Data type: `Any`
 
@@ -1048,7 +1129,7 @@ Data type: `Any`
 
 Default value: `$haproxy::params::service_options`
 
-##### `sysconfig_options`
+##### <a name="sysconfig_options"></a>`sysconfig_options`
 
 Data type: `Any`
 
@@ -1056,7 +1137,7 @@ Data type: `Any`
 
 Default value: `$haproxy::params::sysconfig_options`
 
-### `haproxy::instance_service`
+### <a name="haproxyinstance_service"></a>`haproxy::instance_service`
 
 Set up the environment for an haproxy service.
 
@@ -1074,9 +1155,14 @@ In particular:
 
 #### Parameters
 
-The following parameters are available in the `haproxy::instance_service` defined type.
+The following parameters are available in the `haproxy::instance_service` defined type:
 
-##### `haproxy_package`
+* [`haproxy_package`](#haproxy_package)
+* [`bindir`](#bindir)
+* [`haproxy_init_source`](#haproxy_init_source)
+* [`haproxy_unit_template`](#haproxy_unit_template)
+
+##### <a name="haproxy_package"></a>`haproxy_package`
 
 Data type: `String`
 
@@ -1086,7 +1172,7 @@ Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-##### `bindir`
+##### <a name="bindir"></a>`bindir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -1095,7 +1181,7 @@ Defaults to '/opt/haproxy'
 
 Default value: `'/opt/haproxy/bin'`
 
-##### `haproxy_init_source`
+##### <a name="haproxy_init_source"></a>`haproxy_init_source`
 
 Data type: `Optional[String]`
 
@@ -1103,7 +1189,7 @@ The init.d script that will start/restart/reload this instance.
 
 Default value: ``undef``
 
-##### `haproxy_unit_template`
+##### <a name="haproxy_unit_template"></a>`haproxy_unit_template`
 
 Data type: `Optional[String]`
 
@@ -1111,7 +1197,7 @@ Data type: `Optional[String]`
 
 Default value: `'haproxy/instance_service_unit.erb'`
 
-### `haproxy::listen`
+### <a name="haproxylisten"></a>`haproxy::listen`
 
 === Authors
 
@@ -1145,9 +1231,22 @@ haproxy::listen { 'puppet00':
 
 #### Parameters
 
-The following parameters are available in the `haproxy::listen` defined type.
+The following parameters are available in the `haproxy::listen` defined type:
 
-##### `section_name`
+* [`section_name`](#section_name)
+* [`ports`](#ports)
+* [`ipaddress`](#ipaddress)
+* [`bind`](#bind)
+* [`mode`](#mode)
+* [`options`](#options)
+* [`bind_options`](#bind_options)
+* [`collect_exported`](#collect_exported)
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+* [`defaults`](#defaults)
+* [`config_file`](#config_file)
+* [`instance`](#instance)
+
+##### <a name="section_name"></a>`section_name`
 
 Data type: `Any`
 
@@ -1156,7 +1255,7 @@ Default: $name (the namevar of the resource).
 
 Default value: `$name`
 
-##### `ports`
+##### <a name="ports"></a>`ports`
 
 Data type: `Any`
 
@@ -1167,7 +1266,7 @@ Ports on which the proxy will listen for connections on the ip address
 
 Default value: ``undef``
 
-##### `ipaddress`
+##### <a name="ipaddress"></a>`ipaddress`
 
 Data type: `Any`
 
@@ -1177,7 +1276,7 @@ The ip address the proxy binds to.
 
 Default value: ``undef``
 
-##### `bind`
+##### <a name="bind"></a>`bind`
 
 Data type: `Optional[Hash]`
 
@@ -1186,7 +1285,7 @@ $bind = { '10.0.0.1:80' => ['ssl', 'crt', '/path/to/my/crt.pem'] }
 
 Default value: ``undef``
 
-##### `mode`
+##### <a name="mode"></a>`mode`
 
 Data type: `Any`
 
@@ -1195,7 +1294,7 @@ The mode of operation for the listening service. Valid values are undef,
 
 Default value: ``undef``
 
-##### `options`
+##### <a name="options"></a>`options`
 
 Data type: `Any`
 
@@ -1209,7 +1308,7 @@ Default value: `{
     'balance'                                 => 'roundrobin'
   }`
 
-##### `bind_options`
+##### <a name="bind_options"></a>`bind_options`
 
 Data type: `Any`
 
@@ -1218,7 +1317,7 @@ Data type: `Any`
 
 Default value: `''`
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Any`
 
@@ -1230,7 +1329,7 @@ Boolean, default 'true'. True means 'collect exported @@balancermember resources
 
 Default value: ``true``
 
-##### `sort_options_alphabetic`
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Any`
 
@@ -1239,7 +1338,7 @@ Defaults to true.
 
 Default value: ``undef``
 
-##### `defaults`
+##### <a name="defaults"></a>`defaults`
 
 Data type: `Any`
 
@@ -1248,7 +1347,7 @@ Defaults to undef which means the global defaults section will be used.
 
 Default value: ``undef``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1258,7 +1357,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -1266,7 +1365,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-### `haproxy::mailer`
+### <a name="haproxymailer"></a>`haproxy::mailer`
 
 This type will set up a mailer entry inside the mailers configuration block in
 haproxy.cfg on the load balancer.
@@ -1279,15 +1378,21 @@ block and then collecting them on all load balancers.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::mailer` defined type.
+The following parameters are available in the `haproxy::mailer` defined type:
 
-##### `mailers_name`
+* [`mailers_name`](#mailers_name)
+* [`server_names`](#server_names)
+* [`ipaddresses`](#ipaddresses)
+* [`port`](#port)
+* [`instance`](#instance)
+
+##### <a name="mailers_name"></a>`mailers_name`
 
 Data type: `Any`
 
 Specifies the mailer in which this load balancer needs to be added.
 
-##### `server_names`
+##### <a name="server_names"></a>`server_names`
 
 Data type: `Any`
 
@@ -1299,7 +1404,7 @@ Sets the name of the mailer server in the mailers configuration block.
 
 Default value: `$::hostname`
 
-##### `ipaddresses`
+##### <a name="ipaddresses"></a>`ipaddresses`
 
 Data type: `Any`
 
@@ -1310,13 +1415,13 @@ Specifies the IP address used to contact the mailer member server.
 
 Default value: `$::ipaddress`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Any`
 
 Sets the port on which the mailer is going to share the state.
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -1324,7 +1429,7 @@ Data type: `Any`
 
 Default value: `'haproxy'`
 
-### `haproxy::mailers`
+### <a name="haproxymailers"></a>`haproxy::mailers`
 
 This type will set up a mailers entry in haproxy.cfg on the load balancer.
 
@@ -1332,9 +1437,12 @@ This type will set up a mailers entry in haproxy.cfg on the load balancer.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::mailers` defined type.
+The following parameters are available in the `haproxy::mailers` defined type:
 
-##### `instance`
+* [`instance`](#instance)
+* [`collect_exported`](#collect_exported)
+
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -1342,7 +1450,7 @@ Optional. Defaults to 'haproxy'.
 
 Default value: `'haproxy'`
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Any`
 
@@ -1350,7 +1458,7 @@ Boolean. Defaults to true.
 
 Default value: ``true``
 
-### `haproxy::mapfile`
+### <a name="haproxymapfile"></a>`haproxy::mapfile`
 
 Manage an HAProxy map file as documented in
 https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
@@ -1360,15 +1468,23 @@ specified in the `mappings` array.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::mapfile` defined type.
+The following parameters are available in the `haproxy::mapfile` defined type:
 
-##### `name`
+* [`name`](#name)
+* [`mappings`](#mappings)
+* [`ensure`](#ensure)
+* [`owner`](#owner)
+* [`group`](#group)
+* [`mode`](#mode)
+* [`instances`](#instances)
+
+##### <a name="name"></a>`name`
 
 The namevar of the defined resource type is the filename of the map file
 (without any extension), relative to the `haproxy::config_dir` directory.
 A '.map' extension will be added automatically.
 
-##### `mappings`
+##### <a name="mappings"></a>`mappings`
 
 Data type: `Array`
 
@@ -1377,7 +1493,7 @@ single key-value pair each (preferably) or simple Strings. Default: `[]`
 
 Default value: `[]`
 
-##### `ensure`
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -1386,7 +1502,7 @@ Default: 'present'
 
 Default value: `'present'`
 
-##### `owner`
+##### <a name="owner"></a>`owner`
 
 Data type: `Any`
 
@@ -1394,7 +1510,7 @@ The owner of the underlying file resource. Defaut: 'root'
 
 Default value: `'root'`
 
-##### `group`
+##### <a name="group"></a>`group`
 
 Data type: `Any`
 
@@ -1402,7 +1518,7 @@ The group of the underlying file resource. Defaut: 'root'
 
 Default value: `'root'`
 
-##### `mode`
+##### <a name="mode"></a>`mode`
 
 Data type: `Any`
 
@@ -1410,7 +1526,7 @@ The mode of the underlying file resource. Defaut: '0644'
 
 Default value: `'0644'`
 
-##### `instances`
+##### <a name="instances"></a>`instances`
 
 Data type: `Array`
 
@@ -1420,7 +1536,7 @@ multiple HAproxy instances. Default: `[ 'haproxy' ]`
 
 Default value: `[ 'haproxy' ]`
 
-### `haproxy::peer`
+### <a name="haproxypeer"></a>`haproxy::peer`
 
 This type will set up a peer entry inside the peers configuration block in haproxy.cfg on the load balancer.
 
@@ -1429,15 +1545,22 @@ specify the instance name, ip address, ports and server_names.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::peer` defined type.
+The following parameters are available in the `haproxy::peer` defined type:
 
-##### `peers_name`
+* [`peers_name`](#peers_name)
+* [`server_names`](#server_names)
+* [`ipaddresses`](#ipaddresses)
+* [`port`](#port)
+* [`config_file`](#config_file)
+* [`instance`](#instance)
+
+##### <a name="peers_name"></a>`peers_name`
 
 Data type: `Any`
 
 Specifies the peer in which this load balancer needs to be added.
 
-##### `server_names`
+##### <a name="server_names"></a>`server_names`
 
 Data type: `Any`
 
@@ -1449,7 +1572,7 @@ of server\_names and ipaddresses in the array.
 
 Default value: `$::hostname`
 
-##### `ipaddresses`
+##### <a name="ipaddresses"></a>`ipaddresses`
 
 Data type: `Any`
 
@@ -1460,13 +1583,13 @@ A peer is created for each pair of address and server_name.
 
 Default value: `$::ipaddress`
 
-##### `port`
+##### <a name="port"></a>`port`
 
 Data type: `Any`
 
 Sets the port on which the peer is going to share the state.
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1476,7 +1599,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -1484,11 +1607,11 @@ Data type: `Any`
 
 Default value: `'haproxy'`
 
-### `haproxy::peer::collect_exported`
+### <a name="haproxypeercollect_exported"></a>`haproxy::peer::collect_exported`
 
 Private define
 
-### `haproxy::peers`
+### <a name="haproxypeers"></a>`haproxy::peers`
 
 on the load balancer. This setting is required to share the
 current state of HAproxy with other HAproxy in High available
@@ -1496,15 +1619,20 @@ configurations.
 
 #### Parameters
 
-The following parameters are available in the `haproxy::peers` defined type.
+The following parameters are available in the `haproxy::peers` defined type:
 
-##### `name`
+* [`name`](#name)
+* [`config_file`](#config_file)
+* [`instance`](#instance)
+* [`collect_exported`](#collect_exported)
+
+##### <a name="name"></a>`name`
 
 Sets the peers' name. Generally it will be the namevar of the
  defined resource type. This value appears right after the
  'peers' statement in haproxy.cfg
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1514,7 +1642,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `String`
 
@@ -1522,7 +1650,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Boolean`
 
@@ -1530,7 +1658,7 @@ Boolean. Defaults to true
 
 Default value: ``true``
 
-### `haproxy::resolver`
+### <a name="haproxyresolver"></a>`haproxy::resolver`
 
 === Authors
 
@@ -1567,9 +1695,21 @@ haproxy::resolver { 'puppet00':
 
 #### Parameters
 
-The following parameters are available in the `haproxy::resolver` defined type.
+The following parameters are available in the `haproxy::resolver` defined type:
 
-##### `section_name`
+* [`section_name`](#section_name)
+* [`nameservers`](#nameservers)
+* [`hold`](#hold)
+* [`resolve_retries`](#resolve_retries)
+* [`timeout`](#timeout)
+* [`accepted_payload_size`](#accepted_payload_size)
+* [`collect_exported`](#collect_exported)
+* [`config_file`](#config_file)
+* [`sort_options_alphabetic`](#sort_options_alphabetic)
+* [`defaults`](#defaults)
+* [`instance`](#instance)
+
+##### <a name="section_name"></a>`section_name`
 
 Data type: `Any`
 
@@ -1578,7 +1718,7 @@ Default: $name (the namevar of the resource).
 
 Default value: `$name`
 
-##### `nameservers`
+##### <a name="nameservers"></a>`nameservers`
 
 Data type: `Any`
 
@@ -1587,7 +1727,7 @@ $nameservers = { 'dns1' => '10.0.0.1:53', 'dns2' => '10.0.0.2:53' }
 
 Default value: ``undef``
 
-##### `hold`
+##### <a name="hold"></a>`hold`
 
 Data type: `Any`
 
@@ -1597,7 +1737,7 @@ $hold = { 'nx' => '30s', 'valid' => '10s' }
 
 Default value: ``undef``
 
-##### `resolve_retries`
+##### <a name="resolve_retries"></a>`resolve_retries`
 
 Data type: `Any`
 
@@ -1607,7 +1747,7 @@ $resolve_retries = 3
 
 Default value: ``undef``
 
-##### `timeout`
+##### <a name="timeout"></a>`timeout`
 
 Data type: `Any`
 
@@ -1617,7 +1757,7 @@ $timeout = { 'retry' => '1s' }
 
 Default value: ``undef``
 
-##### `accepted_payload_size`
+##### <a name="accepted_payload_size"></a>`accepted_payload_size`
 
 Data type: `Any`
 
@@ -1629,7 +1769,7 @@ Note: the maximum allowed value is 8192.
 
 Default value: ``undef``
 
-##### `collect_exported`
+##### <a name="collect_exported"></a>`collect_exported`
 
 Data type: `Any`
 
@@ -1642,7 +1782,7 @@ Boolean, default 'true'. True means 'collect exported @@balancermember
 
 Default value: ``true``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Any`
 
@@ -1652,7 +1792,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `sort_options_alphabetic`
+##### <a name="sort_options_alphabetic"></a>`sort_options_alphabetic`
 
 Data type: `Any`
 
@@ -1661,7 +1801,7 @@ Defaults to true.
 
 Default value: ``undef``
 
-##### `defaults`
+##### <a name="defaults"></a>`defaults`
 
 Data type: `Any`
 
@@ -1670,7 +1810,7 @@ Defaults to undef which means the global defaults section will be used.
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `Any`
 
@@ -1678,7 +1818,7 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
-### `haproxy::userlist`
+### <a name="haproxyuserlist"></a>`haproxy::userlist`
 
 === Authors
 
@@ -1688,9 +1828,15 @@ Jeremy Kitchen <jeremy@nationbuilder.com>
 
 #### Parameters
 
-The following parameters are available in the `haproxy::userlist` defined type.
+The following parameters are available in the `haproxy::userlist` defined type:
 
-##### `section_name`
+* [`section_name`](#section_name)
+* [`users`](#users)
+* [`groups`](#groups)
+* [`config_file`](#config_file)
+* [`instance`](#instance)
+
+##### <a name="section_name"></a>`section_name`
 
 Data type: `String`
 
@@ -1699,7 +1845,7 @@ Default: $name (the namevar of the resource).
 
 Default value: `$name`
 
-##### `users`
+##### <a name="users"></a>`users`
 
 Data type: `Any`
 
@@ -1708,7 +1854,7 @@ See http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#3.4-user
 
 Default value: ``undef``
 
-##### `groups`
+##### <a name="groups"></a>`groups`
 
 Data type: `Any`
 
@@ -1717,7 +1863,7 @@ See http://cbonte.github.io/haproxy-dconv/configuration-1.4.html#3.4-group
 
 Default value: ``undef``
 
-##### `config_file`
+##### <a name="config_file"></a>`config_file`
 
 Data type: `Optional[Stdlib::Absolutepath]`
 
@@ -1727,7 +1873,7 @@ Default: $haproxy::params::config_file
 
 Default value: ``undef``
 
-##### `instance`
+##### <a name="instance"></a>`instance`
 
 Data type: `String`
 
