@@ -29,6 +29,7 @@ All notable changes to this project will be documented in this file. The format 
 ### Fixed
 
 - \(bugfix\) backend: dont log warnings if not necessary [\#449](https://github.com/puppetlabs/puppetlabs-haproxy/pull/449) ([bastelfreak](https://github.com/bastelfreak))
+- frontend options: order default\_backend after specific backends & test [\#447](https://github.com/puppetlabs/puppetlabs-haproxy/pull/447) ([MajorFlamingo](https://github.com/MajorFlamingo))
 
 ## [v4.3.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v4.3.0) (2020-09-18)
 
@@ -41,7 +42,6 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Fixed
 
-- frontend options: order default\_backend after specific backends & test [\#447](https://github.com/puppetlabs/puppetlabs-haproxy/pull/447) ([MajorFlamingo](https://github.com/MajorFlamingo))
 - \(IAC-988\) - Removal of inappropriate terminology [\#443](https://github.com/puppetlabs/puppetlabs-haproxy/pull/443) ([david22swan](https://github.com/david22swan))
 
 ## [v4.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v4.2.1) (2020-05-19)
