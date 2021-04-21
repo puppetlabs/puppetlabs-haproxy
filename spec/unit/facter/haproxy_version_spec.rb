@@ -23,7 +23,7 @@ describe Facter::Util::Fact do # rubocop:disable RSpec/FilePath
     it do
       allow(Facter::Util::Resolution).to receive(:exec)
       expect(Facter::Util::Resolution).to receive(:which).at_least(1).with('haproxy').and_return(false)
-      expect(Facter.fact(:haproxy_version)).to be_nil
+      expect(Facter.fact(:haproxy_version).value).to be_nil
     end
   end
 end
