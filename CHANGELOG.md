@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v6.0.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.0.1) (2021-05-08)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.0.0...v6.0.1)
+
+### Fixed
+
+- Fix 'option' entry name in option\_order hash [\#477](https://github.com/puppetlabs/puppetlabs-haproxy/pull/477) ([antaflos](https://github.com/antaflos))
+
+## [v6.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.0.0) (2021-03-29)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v5.0.0...v6.0.0)
+
 ## [v5.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v5.0.0) (2021-02-27)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v4.5.0...v5.0.0)
