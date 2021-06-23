@@ -17,6 +17,18 @@ describe Facter::Util::Fact do
     end
   end
 
+  context "haproxy 2.4 present" do
+    it do
+      haproxy_version_output = <<-EOS
+      HAProxy version 2.4.0-6cbbecf 2021/05/14 - https://haproxy.org/
+      Status: long-term supported branch - will stop receiving fixes around Q2 2026.
+      EOS
+      Facter::Util::Resolution.expects(:which).at_least(1).with("haproxy").returns(true)
+      Facter::Util::Resolution.expects(:exec).at_least(1).with("haproxy -v 2>&1").returns(haproxy_version_output)
+      Facter.fact(:haproxy_version).value.should == "2.4.0"
+    end
+  end
+
   context "haproxy not present" do
     it do
       Facter::Util::Resolution.stubs(:exec)
