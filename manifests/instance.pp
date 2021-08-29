@@ -27,6 +27,10 @@
 #   Chooses whether the haproxy service state should be managed by puppet at
 #   all. Defaults to true
 #
+# @param chroot_dir_manage
+#   Chooses whether the haproxy chroot directory should be managed by puppet
+#   at all. Defaults to true
+#
 # @param service_name
 #   The service name for haproxy. Defaults to undef. If no name is given then
 #   the value computed for $instance_name will be used.
