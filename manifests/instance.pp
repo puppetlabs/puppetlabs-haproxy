@@ -216,6 +216,7 @@ define haproxy::instance (
     custom_fragment     => $custom_fragment,
     merge_options       => $merge_options,
     package_ensure      => $package_ensure,
+    chroot_dir_manage   => $chroot_dir_manage,
     config_validate_cmd => $config_validate_cmd,
   }
   haproxy::install { $title:

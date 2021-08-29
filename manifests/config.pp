@@ -8,6 +8,7 @@ define haproxy::config (
   $global_options,
   $defaults_options,
   $package_ensure,
+  $chroot_dir_manage,
   $config_dir = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $custom_fragment = undef,  # A default is required for Puppet 2.7 compatibility. When 2.7 is no longer supported, this parameter default should be removed.
   $merge_options = $haproxy::merge_options,
@@ -77,11 +78,13 @@ define haproxy::config (
     }
   }
 
-  if $_global_options['chroot'] {
-    file { $_global_options['chroot']:
-      ensure => directory,
-      owner  => $_global_options['user'],
-      group  => $_global_options['group'],
+  if $chroot_dir_manage {
+    if $_global_options['chroot'] {
+      file { $_global_options['chroot']:
+        ensure => directory,
+        owner  => $_global_options['user'],
+        group  => $_global_options['group'],
+      }
     }
   }
 }
