@@ -159,6 +159,7 @@ define haproxy::instance (
   String[1] $package_ensure                                    = 'present',
   Variant[Enum['running', 'stopped'], Boolean] $service_ensure = 'running',
   Boolean $service_manage                                      = true,
+  Boolean $chroot_dir_manage                                   = true,
   Optional[String] $service_name                               = undef,
   Optional[Hash] $global_options                               = undef,
   Optional[Hash] $defaults_options                             = undef,

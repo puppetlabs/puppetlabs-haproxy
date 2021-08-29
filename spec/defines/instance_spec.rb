@@ -222,6 +222,20 @@ describe 'haproxy::instance' do
             end
           end
         end
+        context "when on #{osfamily} family operatingsystems without managing the chroot directory" do
+          let(:facts) do
+            { osfamily: osfamily }.merge default_facts
+          end
+          let(:params) do
+            {
+              'chroot_dir_manage' => false,
+            }
+          end
+
+          it 'does not manage the haproxy chroot directory' do
+            subject.should_not contain_file('/var/lib/haproxy')
+          end
+        end
         context "on #{osfamily} when specifying a restart_command" do
           let(:facts) do
             { osfamily: osfamily }.merge default_facts
