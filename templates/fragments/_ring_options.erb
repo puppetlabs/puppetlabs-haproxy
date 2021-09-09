@@ -1,0 +1,40 @@
+<%-
+  # non mentioned option have a value of 0
+  # lower values come first
+  if @_sort_options_alphabetic == true
+    option_order = {}
+  else
+    option_order = {
+      'description' => -1,
+      'format' => 2,
+      'maxlen' => 3,
+      'size' => 4,
+      'option' => 5,
+      'server' => 100,
+    }
+  end
+-%>
+<% if @ring_options.is_a?(Hash) -%>
+<%# ruby sorts arrays like strings: the first elements are compared, if they -%>
+<%# are equal the next elements are compared and so on. The following sort -%>
+<%# provides a two element array, the first element a classification of the -%>
+<%# option with a default value of 0 if the option is not found in the -%>
+<%# option_order hash and the second element the option itself. -%>
+<% @ring_options.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.each do |key, val| -%>
+<% Array(val).reject{|v| v == :undef }.each do |item| -%>
+  <%= key %> <%= item %>
+<% end -%>
+<% end -%>
+<% elsif @ring_options.is_a?(Array) -%>
+<%# Iterate over array elements; each element is a hash (containing key-value -%>
+<%# pairs); in case a hash contains more than one key-value pair the hash is -%>
+<%# sorted by key name before outputting the key name (= option name) and its -%>
+<%# value (or values, one per line) -%>
+<% @ring_options.each do |option| -%>
+<% option.sort{|a,b| [option_order.fetch(a[0],0), a[0]] <=> [option_order.fetch(b[0],0), b[0]] }.map do |key, val| -%>
+<% Array(val).reject{|v| v == :undef }.each do |item| -%>
+  <%= key %> <%= item %>
+<% end -%>
+<% end -%>
+<% end -%>
+<% end -%>

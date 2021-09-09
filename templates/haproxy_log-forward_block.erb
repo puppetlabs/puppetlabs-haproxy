@@ -1,0 +1,5 @@
+
+log-forward <%= @section_name %>
+<%= scope.function_template(['haproxy/fragments/_dgram-bind.erb']) -%>
+<%= scope.function_template(['haproxy/fragments/_bind.erb']) -%>
+<%= scope.function_template(['haproxy/fragments/_options.erb']) -%>
