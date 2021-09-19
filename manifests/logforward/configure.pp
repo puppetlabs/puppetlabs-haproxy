@@ -2,7 +2,7 @@
 #   Hiera support to setup a Log forwarding service configuration block inside
 #   the haproxy.cfg file on an haproxy load balancer.
 #
-# @param logforward
+# @param instance
 #   Hash [param*]
 #
 # @example

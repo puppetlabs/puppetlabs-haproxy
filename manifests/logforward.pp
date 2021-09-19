@@ -39,26 +39,16 @@
 #    know the full set of balancermembers in advance and use haproxy::balancermember
 #    with array arguments, which allows you to deploy everything in 1 run)
 #
-# @param configure_ring_buffer
-#   Boolean, default 'true'. True means 'Creates a new ring-buffer'
-#
-# @example
-#  Exporting the resource for a balancer member:
-#
 #  haproxy::logforward { 'puppet00':
 #    ipaddress    => $::ipaddress,
 #    ports        => '514',
 #    options      => {
-#     'log'                                    => [
-#       'global',
-#     ]
-#      'log' => 'log01.local:514 format rfc5424 sample 1:2 local7 info',
+#      'log'                                    => [
+#        'global',
+#      ]
+#        'log' => 'log01.local:514 format rfc5424 sample 1:2 local7 info',
 #    },
-#    ring_options => {
-#     'format'                                 => [
-#       'rfc5424',
-#     ]
-#    },
+#  }
 #
 # === Authors
 #
@@ -74,13 +64,7 @@ define haproxy::logforward (
       'global',
     ],
   },
-  $ring_options                                = {
-    'format'                                   => [
-      'rfc5424',
-    ],
-  },
   $collect_exported                            = true,
-  $configure_ring_buffer                       = true,
   $instance                                    = 'haproxy',
   $section_name                                = $name,
   Optional[Stdlib::Absolutepath] $config_file  = undef,
@@ -119,14 +103,6 @@ define haproxy::logforward (
     order   => $order,
     target  => $_config_file,
     content => template('haproxy/haproxy_log-forward_block.erb'),
-  }
-
-  if $configure_ring_buffer {
-    concat::fragment { "${instance_name}-${section_name}_log-forward-ring":
-      order   => $order,
-      target  => $_config_file,
-      content => template('haproxy/haproxy_ring_block.erb'),
-    }
   }
 
   if $collect_exported {
