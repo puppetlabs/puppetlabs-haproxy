@@ -50,9 +50,10 @@ define haproxy::config (
     file { $_config_file: ensure => absent }
   } else {
     concat { $_config_file:
-      owner => '0',
-      group => '0',
-      mode  => '0640',
+      owner  => '0',
+      group  => '0',
+      mode   => '0640',
+      notify => Service[$instance_name],
     }
 
     # validate_cmd introduced in Puppet 3.5

@@ -238,7 +238,7 @@ define haproxy::instance (
 
   if $package_ensure == 'absent' or $package_ensure == 'purged' {
     anchor { "${title}::haproxy::begin": }
-    ~> Haproxy::Service[$title]
+    -> Haproxy::Service[$title]
     -> Haproxy::Config[$title]
     -> Haproxy::Install[$title]
     -> anchor { "${title}::haproxy::end": }
@@ -246,7 +246,7 @@ define haproxy::instance (
     anchor { "${title}::haproxy::begin": }
     -> Haproxy::Install[$title]
     -> Haproxy::Config[$title]
-    ~> Haproxy::Service[$title]
+    -> Haproxy::Service[$title]
     -> anchor { "${title}::haproxy::end": }
   }
 }
