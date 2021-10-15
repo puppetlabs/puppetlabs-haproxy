@@ -19,13 +19,13 @@ define haproxy::service (
     if ($::osfamily == 'Debian') {
       file { "/etc/default/${instance_name}":
         content => $service_options,
-        before  => Service[$instance_name],
+        notify  => Service[$instance_name],
       }
     }
     if ($::osfamily == 'Redhat') {
       file {"/etc/sysconfig/${instance_name}":
         content => $sysconfig_options,
-        before  => Service[$instance_name],
+        notify  => Service[$instance_name],
       }
     }
 
