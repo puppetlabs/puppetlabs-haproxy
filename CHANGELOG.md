@@ -2,7 +2,31 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v6.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.2.1) (2021-08-25)
+## [v6.3.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.3.0) (2022-06-13)
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.2.1...v6.3.0)
+
+### Added
+
+- pdksync - \(GH-cat-12\) Add Support for Redhat 9 [\#519](https://github.com/puppetlabs/puppetlabs-haproxy/pull/519) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1753\) - Add Support for AlmaLinux 8 [\#502](https://github.com/puppetlabs/puppetlabs-haproxy/pull/502) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1751\) - Add Support for Rocky 8 [\#501](https://github.com/puppetlabs/puppetlabs-haproxy/pull/501) ([david22swan](https://github.com/david22swan))
+- Adding chroot\_dir\_manage parameter. [\#498](https://github.com/puppetlabs/puppetlabs-haproxy/pull/498) ([Tamerz](https://github.com/Tamerz))
+
+### Fixed
+
+- pdksync - \(GH-iac-334\) Remove Support for Ubuntu 14.04/16.04 [\#511](https://github.com/puppetlabs/puppetlabs-haproxy/pull/511) ([david22swan](https://github.com/david22swan))
+- pdksync - \(IAC-1787\) Remove Support for CentOS 6 [\#507](https://github.com/puppetlabs/puppetlabs-haproxy/pull/507) ([david22swan](https://github.com/david22swan))
+- \[MODULES-11274\] Allow usage of parameter manage\_config\_dir [\#506](https://github.com/puppetlabs/puppetlabs-haproxy/pull/506) ([tuxmea](https://github.com/tuxmea))
+- pdksync - \(IAC-1598\) - Remove Support for Debian 8 [\#500](https://github.com/puppetlabs/puppetlabs-haproxy/pull/500) ([david22swan](https://github.com/david22swan))
+
+### UNCATEGORIZED PRS; LABEL THEM ON GITHUB
+
+- Allow specifying mapfile entries to be collected later [\#508](https://github.com/puppetlabs/puppetlabs-haproxy/pull/508) ([yakatz](https://github.com/yakatz))
+- haproxy\_userlist: fix empty users/groups handling. [\#505](https://github.com/puppetlabs/puppetlabs-haproxy/pull/505) ([bzed](https://github.com/bzed))
+- Added possibility filling description field [\#504](https://github.com/puppetlabs/puppetlabs-haproxy/pull/504) ([michaelkoettenstorfer](https://github.com/michaelkoettenstorfer))
+
+## [v6.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.2.1) (2021-08-26)
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.2.0...v6.2.1)
 

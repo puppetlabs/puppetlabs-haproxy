@@ -31,6 +31,8 @@ haproxy.cfg on the load balancer.
 * [`haproxy::mailers`](#haproxymailers): This type will set up a mailers entry in haproxy.cfg on the load balancer.
 * [`haproxy::mapfile`](#haproxymapfile): Manage an HAProxy map file as documented in
 https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
+* [`haproxy::mapfile::entry`](#haproxymapfileentry): Manage an HAProxy map file as documented in
+https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 * [`haproxy::peer`](#haproxypeer): This type will set up a peer entry inside the peers configuration block in haproxy.cfg on the load balancer.
 * [`haproxy::peer::collect_exported`](#haproxypeercollect_exported): Private define
 * [`haproxy::peers`](#haproxypeers): This type will set up a peers entry in haproxy.cfg
@@ -102,6 +104,7 @@ The following parameters are available in the `haproxy` class:
 * [`service_manage`](#service_manage)
 * [`service_name`](#service_name)
 * [`service_options`](#service_options)
+* [`chroot_dir_manage`](#chroot_dir_manage)
 * [`sysconfig_options`](#sysconfig_options)
 * [`global_options`](#global_options)
 * [`defaults_options`](#defaults_options)
@@ -167,6 +170,15 @@ Data type: `String`
 Contents for the `/etc/defaults/haproxy` file on Debian. Defaults to "ENABLED=1\n" on Debian, and is ignored on other systems.
 
 Default value: `$haproxy::params::service_options`
+
+##### <a name="chroot_dir_manage"></a>`chroot_dir_manage`
+
+Data type: `Boolean`
+
+Chooses whether the haproxy chroot directory should be managed by puppet
+at all. Defaults to true
+
+Default value: ``true``
 
 ##### <a name="sysconfig_options"></a>`sysconfig_options`
 
@@ -348,6 +360,7 @@ The following parameters are available in the `haproxy::backend` defined type:
 
 * [`section_name`](#section_name)
 * [`mode`](#mode)
+* [`description`](#description)
 * [`options`](#options)
 * [`collect_exported`](#collect_exported)
 * [`config_file`](#config_file)
@@ -370,6 +383,16 @@ Data type: `Any`
 
 The mode of operation for the backend service. Valid values are undef,
  'tcp', 'http', and 'health'.
+
+Default value: ``undef``
+
+##### <a name="description"></a>`description`
+
+Data type: `Any`
+
+Allows to add a sentence to describe the related object in the HAProxy HTML
+stats page. The description will be printed on the right of the object name
+it describes. Usefull in huge environments
 
 Default value: ``undef``
 
@@ -756,6 +779,7 @@ The following parameters are available in the `haproxy::frontend` defined type:
 * [`bind`](#bind)
 * [`ipaddress`](#ipaddress)
 * [`mode`](#mode)
+* [`description`](#description)
 * [`bind_options`](#bind_options)
 * [`options`](#options)
 * [`sort_options_alphabetic`](#sort_options_alphabetic)
@@ -810,6 +834,16 @@ Data type: `Any`
 
 The mode of operation for the frontend service. Valid values are undef,
  'tcp', 'http', and 'health'.
+
+Default value: ``undef``
+
+##### <a name="description"></a>`description`
+
+Data type: `Any`
+
+Allows to add a sentence to describe the related object in the HAProxy HTML
+stats page. The description will be printed on the right of the object name
+it describes. Usefull in huge environments
 
 Default value: ``undef``
 
@@ -978,6 +1012,7 @@ The following parameters are available in the `haproxy::instance` defined type:
 * [`package_name`](#package_name)
 * [`service_ensure`](#service_ensure)
 * [`service_manage`](#service_manage)
+* [`chroot_dir_manage`](#chroot_dir_manage)
 * [`service_name`](#service_name)
 * [`global_options`](#global_options)
 * [`defaults_options`](#defaults_options)
@@ -1023,6 +1058,15 @@ Data type: `Boolean`
 
 Chooses whether the haproxy service state should be managed by puppet at
 all. Defaults to true
+
+Default value: ``true``
+
+##### <a name="chroot_dir_manage"></a>`chroot_dir_manage`
+
+Data type: `Boolean`
+
+Chooses whether the haproxy chroot directory should be managed by puppet
+at all. Defaults to true
 
 Default value: ``true``
 
@@ -1191,7 +1235,7 @@ Default value: ``undef``
 
 ##### <a name="haproxy_unit_template"></a>`haproxy_unit_template`
 
-Data type: `Optional[String]`
+Data type: `String`
 
 
 
@@ -1238,6 +1282,7 @@ The following parameters are available in the `haproxy::listen` defined type:
 * [`ipaddress`](#ipaddress)
 * [`bind`](#bind)
 * [`mode`](#mode)
+* [`description`](#description)
 * [`options`](#options)
 * [`bind_options`](#bind_options)
 * [`collect_exported`](#collect_exported)
@@ -1294,6 +1339,16 @@ The mode of operation for the listening service. Valid values are undef,
 
 Default value: ``undef``
 
+##### <a name="description"></a>`description`
+
+Data type: `Any`
+
+Allows to add a sentence to describe the related object in the HAProxy HTML
+stats page. The description will be printed on the right of the object name
+it describes. Usefull in huge environments
+
+Default value: ``undef``
+
 ##### <a name="options"></a>`options`
 
 Data type: `Any`
@@ -1305,7 +1360,7 @@ Default value: `{
     'option'                                  => [
       'tcplog',
     ],
-    'balance'                                 => 'roundrobin'
+    'balance'                                 => 'roundrobin',
   }`
 
 ##### <a name="bind_options"></a>`bind_options`
@@ -1464,7 +1519,8 @@ Manage an HAProxy map file as documented in
 https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 
 * **Note** A map file contains one key + value per line. These key-value pairs are
-specified in the `mappings` array.
+specified in the `mappings` array or by additional `haproxy::mapfile::entry`
+definitions.
 
 #### Parameters
 
@@ -1486,7 +1542,7 @@ A '.map' extension will be added automatically.
 
 ##### <a name="mappings"></a>`mappings`
 
-Data type: `Array`
+Data type: `Array[Variant[String, Hash]]`
 
 An array of mappings for this map file. Array elements may be Hashes with a
 single key-value pair each (preferably) or simple Strings. Default: `[]`
@@ -1534,7 +1590,53 @@ Array of managed HAproxy instance names to notify (restart/reload) when the
 map file is updated. This is so that the same map file can be used with
 multiple HAproxy instances. Default: `[ 'haproxy' ]`
 
-Default value: `[ 'haproxy' ]`
+Default value: `['haproxy']`
+
+### <a name="haproxymapfileentry"></a>`haproxy::mapfile::entry`
+
+Manage an HAProxy map file as documented in
+https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
+
+* **Note** A map file contains one key + value per line. These key-value pairs are
+specified in the `mappings` array.
+
+#### Parameters
+
+The following parameters are available in the `haproxy::mapfile::entry` defined type:
+
+* [`name`](#name)
+* [`mappings`](#mappings)
+* [`mapfile`](#mapfile)
+* [`order`](#order)
+
+##### <a name="name"></a>`name`
+
+The namevar of the defined resource type is the filename of the map file
+(without any extension), relative to the `haproxy::config_dir` directory.
+A '.map' extension will be added automatically.
+
+##### <a name="mappings"></a>`mappings`
+
+Data type: `Array[Variant[String, Hash]]`
+
+An array of mappings for this map file. Array elements may be Hashes with a
+single key-value pair each (preferably) or simple Strings. Default: `[]`
+
+Default value: `[$title]`
+
+##### <a name="mapfile"></a>`mapfile`
+
+Data type: `String`
+
+
+
+##### <a name="order"></a>`order`
+
+Data type: `Variant[String, Integer]`
+
+
+
+Default value: `'10'`
 
 ### <a name="haproxypeer"></a>`haproxy::peer`
 
