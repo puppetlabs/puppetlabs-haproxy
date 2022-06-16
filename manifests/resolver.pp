@@ -122,8 +122,10 @@ define haproxy::resolver (
 
   # verify accepted_payload_size is withing the allowed range per HAProxy docs
   # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
-  if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
-    fail('$accepted_payload_size must be atleast 512 and not more than 8192')
+  if $accepted_payload_size != undef {
+    if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
+      fail('$accepted_payload_size must be atleast 512 and not more than 8192')
+    }
   }
 
   # Template uses: $section_name
