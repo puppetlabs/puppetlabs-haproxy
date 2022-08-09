@@ -91,7 +91,8 @@ define haproxy::resolver (
   $hold                    = undef,
   $resolve_retries         = undef,
   $timeout                 = undef,
-  $accepted_payload_size   = undef,
+  # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
+  Optional[Integer[512, 8192]] $accepted_payload_size = undef,
   $instance                = 'haproxy',
   $section_name            = $name,
   $sort_options_alphabetic = undef,
@@ -118,12 +119,6 @@ define haproxy::resolver (
     $order = "20-${section_name}-01"
   } else {
     $order = "25-${defaults}-${section_name}-02"
-  }
-
-  # verify accepted_payload_size is withing the allowed range per HAProxy docs
-  # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
-  if ($accepted_payload_size < 512) or ($accepted_payload_size > 8192) {
-    fail('$accepted_payload_size must be atleast 512 and not more than 8192')
   }
 
   # Template uses: $section_name
