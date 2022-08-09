@@ -32,6 +32,26 @@ describe 'haproxy::resolver' do
     }
   end
 
+  context 'with parse_resolv_conf' do
+    let(:title) { 'bar' }
+    let(:params) do
+      {
+        parse_resolv_conf: true,
+        hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
+        resolve_retries: 3,
+        timeout: { 'retry' => '1s' },
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-bar_resolver_block').with(
+        'order'   => '20-bar-01',
+        'target'  => '/etc/haproxy/haproxy.cfg',
+        'content' => "\nresolvers bar\n  parse-resolv-conf\n  resolve_retries 3\n  timeout retry 1s\n  hold other 30s\n  hold refused 30s\n  hold nx 30s\n  hold timeout 30s\n  hold valid 10s\n",
+      )
+    }
+  end
+
   context 'with accepted_payload_size within range' do
     let(:title) { 'bar' }
     let(:params) do

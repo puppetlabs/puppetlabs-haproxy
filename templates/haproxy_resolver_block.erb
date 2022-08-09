@@ -3,6 +3,9 @@ resolvers <%= @section_name %>
 <% @nameservers.each do |id, nameserver| -%>
   nameserver <%= id %> <%= nameserver %>
 <% end -%>
+<% if @parse_resolv_conf -%>
+  parse-resolv-conf
+<% end -%>
 <% if @resolve_retries -%>
   resolve_retries <%= @resolve_retries %>
 <% end -%>

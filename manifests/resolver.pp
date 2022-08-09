@@ -15,6 +15,15 @@
 # @param nameservers
 #   Set of id, ip addresses and port options.
 #   $nameservers = { 'dns1' => '10.0.0.1:53', 'dns2' => '10.0.0.2:53' }
+#   Either the 'nameservers' or the 'parse_resolv_conf' parameter must be
+#   specified in order for the resolver to work.
+#   Default: none specified.
+#
+# @param parse_resolv_conf
+#   If true, parse resolv.conf to retrieve an ordered set of nameservers.
+#   This can be used instead of (or in addition to) the 'nameservers'
+#   parameter.
+#   Default: false
 #
 # @param hold
 #   Defines <period> during which the last name resolution should be kept
@@ -87,7 +96,8 @@
 # Ricardo Rosales <missingcharacter@gmail.com>
 #
 define haproxy::resolver (
-  $nameservers             = undef,
+  Hash $nameservers       = {},
+  Boolean $parse_resolv_conf = false,
   $hold                    = undef,
   $resolve_retries         = undef,
   $timeout                 = undef,
