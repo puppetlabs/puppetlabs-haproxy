@@ -1,6 +1,6 @@
 # @summary
 #   This type will setup a listening service configuration block inside
-#   the haproxy.cfg file on an haproxy load balancer. 
+#   the haproxy.cfg file on an haproxy load balancer.
 #
 # @note
 #   Each listening service
@@ -144,15 +144,9 @@ define haproxy::listen (
   include haproxy::globals
   $_sort_options_alphabetic = pick($sort_options_alphabetic, $haproxy::globals::sort_options_alphabetic)
 
-  if $defaults == undef {
-    $order = "20-${section_name}-00"
-  } else {
-    $order = "25-${defaults}-${section_name}-00"
-  }
-
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_listen_block":
-    order   => $order,
+    order   => "20-${section_name}-00",
     target  => $_config_file,
     content => template('haproxy/haproxy_listen_block.erb'),
   }

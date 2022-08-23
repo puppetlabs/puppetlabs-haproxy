@@ -85,7 +85,7 @@
 #   Default /usr/sbin/haproxy -f % -c
 #
 # @param manage_config_dir
-#   Optional. 
+#   Optional.
 # @param manage_service
 #   Deprecated
 # @param enable

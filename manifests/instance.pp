@@ -1,6 +1,6 @@
 # @summary
 #   Manages haproxy permitting multiple instances to run on the same machine.
-#   
+#
 # @note
 #   Normally users use the Class['haproxy'], which runs a single haproxy
 #   daemon on a machine.
@@ -215,12 +215,16 @@ define haproxy::instance (
     config_dir          => $_config_dir,
     config_file         => $_config_file,
     global_options      => $_global_options,
-    defaults_options    => $_defaults_options,
     custom_fragment     => $custom_fragment,
     merge_options       => $merge_options,
     package_ensure      => $package_ensure,
     chroot_dir_manage   => $chroot_dir_manage,
     config_validate_cmd => $config_validate_cmd,
+  }
+  haproxy::defaults { $title:
+    defaults_options => $_defaults_options,
+    instance         => $instance_name,
+    merge_options    => $merge_options,
   }
   haproxy::install { $title:
     package_name   => $package_name,

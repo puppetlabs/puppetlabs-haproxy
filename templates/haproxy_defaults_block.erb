@@ -1,4 +1,17 @@
-
-
+<% if @name != 'haproxy' -%>
 defaults <%= @name %>
-<%= scope.function_template(['haproxy/fragments/_options.erb']) -%>
+<%= scope.function_template(['haproxy/fragments/_options.erb']) %>
+<% else -%>
+defaults
+<% @options.sort.each do |key,val| -%>
+<%# Skip options whose value is undef/nil -%>
+<% next if val == :undef or val.nil? -%>
+<% if val.is_a?(Array) -%>
+<% val.each do |item| -%>
+  <%= key %>  <%= item %>
+<% end -%>
+<% else -%>
+  <%= key %>  <%= val %>
+<% end -%>
+<% end -%>
+<% end -%>

@@ -11,18 +11,6 @@ global
 <% end -%>
 <% end -%>
 
-defaults
-<% @_defaults_options.sort.each do |key,val| -%>
-<%# Skip options whose value is undef/nil -%>
-<% next if val == :undef or val.nil? -%>
-<% if val.is_a?(Array) -%>
-<% val.each do |item| -%>
-  <%= key %>  <%= item %>
-<% end -%>
-<% else -%>
-  <%= key %>  <%= val %>
-<% end -%>
-<% end -%>
 <% if @custom_fragment -%>
 
 <%= @custom_fragment %>

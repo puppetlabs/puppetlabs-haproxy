@@ -1,6 +1,6 @@
 # @summary
 #   This type will setup a backend service configuration block inside the
-#   haproxy.cfg file on an haproxy load balancer. 
+#   haproxy.cfg file on an haproxy load balancer.
 # @note
 #   Each backend service needs one
 #   or more backend member servers (that can be declared with the
@@ -49,7 +49,7 @@
 # @param defaults
 #   Name of the defaults section this backend will use.
 #   Defaults to undef which means the global defaults section will be used.
-# 
+#
 # @param instance
 #   Optional. Defaults to 'haproxy'
 #
@@ -119,15 +119,9 @@ define haproxy::backend (
     }
   }
 
-  if $defaults == undef {
-    $order = "20-${section_name}-00"
-  } else {
-    $order = "25-${defaults}-${section_name}-01"
-  }
-
   # Template uses: $section_name, $ipaddress, $ports, $options
   concat::fragment { "${instance_name}-${section_name}_backend_block":
-    order   => $order,
+    order   => "20-${section_name}-00",
     target  => $_config_file,
     content => template('haproxy/haproxy_backend_block.erb'),
   }

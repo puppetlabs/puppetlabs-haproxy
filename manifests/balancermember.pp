@@ -1,7 +1,7 @@
 # @summary
 #  This type will setup a balancer member inside a listening service
 #  configuration block in /etc/haproxy/haproxy.cfg on the load balancer.
-#  
+#
 # @note
 #  Currently it only has the ability to specify the instance name,
 #  ip address, port, and whether or not it is a backup. More features
@@ -162,14 +162,9 @@ define haproxy::balancermember (
     $_config_file = pick($config_file, inline_template($haproxy::params::config_file_tmpl))
   }
 
-  if $defaults == undef {
-    $order = "20-${listening_service}-01-${name}"
-  } else {
-    $order = "25-${defaults}-${listening_service}-02-${name}"
-  }
   # Template uses $ipaddresses, $server_name, $ports, $option
   concat::fragment { "${instance_name}-${listening_service}_balancermember_${name}":
-    order   => $order,
+    order   => "20-${listening_service}-01-${name}",
     target  => $_config_file,
     content => template('haproxy/haproxy_balancermember.erb'),
   }
