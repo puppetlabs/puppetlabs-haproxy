@@ -13,16 +13,16 @@ describe Facter::Util::Fact do # rubocop:disable RSpec/FilePath
       Copyright 2000-2014 Willy Tarreau <w@1wt.eu>
     PUPPETCODE
     it do
-      expect(Facter::Util::Resolution).to receive(:which).at_least(1).with('haproxy').and_return(true)
-      expect(Facter::Util::Resolution).to receive(:exec).at_least(1).with('haproxy -v 2>&1').and_return(haproxy_version_output)
+      expect(Facter::Core::Execution).to receive(:which).at_least(1).with('haproxy').and_return(true)
+      expect(Facter::Core::Execution).to receive(:execute).at_least(1).with('haproxy -v 2>&1').and_return(haproxy_version_output)
       expect(Facter.fact(:haproxy_version).value).to eq '1.5.3'
     end
   end
 
   context 'when haproxy is not present' do
     it do
-      allow(Facter::Util::Resolution).to receive(:exec)
-      expect(Facter::Util::Resolution).to receive(:which).at_least(1).with('haproxy').and_return(false)
+      allow(Facter::Core::Execution).to receive(:execute)
+      expect(Facter::Core::Execution).to receive(:which).at_least(1).with('haproxy').and_return(false)
       expect(Facter.fact(:haproxy_version)).to be_nil
     end
   end
