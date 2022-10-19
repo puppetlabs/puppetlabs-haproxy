@@ -97,18 +97,18 @@
 #
 define haproxy::resolver (
   Hash $nameservers       = {},
-  Boolean $parse_resolv_conf = false,
-  $hold                    = undef,
-  $resolve_retries         = undef,
-  $timeout                 = undef,
+  Boolean $parse_resolv_conf                          = false,
+  $hold                                               = undef,
+  $resolve_retries                                    = undef,
+  $timeout                                            = undef,
   # https://cbonte.github.io/haproxy-dconv/1.8/configuration.html#5.3.2-accepted_payload_size
   Optional[Integer[512, 8192]] $accepted_payload_size = undef,
-  $instance                = 'haproxy',
-  $section_name            = $name,
-  $sort_options_alphabetic = undef,
-  $collect_exported        = true,
-  $config_file             = undef,
-  $defaults                = undef,
+  $instance                                           = 'haproxy',
+  $section_name                                       = $name,
+  $sort_options_alphabetic                            = undef,
+  $collect_exported                                   = true,
+  $config_file                                        = undef,
+  $defaults                                           = undef,
 ) {
   include haproxy::params
 
