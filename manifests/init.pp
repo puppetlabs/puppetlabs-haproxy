@@ -147,6 +147,9 @@ class haproxy (
   # there should be no legacy code that uses these deprecated
   # parameters.
 
+  Haproxy::Mapfile <| |>
+  -> Concat <| tag=='haproxy-config' |>
+
   # To support deprecating $enable
   if $enable != undef {
     warning('The $enable parameter is deprecated; please use service_ensure and/or package_ensure instead')
