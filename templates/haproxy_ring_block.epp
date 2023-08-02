@@ -1,0 +1,26 @@
+
+ring <%= $section_name %>
+<% if $description { -%>
+  description "<%= $description %>"
+<% } -%>
+<% if $format { -%>
+  format <%= $format %>
+<% } -%>
+<% if $maxlen { -%>
+  maxlen <%= $maxlen %>
+<% } -%>
+<% if $size { -%>
+  size <%= $size %>
+<% } -%>
+<% if $backing_file { -%>
+  backing-file <%= $backing_file %>
+<% } -%>
+<% if $timeout_connect { -%>
+  timeout connect <%= $timeout_connect %>s
+<% } -%>
+<% if $timeout_server { -%>
+  timeout server <%= $timeout_server %>s
+<% } -%>
+<% $servers.each |$server| { -%>
+  server <%= $server %>
+<% } %>

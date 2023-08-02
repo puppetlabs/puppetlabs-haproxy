@@ -38,6 +38,8 @@ https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 * [`haproxy::peers`](#haproxy--peers): This type will set up a peers entry in haproxy.cfg
 * [`haproxy::resolver`](#haproxy--resolver): This type will setup resolvers configuration block inside
 the haproxy.cfg file on an haproxy load balancer.
+* [`haproxy::ring`](#haproxy--ring): This type will setup a ring configuration block inside
+the haproxy.cfg file.
 * [`haproxy::userlist`](#haproxy--userlist): This type will set up a userlist configuration block inside the haproxy.cfg
 file on an haproxy load balancer.
 
@@ -48,6 +50,12 @@ file on an haproxy load balancer.
 * `haproxy::install`: Install haproxy
 * `haproxy::mailer::collect_exported`
 * `haproxy::service`: HAProxy service
+
+### Functions
+
+* [`haproxy::generate_error_message`](#haproxy--generate_error_message): Function created to generate error message. Any string as error message can be passed and the function can be called in epp templates.
+* [`haproxy::sort_bind`](#haproxy--sort_bind)
+* [`haproxy::validate_ip_addr`](#haproxy--validate_ip_addr)
 
 ## Classes
 
@@ -1947,6 +1955,137 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
+### <a name="haproxy--ring"></a>`haproxy::ring`
+
+=== Authors
+
+Alexis Courteille <alexis.courteille@gmail.com>
+
+* **Note** Currently requires the puppetlabs/concat module on the Puppet Forge and
+uses storeconfigs on the Puppet Server to export/collect resources
+from all balancer members.
+
+#### Examples
+
+##### 
+
+```puppet
+haproxy::ring { 'ring00':
+  description     => 'my haproxy ring',
+  format          => 'rfc5424',
+  maxlen          => 4096,
+  size            => 32764,
+  timeout_connect => 5,
+  timeout_server  => 10,
+  servers         => [
+    'main 192.168.0.1:1514 check',
+    'backup 192.168.0.2:1514 check backup'
+  ],
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `haproxy::ring` defined type:
+
+* [`section_name`](#-haproxy--ring--section_name)
+* [`description`](#-haproxy--ring--description)
+* [`format`](#-haproxy--ring--format)
+* [`maxlen`](#-haproxy--ring--maxlen)
+* [`size`](#-haproxy--ring--size)
+* [`backing_file`](#-haproxy--ring--backing_file)
+* [`timeout_connect`](#-haproxy--ring--timeout_connect)
+* [`timeout_server`](#-haproxy--ring--timeout_server)
+* [`servers`](#-haproxy--ring--servers)
+* [`instance`](#-haproxy--ring--instance)
+
+##### <a name="-haproxy--ring--section_name"></a>`section_name`
+
+Data type: `String[1]`
+
+This name goes right after the 'ring' statement in haproxy.cfg
+Default: $name (the namevar of the resource).
+
+Default value: `$name`
+
+##### <a name="-haproxy--ring--description"></a>`description`
+
+Data type: `Optional[String]`
+
+Optional. Allows to add a sentence to describe the related object in the HAProxy HTML
+stats page. The description will be printed on the right of the object name
+it describes. Usefull in huge environments
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--format"></a>`format`
+
+Data type: `String`
+
+Format used to store events into the ring buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--maxlen"></a>`maxlen`
+
+Data type: `Integer`
+
+The maximum length of an event message stored into the ring,
+including formatted header. If an event message is longer than
+<length>, it will be truncated to this length.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--size"></a>`size`
+
+Data type: `Integer`
+
+Optional. This is the size in bytes for the ring-buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--backing_file"></a>`backing_file`
+
+Data type: `Optional[String]`
+
+Optional. This replaces the regular memory allocation by a RAM-mapped
+file to store the ring.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--timeout_connect"></a>`timeout_connect`
+
+Data type: `Optional[Integer]`
+
+Optional. Set the maximum time to wait for a connection attempt to a server to succeed.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--timeout_server"></a>`timeout_server`
+
+Data type: `Optional[Integer]`
+
+Optional. Set the maximum time for pending data staying into output buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--servers"></a>`servers`
+
+Data type: `Array`
+
+Array of server parameter. Used to configure a tcp server to forward messages
+from ring buffer. This supports for all "server" parameters.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--instance"></a>`instance`
+
+Data type: `String`
+
+Optional. Defaults to 'haproxy'
+
+Default value: `'haproxy'`
+
 ### <a name="haproxy--userlist"></a>`haproxy::userlist`
 
 === Authors
@@ -2009,4 +2148,62 @@ Data type: `String`
 Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
+
+## Functions
+
+### <a name="haproxy--generate_error_message"></a>`haproxy::generate_error_message`
+
+Type: Ruby 4.x API
+
+Function created to generate error message. Any string as error message can be passed and the function can
+be called in epp templates.
+
+#### `haproxy::generate_error_message(String $error_message)`
+
+Function created to generate error message. Any string as error message can be passed and the function can
+be called in epp templates.
+
+Returns: `Any`
+
+##### `error_message`
+
+Data type: `String`
+
+
+
+### <a name="haproxy--sort_bind"></a>`haproxy::sort_bind`
+
+Type: Ruby 4.x API
+
+The haproxy::sort_bind function.
+
+#### `haproxy::sort_bind(Hash $bind)`
+
+The haproxy::sort_bind function.
+
+Returns: `Array`
+
+##### `bind`
+
+Data type: `Hash`
+
+
+
+### <a name="haproxy--validate_ip_addr"></a>`haproxy::validate_ip_addr`
+
+Type: Ruby 4.x API
+
+The haproxy::validate_ip_addr function.
+
+#### `haproxy::validate_ip_addr(String $virtual_ip)`
+
+The haproxy::validate_ip_addr function.
+
+Returns: `Boolean`
+
+##### `virtual_ip`
+
+Data type: `String`
+
+
 
