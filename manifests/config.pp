@@ -20,8 +20,8 @@ define haproxy::config (
   }
 
   if $merge_options {
-    $_global_options   = merge($haproxy::params::global_options, $global_options)
-    $_defaults_options = merge($haproxy::params::defaults_options, $defaults_options)
+    $_global_options   = $haproxy::params::global_options + $global_options
+    $_defaults_options = $haproxy::params::defaults_options + $defaults_options
   } else {
     $_global_options   = $global_options
     $_defaults_options = $defaults_options
