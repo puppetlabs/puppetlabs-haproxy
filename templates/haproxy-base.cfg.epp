@@ -27,5 +27,5 @@ defaults
 <% } -%>
 <% if $custom_fragment { -%>
 
-  <%= $custom_fragment %>
+<%= $custom_fragment %>
 <% } -%>
