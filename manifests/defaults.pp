@@ -21,7 +21,7 @@
 #
 define haproxy::defaults (
   Hash    $options                  = {},
-  Boolean $sort_options_alphabetic  = true,
+  Optional[Boolean] $sort_options_alphabetic  = undef,
   String  $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
