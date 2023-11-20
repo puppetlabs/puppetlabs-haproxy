@@ -14,15 +14,15 @@
 #
 # @param sort_options_alphabetic
 #   Sort options either alphabetic or custom like haproxy internal sorts them.
-#   Defaults to true.
+#   Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 #
 # @param instance
 #   Optional. Defaults to 'haproxy'.
 #
 define haproxy::defaults (
-  Hash    $options                  = {},
-  Boolean $sort_options_alphabetic  = true,
-  String  $instance                 = 'haproxy',
+  Hash              $options                  = {},
+  Optional[Boolean] $sort_options_alphabetic  = undef,
+  String            $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
     include haproxy
