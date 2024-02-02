@@ -63,18 +63,19 @@ class haproxy::params {
         'daemon'  => '',
       }
       $defaults_options  = {
-        'log'        => 'global',
-        'mode'       => 'http',
-        'option'     => [
-          'httplog',
-          'dontlognull',
+        'log'     => 'global',
+        'stats'   => 'enable',
+        'option'  => ['redispatch'],
+        'retries' => '3',
+        'timeout' => [
+          'http-request 10s',
+          'queue 1m',
+          'connect 10s',
+          'client 1m',
+          'server 1m',
+          'check 10s',
         ],
-        'retries'    => '3',
-        'redispatch' => '',
-        'maxconn'    => '2000',
-        'contimeout' => '5000',
-        'clitimeout' => '50000',
-        'srvtimeout' => '50000',
+        'maxconn' => '8000',
       }
       $config_validate_cmd = '/usr/local/sbin/haproxy -f % -c'
       # Single instance:
