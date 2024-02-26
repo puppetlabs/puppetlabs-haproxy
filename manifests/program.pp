@@ -1,7 +1,18 @@
 # @summary Program definition
 #
-# A command to be executed by haproxy master process
-#
+# @param command
+#   A command to be executed by haproxy master process
+# @param user
+#   User account used for executing command
+# @param group
+#   Assigned group
+# @param options
+#   By default, the process manager stops and recreates child programs at haproxy reload.
+#   In order to disable this, set this parameter to `no option start-on-reload`
+# @param instance
+#   haproxy instance
+# @param config_file
+#   Path to haproxy config
 # @see https://www.haproxy.com/documentation/haproxy-configuration-tutorials/programs/
 # @example
 #   haproxy::program { 'hello':
@@ -30,11 +41,11 @@ define haproxy::program (
     order   => "40-program-${name}",
     target  => $_config_file,
     content => epp('haproxy/haproxy_program.epp', {
-      'name'    => $name,
-      'command' => $command,
-      'user'    => $user,
-      'group'   => $group,
-      'options' => $options,
+        'name'    => $name,
+        'command' => $command,
+        'user'    => $user,
+        'group'   => $group,
+        'options' => $options,
     }),
   }
 }

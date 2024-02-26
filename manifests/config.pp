@@ -84,7 +84,11 @@ define haproxy::config (
     }
 
     if !empty($programs) {
-      create_resources(haproxy::program, $programs)
+      $programs.each |String $program, Hash $attributes| {
+        Resource['haproxy::program'] { $program:
+          *=> $attributes,
+        }
+      }
     }
   }
 
