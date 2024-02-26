@@ -134,7 +134,7 @@ class haproxy (
   Hash                                          $global_options       = $haproxy::params::global_options,
   Hash                                          $defaults_options     = $haproxy::params::defaults_options,
   Boolean                                       $merge_options        = $haproxy::params::merge_options,
-  Optional[Array[String]]                       $install_options      = undef,
+  Array[String[1]]                              $install_options      = [],
   Optional[String]                              $restart_command      = undef,
   Optional[String]                              $custom_fragment      = undef,
   Stdlib::Absolutepath                          $config_dir           = $haproxy::params::config_dir,
