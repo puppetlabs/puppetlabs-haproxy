@@ -38,6 +38,8 @@ https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 * [`haproxy::peers`](#haproxy--peers): This type will set up a peers entry in haproxy.cfg
 * [`haproxy::resolver`](#haproxy--resolver): This type will setup resolvers configuration block inside
 the haproxy.cfg file on an haproxy load balancer.
+* [`haproxy::ring`](#haproxy--ring): This type will setup a ring configuration block inside
+the haproxy.cfg file.
 * [`haproxy::userlist`](#haproxy--userlist): This type will set up a userlist configuration block inside the haproxy.cfg
 file on an haproxy load balancer.
 
@@ -1957,6 +1959,137 @@ Defaults to undef which means the global defaults section will be used.
 Default value: `undef`
 
 ##### <a name="-haproxy--resolver--instance"></a>`instance`
+
+Data type: `String`
+
+Optional. Defaults to 'haproxy'
+
+Default value: `'haproxy'`
+
+### <a name="haproxy--ring"></a>`haproxy::ring`
+
+=== Authors
+
+Alexis Courteille <alexis.courteille@gmail.com>
+
+* **Note** Currently requires the puppetlabs/concat module on the Puppet Forge and
+uses storeconfigs on the Puppet Server to export/collect resources
+from all balancer members.
+
+#### Examples
+
+##### 
+
+```puppet
+haproxy::ring { 'ring00':
+  description     => 'my haproxy ring',
+  format          => 'rfc5424',
+  maxlen          => 4096,
+  size            => 32764,
+  timeout_connect => 5,
+  timeout_server  => 10,
+  servers         => [
+    'main 192.168.0.1:1514 check',
+    'backup 192.168.0.2:1514 check backup'
+  ],
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `haproxy::ring` defined type:
+
+* [`section_name`](#-haproxy--ring--section_name)
+* [`description`](#-haproxy--ring--description)
+* [`format`](#-haproxy--ring--format)
+* [`maxlen`](#-haproxy--ring--maxlen)
+* [`size`](#-haproxy--ring--size)
+* [`backing_file`](#-haproxy--ring--backing_file)
+* [`timeout_connect`](#-haproxy--ring--timeout_connect)
+* [`timeout_server`](#-haproxy--ring--timeout_server)
+* [`servers`](#-haproxy--ring--servers)
+* [`instance`](#-haproxy--ring--instance)
+
+##### <a name="-haproxy--ring--section_name"></a>`section_name`
+
+Data type: `String[1]`
+
+This name goes right after the 'ring' statement in haproxy.cfg
+Default: $name (the namevar of the resource).
+
+Default value: `$name`
+
+##### <a name="-haproxy--ring--description"></a>`description`
+
+Data type: `Optional[String]`
+
+Optional. Allows to add a sentence to describe the related object in the HAProxy HTML
+stats page. The description will be printed on the right of the object name
+it describes. Usefull in huge environments
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--format"></a>`format`
+
+Data type: `String`
+
+Format used to store events into the ring buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--maxlen"></a>`maxlen`
+
+Data type: `Integer`
+
+The maximum length of an event message stored into the ring,
+including formatted header. If an event message is longer than
+<length>, it will be truncated to this length.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--size"></a>`size`
+
+Data type: `Integer`
+
+Optional. This is the size in bytes for the ring-buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--backing_file"></a>`backing_file`
+
+Data type: `Optional[String]`
+
+Optional. This replaces the regular memory allocation by a RAM-mapped
+file to store the ring.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--timeout_connect"></a>`timeout_connect`
+
+Data type: `Optional[Integer]`
+
+Optional. Set the maximum time to wait for a connection attempt to a server to succeed.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--timeout_server"></a>`timeout_server`
+
+Data type: `Optional[Integer]`
+
+Optional. Set the maximum time for pending data staying into output buffer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--servers"></a>`servers`
+
+Data type: `Array`
+
+Array of server parameter. Used to configure a tcp server to forward messages
+from ring buffer. This supports for all "server" parameters.
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--instance"></a>`instance`
 
 Data type: `String`
 
