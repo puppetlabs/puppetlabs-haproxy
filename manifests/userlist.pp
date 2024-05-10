@@ -50,8 +50,6 @@ define haproxy::userlist (
       epp_section_name => $section_name,
     },
   )
-  # we have to unwrap here, as "concat" cannot handle Sensitive Data
-  $_content = if $content =~ Sensitive { $content.unwrap } else { $content }
 
   if $instance == 'haproxy' {
     $instance_name = 'haproxy'
@@ -64,6 +62,6 @@ define haproxy::userlist (
   concat::fragment { "${instance_name}-${section_name}_userlist_block":
     order   => "12-${section_name}-00",
     target  => $_config_file,
-    content => $_content,
+    content => $content,
   }
 }
