@@ -30,7 +30,7 @@ describe 'frontend backend defines with defaults' do
       haproxy::frontend { 'app00':
         ipaddress => '127.0.0.1',
         mode      => 'http',
-        ports     => '5555',
+        ports     => 5555,
         defaults  => 'http',
         options   => { 'default_backend' => 'app00' },
       }
@@ -43,13 +43,13 @@ describe 'frontend backend defines with defaults' do
         listening_service => 'app00',
         server_names      => 'test00.example.com',
         defaults          => 'http',
-        ports             => '5556',
+        ports             => 5556,
       }
      haproxy::balancermember { 'port 5557':
         listening_service => 'app00',
         server_names      => 'test01.example.com',
         defaults          => 'http',
-        ports             => '5557',
+        ports             => 5557,
       }
   PUPPETCODE
   it 'is able to configure defaults with puppet' do
@@ -89,7 +89,7 @@ describe 'frontend backend defines with defaults' do
       haproxy::frontend { 'app00':
         ipaddress => '127.0.0.1',
         mode      => 'http',
-        ports     => '5555',
+        ports     => 5555,
         defaults  => 'http',
         options   => { 'default_backend' => 'app00' },
       }
@@ -102,12 +102,12 @@ describe 'frontend backend defines with defaults' do
         listening_service => 'app00',
         server_names      => 'test00.example.com',
         defaults          => 'http',
-        ports             => '5556',
+        ports             => 5556,
       }
       haproxy::frontend { 'app01':
         ipaddress => '127.0.0.1',
         mode      => 'http',
-        ports     => '6666',
+        ports     => 6666,
         options   => { 'default_backend' => 'app01' },
       }
       haproxy::backend { 'app01':
@@ -117,7 +117,7 @@ describe 'frontend backend defines with defaults' do
       haproxy::balancermember { 'port 5557':
         listening_service => 'app01',
         server_names      => 'test01.example.com',
-        ports             => '5557',
+        ports             => 5557,
       }
   PUPPETCODE
   it 'is able to configure defaults and old style with puppet' do
