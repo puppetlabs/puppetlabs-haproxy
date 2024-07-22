@@ -14,12 +14,9 @@ userlist <%= $epp_section_name %>
     }
   }
   $epp_users.each |Variant[String, Sensitive[String]] $user| {
-    # TODO: remove this Workaround, as soon as Function empty() can handle
-    # Sensitive (Pullrequest pending)
-    $user_unsensitive = if $user =~ Sensitive { $user.unwrap } else { $user }
-    unless $user_unsensitive.empty {
+    unless $user.empty {
 -%>
-  user <%= $user_unsensitive %>
+  user <%= $user %>
 <%-
     }
   }
