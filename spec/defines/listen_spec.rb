@@ -22,7 +22,7 @@ describe 'haproxy::listen' do
       {
         name: 'croy',
         ipaddress: '1.1.1.1',
-        ports: '18140'
+        ports: 18_140
       }
     end
 
@@ -41,26 +41,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80', '443']
-      }
-    end
-
-    it {
-      is_expected.to contain_concat__fragment('haproxy-apache_listen_block').with(
-        'order' => '20-apache-00',
-        'target' => '/etc/haproxy/haproxy.cfg',
-        'content' => "\nlisten apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  balance roundrobin\n  option tcplog\n",
-      )
-    }
-  end
-
-  # C9940
-  context 'when a comma-separated list of ports is provided' do
-    let(:params) do
-      {
-        name: 'apache',
-        ipaddress: '23.23.23.23',
-        ports: '80,443'
+        ports: [80, 443]
       }
     end
 
@@ -98,12 +79,12 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80443'
+        ports: 80_443
       }
     end
 
     it 'raises error' do
-      expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
+      expect { catalogue }.to raise_error Puppet::Error, %r{Stdlib::Port}
     end
   end
 
@@ -113,7 +94,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '2323.23.23',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -128,7 +109,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: 'some-hostname',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -146,7 +127,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '*',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -181,7 +162,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         bind: { '192.168.0.1:80' => ['ssl'] },
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -222,7 +203,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '$some_hostname',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -237,7 +218,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: ':::6',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -251,7 +232,7 @@ describe 'haproxy::listen' do
       {
         name: 'apache',
         ipaddress: '1.1.1.1',
-        ports: '80',
+        ports: 80,
         bind_options: ['the options', 'go here']
       }
     end
