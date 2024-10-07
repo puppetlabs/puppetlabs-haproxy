@@ -23,7 +23,7 @@ class haproxy::params {
         'user'    => 'haproxy',
         'group'   => 'haproxy',
         'daemon'  => '',
-        'stats'   => 'socket /var/lib/haproxy/stats',
+        'stats'   => 'socket /var/run/haproxy.sock mode 600 level admin',
       }
       $defaults_options  = {
         'log'     => 'global',
