@@ -657,6 +657,25 @@ describe 'haproxy', type: :class do
     end
   end
 
+  context 'when install_options are specified' do
+    let(:facts) do
+      { os: { family: 'Debian' } }.merge default_facts
+    end
+
+    let(:params) do
+      {
+        'install_options' => ['--no-install-recommends'],
+      }
+    end
+
+    it 'installs the haproxy package' do
+      subject.should contain_package('haproxy').with(
+        'ensure'          => 'present',
+        'install_options' => ['--no-install-recommends'],
+      )
+    end
+  end
+
   context 'when on unsupported operatingsystems' do
     let(:facts) do
       { os: { family: 'windows' } }.merge default_facts
