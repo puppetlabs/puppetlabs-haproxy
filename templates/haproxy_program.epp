@@ -1,0 +1,11 @@
+program <%= $name %>
+  command <%= $command %>
+  <% if $user { -%>
+  user <%= $user %>
+  <% } -%>
+  <% if $group { -%>
+  group $group
+  <% } -%>
+  <% if $options { -%>
+  <%= $options %>
+  <% } -%>

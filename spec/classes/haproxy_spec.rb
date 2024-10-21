@@ -668,4 +668,31 @@ describe 'haproxy', type: :class do
       }.to raise_error(Puppet::Error, %r{operating system is not supported with the haproxy module})
     end
   end
+
+  describe 'when programs is specified' do
+    ['Debian'].each do |osfamily|
+      context "when on #{osfamily} family operatingsystems" do
+        let(:facts) do
+          { os: { family: osfamily } }.merge default_facts
+        end
+        let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-haproxy-base', 'content').split("\n") }
+        let(:params) do
+          {
+            'programs' => {
+              'foo' => {
+                'command' => '/usr/bin/foo',
+              },
+              'bar' => {
+                'command' => '/usr/bin/bar',
+              },
+            },
+          }
+        end
+
+        it { is_expected.to compile }
+        it { is_expected.to contain_concat__fragment('haproxy-foo_program').with_content(%r{command /usr/bin/foo}) }
+        it { is_expected.to contain_concat__fragment('haproxy-bar_program').with_content(%r{command /usr/bin/bar}) }
+      end
+    end
+  end
 end
