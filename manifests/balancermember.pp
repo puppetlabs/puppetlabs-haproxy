@@ -135,22 +135,22 @@
 #  (this resource can be declared anywhere)
 #
 define haproxy::balancermember (
-  String                                              $listening_service,
-  Enum['server', 'default-server', 'server-template'] $type               = 'server',
-  Optional[Haproxy::Ports]                            $ports              = undef,
-  Optional[Variant[String, Stdlib::Port]]             $port               = undef,
-  Variant[String[1], Array]                           $server_names       = $facts['networking']['hostname'],
-  Variant[String, Array]                              $ipaddresses        = $facts['networking']['ip'],
-  String                                              $prefix             = 'server',
-  String                                              $amount             = '1',
-  Optional[String]                                    $fqdn               = undef,
-  Optional[Variant[String, Array]]                    $options            = undef,
-  Boolean                                             $define_cookies     = false,
-  String                                              $instance           = 'haproxy',
-  Optional[String]                                    $defaults           = undef,
-  Optional[Stdlib::Absolutepath]                      $config_file        = undef,
-  Boolean                                             $verifyhost         = false,
-  Optional[Variant[String, Integer]]                  $weight             = undef,
+  String                                                $listening_service,
+  Enum['server', 'default-server', 'server-template']   $type               = 'server',
+  Optional[Variant[Array[Stdlib::Port,0],Stdlib::Port]] $ports              = undef,
+  Optional[Variant[String, Stdlib::Port]]               $port               = undef,
+  Variant[String[1], Array]                             $server_names       = $facts['networking']['hostname'],
+  Variant[String, Array]                                $ipaddresses        = $facts['networking']['ip'],
+  String                                                $prefix             = 'server',
+  String                                                $amount             = '1',
+  Optional[String]                                      $fqdn               = undef,
+  Optional[Variant[String, Array]]                      $options            = undef,
+  Boolean                                               $define_cookies     = false,
+  String                                                $instance           = 'haproxy',
+  Optional[String]                                      $defaults           = undef,
+  Optional[Stdlib::Absolutepath]                        $config_file        = undef,
+  Boolean                                               $verifyhost         = false,
+  Optional[Variant[String, Integer]]                    $weight             = undef,
 ) {
   include haproxy::params
 
