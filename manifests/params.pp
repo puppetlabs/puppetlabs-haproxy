@@ -27,7 +27,6 @@ class haproxy::params {
       }
       $defaults_options  = {
         'log'     => 'global',
-        'stats'   => 'enable',
         'option'  => ['redispatch'],
         'retries' => '3',
         'timeout' => [
