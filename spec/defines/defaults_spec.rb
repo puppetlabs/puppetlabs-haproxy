@@ -55,7 +55,6 @@ describe 'haproxy::defaults' do
         maxconn 8000
         option redispatch
         retries 3
-        stats enable
         timeout http-request 10s
         timeout queue 1m
         timeout connect 10s
