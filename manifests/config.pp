@@ -9,6 +9,7 @@ define haproxy::config (
   Hash                                  $global_options,
   Hash                                  $defaults_options,
   Boolean                               $chroot_dir_manage,
+  Haproxy::Programs                     $programs            = {},
   Stdlib::Absolutepath                  $config_dir          = undef,
   Optional[String]                      $custom_fragment     = undef,
   Boolean                               $merge_options       = $haproxy::merge_options,
@@ -80,6 +81,14 @@ define haproxy::config (
       target  => $_config_file,
       order   => '10',
       content => epp("${module_name}/haproxy-base.cfg.epp", $parameters),
+    }
+
+    if !empty($programs) {
+      $programs.each |String $program, Hash $attributes| {
+        Resource['haproxy::program'] { $program:
+          *=> $attributes,
+        }
+      }
     }
   }
 

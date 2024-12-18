@@ -85,6 +85,10 @@
 #
 # @param sysconfig_options
 #
+# @param programs
+#   A program section contains a set of directives that define the program to be run,
+#   its command-line options and flags, as well as user, group, and restart options.
+#
 # @example
 #  A single instance of haproxy with all defaults
 #  i.e. emulate Class['haproxy']
@@ -175,6 +179,7 @@ define haproxy::instance (
   Boolean                                      $merge_options        = $haproxy::params::merge_options,
   String                                       $service_options      = $haproxy::params::service_options,
   String                                       $sysconfig_options    = $haproxy::params::sysconfig_options,
+  Haproxy::Programs                            $programs             = {},
 ) {
   # Since this is a 'define', we can not use 'inherts haproxy::params'.
   # Therefore, we "include haproxy::params" for any parameters we need.
@@ -221,6 +226,7 @@ define haproxy::instance (
     package_ensure      => $package_ensure,
     chroot_dir_manage   => $chroot_dir_manage,
     config_validate_cmd => $config_validate_cmd,
+    programs            => $programs,
   }
   haproxy::install { $title:
     package_name   => $package_name,
