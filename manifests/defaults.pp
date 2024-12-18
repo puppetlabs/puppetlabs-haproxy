@@ -26,7 +26,7 @@
 #
 define haproxy::defaults (
   Hash    $options                  = {},
-  Boolean $sort_options_alphabetic  = true,
+  Optional[Boolean] $sort_options_alphabetic = undef,
   Boolean $merge_options            = $haproxy::params::merge_options,
   String  $instance                 = 'haproxy',
 ) {
