@@ -5,11 +5,25 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v8.1.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.1.0) - 2024-12-16
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.0.0...v8.1.0)
+
+### Added
+
+- (CAT-2101) Add support for Debian-12 [#619](https://github.com/puppetlabs/puppetlabs-haproxy/pull/619) ([skyamgarp](https://github.com/skyamgarp))
+- Allow ports parameters as Stdlib::Ports [#610](https://github.com/puppetlabs/puppetlabs-haproxy/pull/610) ([traylenator](https://github.com/traylenator))
+
+### Fixed
+
+- (CAT-2158) Upgrade rexml to address CVE-2024-49761 [#621](https://github.com/puppetlabs/puppetlabs-haproxy/pull/621) ([amitkarsale](https://github.com/amitkarsale))
+
 ## [v8.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.0.0) - 2023-11-22
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v7.2.1...v8.0.0)
 
 ### Changed
+
 - merge_options: Switch default false->true [#592](https://github.com/puppetlabs/puppetlabs-haproxy/pull/592) ([bastelfreak](https://github.com/bastelfreak))
 
 ### Added
@@ -60,6 +74,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v6.5.0...v7.0.0)
 
 ### Changed
+
 - (Cont 779) Add Support for Puppet 8 / Drop Support for Puppet 6 [#544](https://github.com/puppetlabs/puppetlabs-haproxy/pull/544) ([david22swan](https://github.com/david22swan))
 
 ## [v6.5.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v6.5.0) - 2023-03-31
@@ -158,6 +173,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v4.5.0...v5.0.0)
 
 ### Changed
+
 - pdksync - Remove Puppet 5 from testing and bump minimal version to 6.0.0 [#465](https://github.com/puppetlabs/puppetlabs-haproxy/pull/465) ([carabasdaniel](https://github.com/carabasdaniel))
 
 ## [v4.5.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v4.5.0) - 2020-12-14
@@ -230,6 +246,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/3.0.1...v4.0.0)
 
 ### Changed
+
 - pdksync - (MODULES-8444) - Raise lower Puppet bound [#362](https://github.com/puppetlabs/puppetlabs-haproxy/pull/362) ([david22swan](https://github.com/david22swan))
 
 ### Added
@@ -250,6 +267,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/2.2.0...3.0.0)
 
 ### Changed
+
 - (FM-7675) - Support has been removed for RHEL 6 [#345](https://github.com/puppetlabs/puppetlabs-haproxy/pull/345) ([david22swan](https://github.com/david22swan))
 
 ### Added
@@ -303,6 +321,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/list...2.0.0)
 
 ### Changed
+
 - (WIP) Puppet4 update [#285](https://github.com/puppetlabs/puppetlabs-haproxy/pull/285) ([HelenCampbell](https://github.com/HelenCampbell))
 
 ### Added
