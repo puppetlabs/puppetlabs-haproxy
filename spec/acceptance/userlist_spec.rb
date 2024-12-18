@@ -20,7 +20,7 @@ describe 'userlist define' do
       haproxy::listen { 'app00':
         collect_exported => false,
         ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
-        ports            => '5555',
+        ports            => 5555,
         options          => {
           'mode'         => 'http',
           'acl'          => 'auth_ok http_auth(users_groups)',
@@ -30,13 +30,13 @@ describe 'userlist define' do
       haproxy::balancermember { 'app00 port 5556':
         listening_service => 'app00',
         server_names      => 'test00.example.com',
-        ports             => '5556',
+        ports             => 5556,
       }
 
       haproxy::listen { 'app01':
         collect_exported => false,
         ipaddress        => $facts['networking']['interfaces']['lo']['ip'],
-        ports            => '5554',
+        ports            => 5554,
         options          => {
           'mode'         => 'http',
           'acl'          => 'auth_ok http_auth_group(users_groups) g1',
@@ -45,7 +45,7 @@ describe 'userlist define' do
       }
       haproxy::balancermember { 'app01 port 5556':
         listening_service => 'app01',
-        ports             => '5556',
+        ports             => 5556,
       }
   PUPPETCODE
   it 'is able to configure the listen with puppet' do
