@@ -13,7 +13,6 @@ describe 'frontend backend defines with defaults' do
           option => [
             'redispatch',
           ],
-          'stats'   => 'enable',
           'log'     => 'global',
           retries => 3,
           'timeout client' => '3s',
@@ -72,7 +71,6 @@ describe 'frontend backend defines with defaults' do
           option => [
             'redispatch',
           ],
-          'stats'   => 'enable',
           'log'     => 'global',
           retries => 3,
           'timeout client' => '3s',
