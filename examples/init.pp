@@ -46,7 +46,7 @@ class { 'haproxy':
 haproxy::listen { 'puppet00':
   order     => '20',
   ipaddress => $facts['networking']['ip'],
-  ports     => '18140',
+  ports     => 18140,
   options   => {
     'option'  => [
       'tcplog',
@@ -57,7 +57,7 @@ haproxy::listen { 'puppet00':
 haproxy::listen { 'stats':
   order     => '30',
   ipaddress => '',
-  ports     => '9090',
+  ports     => 9090,
   options   => {
     'mode'  => 'http',
     'stats' => [
