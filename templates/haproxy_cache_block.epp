@@ -1,0 +1,9 @@
+
+cache <%= $name %>
+  total-max-size <%= $total_max_size %>
+<% if $max_object_size { -%>
+  max-object-size <%= $max_object_size %>
+<% } -%>
+<% if $max_age { -%>
+  max-age <%= $max_age %>
+<% } -%>
