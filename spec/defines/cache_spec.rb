@@ -32,7 +32,7 @@ describe 'haproxy::cache' do
 
     it {
       is_expected.to contain_concat__fragment('haproxy-cache-dero').with(
-        'order' => '40-cache-dero',
+        'order' => '30-cache-dero',
         'target' => '/tmp/haproxy.cfg',
         'content' => "\ncache dero\n  total-max-size 1\n  max-age 60\n",
       )

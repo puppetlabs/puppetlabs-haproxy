@@ -4,6 +4,10 @@ cache <%= $name %>
 <% if $max_object_size { -%>
   max-object-size <%= $max_object_size %>
 <% } -%>
-<% if $max_age { -%>
   max-age <%= $max_age %>
+<% if $process_vary { -%>
+  process-vary <%= $process_vary %>
+<% } -%>
+<% if $max_secondary_entries { -%>
+  max-secondary-entries <%= $max_secondary_entries %>
 <% } -%>
