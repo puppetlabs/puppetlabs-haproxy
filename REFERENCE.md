@@ -18,6 +18,8 @@
 haproxy.cfg file on an haproxy load balancer.
 * [`haproxy::balancermember`](#haproxy--balancermember): This type will setup a balancer member inside a listening service
 configuration block in /etc/haproxy/haproxy.cfg on the load balancer.
+* [`haproxy::cache`](#haproxy--cache): Manage a HAProxy cache resource as documented in
+https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/#6
 * [`haproxy::defaults`](#haproxy--defaults): This type will setup a additional defaults configuration block inside the
 haproxy.cfg file on an haproxy load balancer.
 * [`haproxy::frontend`](#haproxy--frontend): This type will setup a frontend service configuration block inside
@@ -707,6 +709,79 @@ Data type: `Enum['server', 'default-server', 'server-template']`
 Optional. Defaults to 'server'
 
 Default value: `'server'`
+
+### <a name="haproxy--cache"></a>`haproxy::cache`
+
+Manage a HAProxy cache resource as documented in
+https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/#6
+
+#### Parameters
+
+The following parameters are available in the `haproxy::cache` defined type:
+
+* [`name`](#-haproxy--cache--name)
+* [`total_max_size`](#-haproxy--cache--total_max_size)
+* [`max_object_size`](#-haproxy--cache--max_object_size)
+* [`max_age`](#-haproxy--cache--max_age)
+* [`process_vary`](#-haproxy--cache--process_vary)
+* [`max_secondary_entries`](#-haproxy--cache--max_secondary_entries)
+* [`instance`](#-haproxy--cache--instance)
+
+##### <a name="-haproxy--cache--name"></a>`name`
+
+Name of the cache.
+
+##### <a name="-haproxy--cache--total_max_size"></a>`total_max_size`
+
+Data type: `Integer[1,4095]`
+
+Size of cache in megabytes. Maximum value is 4095.
+
+##### <a name="-haproxy--cache--max_object_size"></a>`max_object_size`
+
+Data type: `Optional[Integer]`
+
+Maximum size of object to be cached. Must not be bigger than half of total_max_size.
+If not set, it equals to 1/256th of total cache size.
+
+Default value: `undef`
+
+##### <a name="-haproxy--cache--max_age"></a>`max_age`
+
+Data type: `Integer`
+
+Maximum expiration time in seconds. The expiration is set as the lowest
+value between the s-maxage or max-age (in this order) directive in the
+Cache-Control response header and this value.
+
+Default value: `60`
+
+##### <a name="-haproxy--cache--process_vary"></a>`process_vary`
+
+Data type: `Optional[Enum['on', 'off']]`
+
+Available since HAProxy 2.4. Turn on or off the processing of the Vary header
+in a response. For more info, check https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/#6.2.1-process-vary
+
+Default value: `undef`
+
+##### <a name="-haproxy--cache--max_secondary_entries"></a>`max_secondary_entries`
+
+Data type: `Optional[Integer[1]]`
+
+Available since HAProxy 2.4. Define the maximum number of simultaneous secondary
+entries with the same primary key in the cache. This needs the vary support to
+be enabled. Its default value is 10 and should be passed a strictly positive integer.
+
+Default value: `undef`
+
+##### <a name="-haproxy--cache--instance"></a>`instance`
+
+Data type: `String`
+
+Optional. Defaults to 'haproxy'.
+
+Default value: `'haproxy'`
 
 ### <a name="haproxy--defaults"></a>`haproxy::defaults`
 
