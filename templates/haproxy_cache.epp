@@ -1,0 +1,13 @@
+
+cache <%= $name %>
+  total-max-size <%= $total_max_size %>
+<% if $max_object_size { -%>
+  max-object-size <%= $max_object_size %>
+<% } -%>
+  max-age <%= $max_age %>
+<% if $process_vary { -%>
+  process-vary <%= $process_vary %>
+<% } -%>
+<% if $max_secondary_entries { -%>
+  max-secondary-entries <%= $max_secondary_entries %>
+<% } -%>
