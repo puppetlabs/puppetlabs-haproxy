@@ -94,25 +94,25 @@
 # Gary Larizza <gary@puppetlabs.com>
 #
 define haproxy::listen (
-  Optional[Haproxy::Ports]                $ports                    = undef,
-  Optional[Variant[String, Array]]        $ipaddress                = undef,
-  Optional[Hash]                          $bind                     = undef,
-  Optional[Enum['tcp', 'http', 'health']] $mode                     = undef,
-  Boolean                                 $collect_exported         = true,
-  Variant[Hash, Array[Hash]]              $options                  = {
+  Optional[Variant[Array[Stdlib::Port,0],Stdlib::Port]] $ports                    = undef,
+  Optional[Variant[String, Array]]                      $ipaddress                = undef,
+  Optional[Hash]                                        $bind                     = undef,
+  Optional[Enum['tcp', 'http', 'health']]               $mode                     = undef,
+  Boolean                                               $collect_exported         = true,
+  Variant[Hash, Array[Hash]]                            $options                  = {
     'option'                                    => [
       'tcplog',
     ],
     'balance'                                   => 'roundrobin',
   },
-  String                                  $instance                 = 'haproxy',
-  String[1]                               $section_name             = $name,
-  Boolean                                 $sort_options_alphabetic  = true,
-  Optional[String]                        $description              = undef,
-  Optional[String]                        $defaults                 = undef,
-  Optional[Stdlib::Absolutepath]          $config_file              = undef,
+  String                                                $instance                 = 'haproxy',
+  String[1]                                             $section_name             = $name,
+  Boolean                                               $sort_options_alphabetic  = true,
+  Optional[String]                                      $description              = undef,
+  Optional[String]                                      $defaults                 = undef,
+  Optional[Stdlib::Absolutepath]                        $config_file              = undef,
   # Deprecated
-  Optional[Array]                         $bind_options             = undef,
+  Optional[Array]                                       $bind_options             = undef,
 ) {
   if $ports and $bind {
     fail('The use of $ports and $bind is mutually exclusive, please choose either one')

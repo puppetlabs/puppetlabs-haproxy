@@ -8,18 +8,18 @@ describe 'listen define' do
         class { 'haproxy': }
         haproxy::listen { 'app00':
           ipaddress => '127.0.0.1',
-          ports     => '5555',
+          ports     => 5555,
           mode      => 'http',
         }
         haproxy::balancermember { 'port 5556':
           listening_service => 'app00',
           server_names      => 'test00.example.com',
-          ports             => '5556',
+          ports             => 5556,
         }
         haproxy::balancermember { 'port 5557':
           listening_service => 'app00',
           server_names      => 'test01.example.com',
-          ports             => '5557',
+          ports             => 5557,
         }
     PUPPETCODE
     it 'is able to configure the listen with puppet' do
@@ -42,19 +42,19 @@ describe 'listen define' do
         class { 'haproxy': }
         haproxy::listen { 'app00':
           ipaddress => '127.0.0.1',
-          ports     => '5555',
+          ports     => 5555,
           mode      => 'http',
           options   => { 'option' => 'httpchk', },
         }
         haproxy::balancermember { 'port 5556':
           listening_service => 'app00',
           server_names      => 'test00.example.com',
-          ports             => '5556',
+          ports             => 5556,
         }
         haproxy::balancermember { 'port 5557':
           listening_service => 'app00',
           server_names      => 'test01.example.com',
-          ports             => '5557',
+          ports             => 5557,
           options           => ['check','backup'],
         }
     PUPPETCODE
@@ -76,18 +76,18 @@ describe 'listen define' do
         class { 'haproxy': }
         haproxy::listen { 'app00':
           ipaddress => '127.0.0.1',
-          ports     => '5555',
+          ports     => 5555,
           mode      => 'http',
         }
         haproxy::balancermember { 'port 5556':
           listening_service => 'app00',
           server_names      => 'test00.example.com',
-          ports             => '5556',
+          ports             => 5556,
         }
         haproxy::balancermember { 'port 5557':
           listening_service => 'app00',
           server_names      => 'test01.example.com',
-          ports             => '5558',
+          ports             => 5558,
         }
     PUPPETCODE
     it 'is able to configure the listen with only one node up' do

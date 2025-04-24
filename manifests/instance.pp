@@ -93,7 +93,7 @@
 #     instance         => 'haproxy',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
-#     ports            => '8140',
+#     ports            => 8140,
 #   }
 #
 # @example
@@ -106,7 +106,7 @@
 #     instance         => 'group1',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
-#     ports            => '8800',
+#     ports            => 8800,
 #     requires         => Package['haproxy'],
 #   }
 #   haproxy::instance { 'group2': }
@@ -117,7 +117,7 @@
 #     instance         => 'group2',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
-#     ports            => '9900',
+#     ports            => 9900,
 #     requires         => Package['haproxy'],
 #   }
 #
@@ -131,7 +131,7 @@
 #     instance         => 'group1',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
-#     ports            => '8800',
+#     ports            => 8800,
 #     requires         => Package['haproxy'],
 #   }
 #   haproxy::instance { 'group2': }
@@ -143,7 +143,7 @@
 #     instance         => 'group2',
 #     collect_exported => false,
 #     ipaddress        => $::ipaddress,
-#     ports            => '9900',
+#     ports            => 9900,
 #     requires         => Package['haproxy'],
 #   }
 #
