@@ -77,7 +77,7 @@ define haproxy::backend (
   },
   String                                  $instance                 = 'haproxy',
   String[1]                               $section_name             = $name,
-  Boolean                                 $sort_options_alphabetic  = true,
+  Optional[Boolean]                       $sort_options_alphabetic  = undef,
   Optional[String]                        $description              = undef,
   Optional[String]                        $defaults                 = undef,
   Optional[Stdlib::Absolutepath]          $config_file              = undef,
