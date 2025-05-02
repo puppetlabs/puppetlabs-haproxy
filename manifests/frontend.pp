@@ -45,7 +45,7 @@
 #
 # @param sort_options_alphabetic
 #   Sort options either alphabetic or custom like haproxy internal sorts them.
-#   Defaults to true.
+#   Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 #
 # @param defaults
 #   Name of the defaults section this backend will use.
@@ -103,7 +103,7 @@ define haproxy::frontend (
   },
   String                                  $instance                 = 'haproxy',
   String[1]                               $section_name             = $name,
-  Boolean                                 $sort_options_alphabetic  = true,
+  Optional[Boolean]                       $sort_options_alphabetic  = undef,
   Optional[String]                        $description              = undef,
   Optional[String]                        $defaults                 = undef,
   Boolean                                 $defaults_use_backend     = true,
