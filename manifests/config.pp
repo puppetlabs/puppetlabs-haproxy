@@ -56,6 +56,7 @@ define haproxy::config (
       owner => '0',
       group => '0',
       mode  => '0640',
+      tag   => 'haproxy-config',
     }
 
     Concat[$_config_file] {
