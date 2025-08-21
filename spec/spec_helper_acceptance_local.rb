@@ -3,7 +3,7 @@
 UNSUPPORTED_PLATFORMS = ['Suse', 'windows', 'AIX', 'Solaris'].freeze
 MAX_RETRY_COUNT       = 12
 RETRY_WAIT            = 10
-ERROR_MATCHER         = %r{(no valid OpenPGP data found|keyserver timed out|keyserver receive failed|Connection reset by peer|closed stream)}.freeze
+ERROR_MATCHER         = %r{(no valid OpenPGP data found|keyserver timed out|keyserver receive failed|Connection reset by peer|closed stream)}
 
 require 'singleton'
 
