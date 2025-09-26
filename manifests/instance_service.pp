@@ -47,15 +47,15 @@ define haproxy::instance_service (
   Stdlib::Absolutepath  $bindir                 = '/opt/haproxy/bin',
 ) {
   ensure_resource('package', $haproxy_package, {
-      'ensure' => 'present',
+    'ensure' => 'present',
   })
 
   # Manage the parent directory.
   ensure_resource('file', $bindir, {
-      ensure => directory,
-      owner   => 'root',
-      group   => 'root',
-      mode    => '0744',
+    ensure => directory,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0744',
   })
 
   # Create a link named after the instance. This just makes it easier
