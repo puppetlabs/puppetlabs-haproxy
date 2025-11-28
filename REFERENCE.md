@@ -111,6 +111,7 @@ class { 'haproxy':
 The following parameters are available in the `haproxy` class:
 
 * [`package_ensure`](#-haproxy--package_ensure)
+* [`package_manage`](#-haproxy--package_manage)
 * [`package_name`](#-haproxy--package_name)
 * [`service_ensure`](#-haproxy--service_ensure)
 * [`service_manage`](#-haproxy--service_manage)
@@ -138,6 +139,15 @@ Ensure the package is present (installed), absent or a specific version.
 Defaults to 'present'
 
 Default value: `'present'`
+
+##### <a name="-haproxy--package_manage"></a>`package_manage`
+
+Data type: `Boolean`
+
+Decide whether the module should manage the installation of
+haproxy package. Defaults to true
+
+Default value: `true`
 
 ##### <a name="-haproxy--package_name"></a>`package_name`
 

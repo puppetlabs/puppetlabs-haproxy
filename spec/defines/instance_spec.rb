@@ -503,6 +503,94 @@ describe 'haproxy::instance' do
           end
         end
 
+        context "when on #{osfamily} family operatingsystems without managing the package" do
+          let(:facts) do
+            { os: { family: osfamily } }.merge default_facts
+          end
+          let(:params) do
+            {
+              'package_ensure' => 'present',
+              'package_name'   => 'customhaproxy',
+              'package_manage' => false,
+              'service_ensure' => 'running',
+
+            }
+          end
+
+          it 'does not manage the customhaproxy package' do
+            subject.should_not contain_package('customhaproxy').with(
+              'ensure' => 'present',
+            )
+          end
+
+          it 'installs the customhaproxy service' do
+            subject.should contain_service('haproxy-group1').with(
+              'ensure' => 'running', 'enable' => 'true',
+              'hasrestart' => 'true', 'hasstatus' => 'true'
+            )
+          end
+
+          it 'sets up /etc/haproxy-group1/haproxy-group1.cfg as a concat resource' do
+            subject.should contain_concat('/etc/haproxy-group1/haproxy-group1.cfg').with(
+              'owner' => '0',
+              'group' => '0',
+              'mode' => '0640',
+            )
+          end
+
+          it 'manages the chroot directory' do
+            subject.should contain_file('/var/lib/haproxy').with(
+              'ensure' => 'directory',
+            )
+          end
+
+          it 'contains a header concat fragment' do
+            subject.should contain_concat__fragment('haproxy-group1-00-header').with(
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '01',
+              'content' => "# This file is managed by Puppet\n",
+            )
+          end
+
+          it 'contains a haproxy-group1-haproxy-base concat fragment' do
+            subject.should contain_concat__fragment('haproxy-group1-haproxy-base').with(
+              'target' => '/etc/haproxy-group1/haproxy-group1.cfg',
+              'order' => '10',
+            )
+          end
+
+          describe 'Base concat fragment contents' do
+            let(:contents) { param_value(catalogue, 'concat::fragment', 'haproxy-group1-haproxy-base', 'content').split("\n") }
+
+            it 'contains global and defaults sections' do
+              contents.should include('global')
+              contents.should include('defaults')
+            end
+
+            it 'logs to an ip address for local0' do
+              contents.should be_any do |match|
+                match =~ %r{  log  \d+(\.\d+){3} local0}
+              end
+            end
+
+            it 'specifies the default chroot' do
+              contents.should include('  chroot  /var/lib/haproxy')
+            end
+
+            it 'specifies the correct user' do
+              contents.should include('  user  haproxy')
+            end
+
+            it 'specifies the correct group' do
+              contents.should include('  group  haproxy')
+            end
+
+            it 'specifies the correct pidfile' do
+              contents.should include('  pidfile  /var/run/haproxy.pid')
+            end
+          end
+        end
+
         context "when on #{osfamily} when specifying a restart_command" do
           let(:facts) do
             { os: { family: osfamily } }.merge default_facts
