@@ -13,7 +13,6 @@ class { 'haproxy':
   },
   defaults_options => {
     'log'     => 'global',
-    'stats'   => 'enable',
     'option'  => 'redispatch',
     'retries' => '3',
     'timeout' => [
@@ -61,6 +60,7 @@ haproxy::listen { 'stats':
   options   => {
     'mode'  => 'http',
     'stats' => [
+      'enable',
       'uri /',
       'auth puppet:puppet',
     ],
