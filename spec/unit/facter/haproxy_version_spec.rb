@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Facter::Util::Fact do # rubocop:disable RSpec/FilePath
+describe Facter::Util::Fact do # rubocop:disable RSpec/SpecFilePathFormat
   before(:each) do
     Facter.clear
   end
