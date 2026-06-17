@@ -2,7 +2,7 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
-<!-- fork-ci-test -->
+<!-- fork-ci-test-2 -->
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
