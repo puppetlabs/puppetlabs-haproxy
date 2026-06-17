@@ -26,9 +26,9 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       (github.event_name == 'pull_request' &&
-       github.event.pull_request.head.repo.fork == false) ||
+       github.event.pull_request.head.repo.full_name == github.repository) ||
       (github.event_name == 'pull_request_target' &&
-       github.event.pull_request.head.repo.fork == true &&
+       github.event.pull_request.head.repo.full_name != github.repository &&
        contains(github.event.pull_request.labels.*.name, 'allowed-for-ci'))
     uses: "puppetlabs/cat-github-actions/.github/workflows/module_acceptance.yml@main"
     with:
