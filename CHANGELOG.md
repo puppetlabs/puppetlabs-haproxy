@@ -5,7 +5,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
-## [v8.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.0) - 2025-01-30
+## [v8.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.1) - 2026-06-25
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v8.2.1)
+
+### Other
+
+- (MODULES-11840) Allow puppetlabs/stdlib 10.x [#642](https://github.com/puppetlabs/puppetlabs-haproxy/pull/642) ([imaqsood](https://github.com/imaqsood))
+- (CAT-2373) Remove puppet 7 [#631](https://github.com/puppetlabs/puppetlabs-haproxy/pull/631) ([gavindidrichsen](https://github.com/gavindidrichsen))
+- (CAT-2373)(02) Upgrade module to puppet 8 [#629](https://github.com/puppetlabs/puppetlabs-haproxy/pull/629) ([gavindidrichsen](https://github.com/gavindidrichsen))
+- (CAT-2296) Update github runner image to ubuntu-24.04 [#627](https://github.com/puppetlabs/puppetlabs-haproxy/pull/627) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
+## [v8.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.0) - 2025-01-31
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.1.0...v8.2.0)
 
@@ -121,7 +132,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 - Added possibility filling description field [#504](https://github.com/puppetlabs/puppetlabs-haproxy/pull/504) ([michaelkoettenstorfer](https://github.com/michaelkoettenstorfer))
 - pdksync - (IAC-1753) - Add Support for AlmaLinux 8 [#502](https://github.com/puppetlabs/puppetlabs-haproxy/pull/502) ([david22swan](https://github.com/david22swan))
 - pdksync - (IAC-1751) - Add Support for Rocky 8 [#501](https://github.com/puppetlabs/puppetlabs-haproxy/pull/501) ([david22swan](https://github.com/david22swan))
-- Adding chroot_dir_manage parameter. [#498](https://github.com/puppetlabs/puppetlabs-haproxy/pull/498) ([Tamerz](https://github.com/Tamerz))
+- Adding chroot_dir_manage parameter. [#498](https://github.com/puppetlabs/puppetlabs-haproxy/pull/498) ([tamerz](https://github.com/tamerz))
 
 ### Fixed
 
@@ -482,7 +493,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 - Add haproxy::listen bind_options parameter for setting arbitrary 'bind' options [#82](https://github.com/puppetlabs/puppetlabs-haproxy/pull/82) ([misterdorm](https://github.com/misterdorm))
 - Archlinux Support added. [#70](https://github.com/puppetlabs/puppetlabs-haproxy/pull/70) ([aboe76](https://github.com/aboe76))
-- Support minus in service names [#60](https://github.com/puppetlabs/puppetlabs-haproxy/pull/60) ([ymc-dabe](https://github.com/ymc-dabe))
+- Support minus in service names [#60](https://github.com/puppetlabs/puppetlabs-haproxy/pull/60) ([nex-dabe](https://github.com/nex-dabe))
 
 ### Fixed
 
