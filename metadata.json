@@ -1,6 +1,6 @@
 {
   "name": "puppetlabs-haproxy",
-  "version": "8.2.0",
+  "version": "8.2.1",
   "author": "puppetlabs",
   "summary": "Configures HAProxy servers and manages the configuration of backend member servers.",
   "license": "Apache-2.0",
@@ -10,7 +10,7 @@
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.1 < 10.0.0"
+      "version_requirement": ">= 4.13.1 < 11.0.0"
     },
     {
       "name": "puppetlabs/concat",
