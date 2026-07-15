@@ -42,7 +42,7 @@ RSpec.configure do |c|
     # Make sure selinux is disabled so the tests work.
     LitmusHelper.instance.run_shell('setenforce 0', expect_failures: true) if os[:family].match?(%r{redhat|oracle})
 
-    if os[:family] == 'redhat' && os[:release].to_i != 8
+    if os[:family] == 'redhat' && [9].include?(os[:release].to_i)
       epel_owner = 'puppet'
       LitmusHelper.instance.run_shell("puppet module install #{epel_owner}/epel")
       LitmusHelper.instance.run_shell("puppet apply -e 'include epel'")
