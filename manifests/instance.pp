@@ -10,6 +10,9 @@
 #   uses storeconfigs on the Puppet Server to export/collect resources
 #   from all balancer members.
 #
+# @param package_manage
+#   Decide whether the module should manage the installation of
+#   haproxy package. Defaults to true
 #
 # @param package_ensure
 #   Ensure the package is present (installed), absent or a specific version.
@@ -160,6 +163,7 @@
 #
 define haproxy::instance (
   Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure = 'present',
+  Boolean                                      $package_manage       = true,
   Optional[String]                             $package_name         = undef,
   Variant[Enum['running', 'stopped'], Boolean] $service_ensure       = 'running',
   Boolean                                      $service_manage       = true,
@@ -223,6 +227,7 @@ define haproxy::instance (
     config_validate_cmd => $config_validate_cmd,
   }
   haproxy::install { $title:
+    package_manage => $package_manage,
     package_name   => $package_name,
     package_ensure => $package_ensure,
   }

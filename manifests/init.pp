@@ -9,6 +9,10 @@
 #  from all balancer members.
 #
 #
+# @param package_manage
+#   Decide whether the module should manage the installation of
+#   haproxy package. Defaults to true
+#
 # @param package_ensure
 #   Ensure the package is present (installed), absent or a specific version.
 #   Defaults to 'present'
@@ -121,6 +125,7 @@
 #
 class haproxy (
   Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure = 'present',
+  Boolean                                       $package_manage       = true,
   String                                        $package_name         = $haproxy::params::package_name,
   Variant[Enum['running', 'stopped'], Boolean]  $service_ensure       = 'running',
   Boolean                                       $service_manage       = true,
@@ -174,6 +179,7 @@ class haproxy (
   }
 
   haproxy::instance { $title:
+    package_manage      => $package_manage,
     package_ensure      => $_package_ensure,
     package_name        => $package_name,
     service_ensure      => $_service_ensure,
