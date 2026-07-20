@@ -105,7 +105,7 @@ define haproxy::resolver (
   Optional[Integer[512, 8192]]    $accepted_payload_size    = undef,
   String                          $instance                 = 'haproxy',
   String[1]                       $section_name             = $name,
-  Boolean                         $sort_options_alphabetic  = true,
+  Optional[Boolean]               $sort_options_alphabetic  = undef,
   Boolean                         $collect_exported         = true,
   Optional[Stdlib::Absolutepath]  $config_file              = undef,
   Optional[String]                $defaults                 = undef,

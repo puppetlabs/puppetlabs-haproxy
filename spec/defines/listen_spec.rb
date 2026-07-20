@@ -425,6 +425,47 @@ describe 'haproxy::listen' do
     }
   end
 
+  context 'when listen options are specified with global sort_options_alphabetic disabled' do
+    let(:pre_condition) do
+      <<-PUPPET
+      include haproxy
+      class { 'haproxy::globals':
+        sort_options_alphabetic => false,
+      }
+      PUPPET
+    end
+
+    let(:params) do
+      {
+        name: 'apache',
+        bind: {
+          '0.0.0.0:48001-48003' => []
+        },
+        mode: 'http',
+        options: {
+          'reqadd' => 'X-Forwarded-Proto:\ https',
+          'reqidel' => '^X-Forwarded-For:.*',
+          'default_backend' => 'dev00_webapp',
+          'capture request header' => ['X-Forwarded-For len 50', 'Host len 15', 'Referrer len 15'],
+          'acl' => ['dst_dev01 dst_port 48001', 'dst_dev02 dst_port 48002', 'dst_dev03 dst_port 48003'],
+          'use_backend' => ['dev01_webapp if dst_dev01', 'dev02_webapp if dst_dev02', 'dev03_webapp if dst_dev03'],
+          'option' => ['httpchk', 'httplog', 'http-server-close', 'forwardfor except 127.0.0.1'],
+          'compression' => 'algo gzip',
+          'bind-process' => 'all',
+          'http-check' => ['send hdr Host test.example.com meth GET uri /health', 'expect status 204']
+        }
+      }
+    end
+
+    it {
+      is_expected.to contain_concat__fragment('haproxy-apache_listen_block').with(
+        'order' => '20-apache-00',
+        'target' => '/etc/haproxy/haproxy.cfg',
+        'content' => "\nlisten apache\n  bind 0.0.0.0:48001-48003 \n  mode http\n  acl dst_dev01 dst_port 48001\n  acl dst_dev02 dst_port 48002\n  acl dst_dev03 dst_port 48003\n  bind-process all\n  capture request header X-Forwarded-For len 50\n  capture request header Host len 15\n  capture request header Referrer len 15\n  compression algo gzip\n  reqidel ^X-Forwarded-For:.*\n  reqadd X-Forwarded-Proto:\\ https\n  use_backend dev01_webapp if dst_dev01\n  use_backend dev02_webapp if dst_dev02\n  use_backend dev03_webapp if dst_dev03\n  default_backend dev00_webapp\n  option httpchk\n  option httplog\n  option http-server-close\n  option forwardfor except 127.0.0.1\n  http-check send hdr Host test.example.com meth GET uri /health\n  http-check expect status 204\n", # rubocop:disable Layout/LineLength
+      )
+    }
+  end
+
   context 'when a non-default config file is used' do
     let(:pre_condition) { 'class { "haproxy": config_file => "/etc/non-default.cfg" }' }
     let(:params) do
