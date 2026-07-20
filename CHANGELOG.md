@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.0.0) - 2026-07-20
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v9.0.0)
+
+> **Note:** This release supersedes and corrects the withdrawn `8.2.1`, which was mistakenly published as a patch despite dropping Puppet 7 support. `8.2.1` has been removed from the Puppet Forge; use `9.0.0` instead.
+
+### Changed
+
+- **Remove Puppet 7 support; the module now requires `puppet >= 8.0.0 < 9.0.0`** [#631](https://github.com/puppetlabs/puppetlabs-haproxy/pull/631) ([gavindidrichsen](https://github.com/gavindidrichsen))
+
+### Added
+
+- Add support for `cache` resource, extra backend options, and docs [#626](https://github.com/puppetlabs/puppetlabs-haproxy/pull/626)
+- (MODULES-11840) Allow puppetlabs/stdlib 10.x [#642](https://github.com/puppetlabs/puppetlabs-haproxy/pull/642) ([imaqsood](https://github.com/imaqsood))
+- Allow puppetlabs/concat 10.x [#641](https://github.com/puppetlabs/puppetlabs-haproxy/pull/641)
+
+### Fixed
+
+- dependency: create mapfile before configfile [#572](https://github.com/puppetlabs/puppetlabs-haproxy/pull/572)
+
 ## [v8.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.1) - 2026-06-25
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v8.2.1)
