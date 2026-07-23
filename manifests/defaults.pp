@@ -14,7 +14,7 @@
 #
 # @param sort_options_alphabetic
 #   Sort options either alphabetic or custom like haproxy internal sorts them.
-#   Defaults to true.
+#   Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 #
 # @param merge_options
 #   Whether to merge the user-supplied `options` hash with the
@@ -25,10 +25,10 @@
 #   Optional. Defaults to 'haproxy'.
 #
 define haproxy::defaults (
-  Hash    $options                  = {},
-  Boolean $sort_options_alphabetic  = true,
-  Boolean $merge_options            = $haproxy::params::merge_options,
-  String  $instance                 = 'haproxy',
+  Hash              $options                  = {},
+  Optional[Boolean] $sort_options_alphabetic  = undef,
+  Boolean           $merge_options            = $haproxy::params::merge_options,
+  String            $instance                 = 'haproxy',
 ) {
   if $instance == 'haproxy' {
     include haproxy
