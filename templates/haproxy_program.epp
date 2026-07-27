@@ -4,7 +4,7 @@ program <%= $name %>
   user <%= $user %>
   <% } -%>
   <% if $group { -%>
-  group $group
+  group <%= $group %>
   <% } -%>
   <% if $options { -%>
   <%= $options %>
