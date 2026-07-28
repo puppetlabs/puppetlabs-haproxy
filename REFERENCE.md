@@ -38,6 +38,7 @@ https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 * [`haproxy::peer`](#haproxy--peer): This type will set up a peer entry inside the peers configuration block in haproxy.cfg on the load balancer.
 * [`haproxy::peer::collect_exported`](#haproxy--peer--collect_exported): Private define
 * [`haproxy::peers`](#haproxy--peers): This type will set up a peers entry in haproxy.cfg
+* [`haproxy::program`](#haproxy--program): Program definition
 * [`haproxy::resolver`](#haproxy--resolver): This type will setup resolvers configuration block inside
 the haproxy.cfg file on an haproxy load balancer.
 * [`haproxy::userlist`](#haproxy--userlist): This type will set up a userlist configuration block inside the haproxy.cfg
@@ -60,6 +61,7 @@ file on an haproxy load balancer.
 ### Data types
 
 * [`Haproxy::Ports`](#Haproxy--Ports): Port or list of ports for haproxy. Supports `,` seperated list of ports also.
+* [`Haproxy::Programs`](#Haproxy--Programs)
 
 ## Classes
 
@@ -121,7 +123,9 @@ The following parameters are available in the `haproxy` class:
 * [`global_options`](#-haproxy--global_options)
 * [`defaults_options`](#-haproxy--defaults_options)
 * [`merge_options`](#-haproxy--merge_options)
+* [`install_options`](#-haproxy--install_options)
 * [`restart_command`](#-haproxy--restart_command)
+* [`programs`](#-haproxy--programs)
 * [`custom_fragment`](#-haproxy--custom_fragment)
 * [`config_dir`](#-haproxy--config_dir)
 * [`config_file`](#-haproxy--config_file)
@@ -234,6 +238,14 @@ false, but will default to true in future releases.
 
 Default value: `$haproxy::params::merge_options`
 
+##### <a name="-haproxy--install_options"></a>`install_options`
+
+Data type: `Array[String[1]]`
+
+Array of arguments passed to the installer
+
+Default value: `[]`
+
 ##### <a name="-haproxy--restart_command"></a>`restart_command`
 
 Data type: `Optional[String]`
@@ -243,6 +255,16 @@ Command to use when restarting the on config changes.
  Defaults to undef i.e. whatever the service default is.
 
 Default value: `undef`
+
+##### <a name="-haproxy--programs"></a>`programs`
+
+Data type: `Haproxy::Programs`
+
+A program section contains a set of directives that define the program to be run,
+its command-line options and flags, as well as user, group, and restart options.
+Note, `master-worker` configuration (in `global_options`) is needed.
+
+Default value: `{}`
 
 ##### <a name="-haproxy--custom_fragment"></a>`custom_fragment`
 
@@ -447,12 +469,12 @@ Default value: `undef`
 
 ##### <a name="-haproxy--backend--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--backend--defaults"></a>`defaults`
 
@@ -812,12 +834,12 @@ Default value: `{}`
 
 ##### <a name="-haproxy--defaults--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--defaults--merge_options"></a>`merge_options`
 
@@ -975,12 +997,12 @@ Default value:
 
 ##### <a name="-haproxy--frontend--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--frontend--defaults"></a>`defaults`
 
@@ -1114,6 +1136,7 @@ The following parameters are available in the `haproxy::instance` defined type:
 
 * [`package_ensure`](#-haproxy--instance--package_ensure)
 * [`package_name`](#-haproxy--instance--package_name)
+* [`install_options`](#-haproxy--instance--install_options)
 * [`service_ensure`](#-haproxy--instance--service_ensure)
 * [`service_manage`](#-haproxy--instance--service_manage)
 * [`chroot_dir_manage`](#-haproxy--instance--chroot_dir_manage)
@@ -1128,6 +1151,7 @@ The following parameters are available in the `haproxy::instance` defined type:
 * [`merge_options`](#-haproxy--instance--merge_options)
 * [`service_options`](#-haproxy--instance--service_options)
 * [`sysconfig_options`](#-haproxy--instance--sysconfig_options)
+* [`programs`](#-haproxy--instance--programs)
 
 ##### <a name="-haproxy--instance--package_ensure"></a>`package_ensure`
 
@@ -1146,6 +1170,14 @@ The package name of haproxy. Defaults to undef, and no package is installed.
 NOTE: Class['haproxy'] has a different default.
 
 Default value: `undef`
+
+##### <a name="-haproxy--instance--install_options"></a>`install_options`
+
+Data type: `Array[String[1]]`
+
+Array of arguments passed to the installer
+
+Default value: `[]`
 
 ##### <a name="-haproxy--instance--service_ensure"></a>`service_ensure`
 
@@ -1284,6 +1316,15 @@ Data type: `String`
 
 
 Default value: `$haproxy::params::sysconfig_options`
+
+##### <a name="-haproxy--instance--programs"></a>`programs`
+
+Data type: `Haproxy::Programs`
+
+A program section contains a set of directives that define the program to be run,
+its command-line options and flags, as well as user, group, and restart options.
+
+Default value: `{}`
 
 ### <a name="haproxy--instance_service"></a>`haproxy::instance_service`
 
@@ -1494,12 +1535,12 @@ Default value: `true`
 
 ##### <a name="-haproxy--listen--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--listen--defaults"></a>`defaults`
 
@@ -1868,6 +1909,81 @@ Boolean. Defaults to true
 
 Default value: `true`
 
+### <a name="haproxy--program"></a>`haproxy::program`
+
+Program definition
+
+* **See also**
+  * https://www.haproxy.com/documentation/haproxy-configuration-tutorials/programs/
+
+#### Examples
+
+##### 
+
+```puppet
+haproxy::program { 'hello':
+  command => 'hello world',
+}
+```
+
+#### Parameters
+
+The following parameters are available in the `haproxy::program` defined type:
+
+* [`command`](#-haproxy--program--command)
+* [`user`](#-haproxy--program--user)
+* [`group`](#-haproxy--program--group)
+* [`options`](#-haproxy--program--options)
+* [`instance`](#-haproxy--program--instance)
+* [`config_file`](#-haproxy--program--config_file)
+
+##### <a name="-haproxy--program--command"></a>`command`
+
+Data type: `String`
+
+A command to be executed by haproxy master process
+
+##### <a name="-haproxy--program--user"></a>`user`
+
+Data type: `Optional[String]`
+
+User account used for executing command
+
+Default value: `undef`
+
+##### <a name="-haproxy--program--group"></a>`group`
+
+Data type: `Optional[String]`
+
+Assigned group
+
+Default value: `undef`
+
+##### <a name="-haproxy--program--options"></a>`options`
+
+Data type: `Optional[String]`
+
+By default, the process manager stops and recreates child programs at haproxy reload.
+In order to disable this, set this parameter to `no option start-on-reload`
+
+Default value: `undef`
+
+##### <a name="-haproxy--program--instance"></a>`instance`
+
+Data type: `String`
+
+haproxy instance
+
+Default value: `'haproxy'`
+
+##### <a name="-haproxy--program--config_file"></a>`config_file`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Path to haproxy config
+
+Default value: `undef`
+
 ### <a name="haproxy--resolver"></a>`haproxy::resolver`
 
 === Authors
@@ -2019,12 +2135,12 @@ Default value: `undef`
 
 ##### <a name="-haproxy--resolver--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--resolver--defaults"></a>`defaults`
 
@@ -2171,4 +2287,21 @@ Data type: `String`
 Port or list of ports for haproxy. Supports `,` seperated list of ports also.
 
 Alias of `Variant[Array[Variant[Pattern[/^[0-9]+$/],Stdlib::Port],0], Pattern[/^[0-9,]+$/], Stdlib::Port]`
+
+### <a name="Haproxy--Programs"></a>`Haproxy::Programs`
+
+The Haproxy::Programs data type.
+
+Alias of
+
+```puppet
+Hash[String, Struct[{
+  command               => String[1],
+  Optional[user]        => String[1],
+  Optional[group]       => String[1],
+  Optional[options]     => String[1],
+  Optional[instance]    => String[1],
+  Optional[config_file] => Stdlib::Absolutepath,
+}]]
+```
 
