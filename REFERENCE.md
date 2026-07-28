@@ -121,6 +121,7 @@ The following parameters are available in the `haproxy` class:
 * [`global_options`](#-haproxy--global_options)
 * [`defaults_options`](#-haproxy--defaults_options)
 * [`merge_options`](#-haproxy--merge_options)
+* [`install_options`](#-haproxy--install_options)
 * [`restart_command`](#-haproxy--restart_command)
 * [`custom_fragment`](#-haproxy--custom_fragment)
 * [`config_dir`](#-haproxy--config_dir)
@@ -233,6 +234,14 @@ or add options without having to recreate the entire hash. Defaults to
 false, but will default to true in future releases.
 
 Default value: `$haproxy::params::merge_options`
+
+##### <a name="-haproxy--install_options"></a>`install_options`
+
+Data type: `Array[String[1]]`
+
+Array of arguments passed to the installer
+
+Default value: `[]`
 
 ##### <a name="-haproxy--restart_command"></a>`restart_command`
 
@@ -447,12 +456,12 @@ Default value: `undef`
 
 ##### <a name="-haproxy--backend--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--backend--defaults"></a>`defaults`
 
@@ -812,12 +821,12 @@ Default value: `{}`
 
 ##### <a name="-haproxy--defaults--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--defaults--merge_options"></a>`merge_options`
 
@@ -975,12 +984,12 @@ Default value:
 
 ##### <a name="-haproxy--frontend--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--frontend--defaults"></a>`defaults`
 
@@ -1114,6 +1123,7 @@ The following parameters are available in the `haproxy::instance` defined type:
 
 * [`package_ensure`](#-haproxy--instance--package_ensure)
 * [`package_name`](#-haproxy--instance--package_name)
+* [`install_options`](#-haproxy--instance--install_options)
 * [`service_ensure`](#-haproxy--instance--service_ensure)
 * [`service_manage`](#-haproxy--instance--service_manage)
 * [`chroot_dir_manage`](#-haproxy--instance--chroot_dir_manage)
@@ -1146,6 +1156,14 @@ The package name of haproxy. Defaults to undef, and no package is installed.
 NOTE: Class['haproxy'] has a different default.
 
 Default value: `undef`
+
+##### <a name="-haproxy--instance--install_options"></a>`install_options`
+
+Data type: `Array[String[1]]`
+
+Array of arguments passed to the installer
+
+Default value: `[]`
 
 ##### <a name="-haproxy--instance--service_ensure"></a>`service_ensure`
 
@@ -1494,12 +1512,12 @@ Default value: `true`
 
 ##### <a name="-haproxy--listen--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--listen--defaults"></a>`defaults`
 
@@ -2019,12 +2037,12 @@ Default value: `undef`
 
 ##### <a name="-haproxy--resolver--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Boolean`
+Data type: `Optional[Boolean]`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
-Defaults to true.
+Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `true`
+Default value: `undef`
 
 ##### <a name="-haproxy--resolver--defaults"></a>`defaults`
 
