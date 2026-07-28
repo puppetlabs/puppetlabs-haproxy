@@ -66,6 +66,11 @@
 #    Passed directly as the <code>'restart'</code> parameter to the service resource.
 #    Defaults to undef i.e. whatever the service default is.
 #
+# @param programs
+#   A program section contains a set of directives that define the program to be run,
+#   its command-line options and flags, as well as user, group, and restart options.
+#   Note, `master-worker` configuration (in `global_options`) is needed.
+#
 # @param custom_fragment
 #   Allows arbitrary HAProxy configuration to be passed through to support
 #   additional configuration not available via parameters, or to short-circute
@@ -135,6 +140,7 @@ class haproxy (
   Hash                                          $defaults_options     = $haproxy::params::defaults_options,
   Boolean                                       $merge_options        = $haproxy::params::merge_options,
   Array[String[1]]                              $install_options      = [],
+  Haproxy::Programs                             $programs             = {},
   Optional[String]                              $restart_command      = undef,
   Optional[String]                              $custom_fragment      = undef,
   Stdlib::Absolutepath                          $config_dir           = $haproxy::params::config_dir,
@@ -195,5 +201,6 @@ class haproxy (
     service_options     => $service_options,
     sysconfig_options   => $sysconfig_options,
     config_validate_cmd => $config_validate_cmd,
+    programs            => $programs,
   }
 }
