@@ -1,3 +1,7 @@
+## 8.2.1 (Withdrawn)
+### Summary
+This version was mistakenly published as a patch release despite dropping Puppet 7 support, a backwards-incompatible change. It has been removed from the Puppet Forge and superseded by `9.0.0`, which correctly reflects this change as a major version bump. Do not use `8.2.1`.
+
 ## 2.1.0
 ### Summary
 This release uses the PDK convert functionality which in return makes the module PDK compliant. It also includes a roll up of maintenance changes.

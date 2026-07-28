@@ -9,8 +9,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v9.0.0)
 
-> **Note:** This release supersedes and corrects the withdrawn `8.2.1`, which was mistakenly published as a patch despite dropping Puppet 7 support. `8.2.1` has been removed from the Puppet Forge; use `9.0.0` instead.
-
 ### Changed
 
 - **Remove Puppet 7 support; the module now requires `puppet >= 8.0.0 < 9.0.0`** [#631](https://github.com/puppetlabs/puppetlabs-haproxy/pull/631) ([gavindidrichsen](https://github.com/gavindidrichsen))
