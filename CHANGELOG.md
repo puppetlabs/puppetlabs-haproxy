@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v9.0.0...v9.1.0)
 
-> **Note:** This release raises the minimum required `puppetlabs/concat` version to `7.4.0` (from `1.2.3`) to support removing a workaround for Sensitive data handling. Environments pinned to an older `concat` version may fail dependency resolution after upgrading; update your `concat` pin before adopting this release.
+> **Note:** This release raises the minimum required `puppetlabs/concat` version to `7.4.0` (from `1.2.3`) to support removing a workaround for Sensitive data handling. Environments pinned to an older `concat` version may fail dependency resolution after upgrading; update your `concat` pin before adopting this release. This dependency change is backwards-incompatible, but is shipped as a minor release rather than a major bump because it follows so soon after `v9.0.0`; the team agreed to treat the first release after a major as an exception rather than bump major again immediately.
 
 ### Changed
 
