@@ -1,0 +1,5 @@
+
+http-errors <%= $section_name %>
+<% $errorfile.each |$code, $file| { -%>
+  errorfile <%= $code %> <%= $file %>
+<% } -%>
