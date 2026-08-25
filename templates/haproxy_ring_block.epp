@@ -1,0 +1,20 @@
+
+ring <%= $section_name %>
+<% if $description { -%>
+  description <%= $description %>
+<% } -%>
+<% if $format { -%>
+  format <%= $format %>
+<% } -%>
+<% if $maxlen { -%>
+  maxlen <%= $maxlen %>
+<% } -%>
+<% if $size { -%>
+  size <%= $size %>
+<% } -%>
+<% $timeout.each |$event, $time| { -%>
+  timeout <%= $event %> <%= $time %>
+<% } -%>
+<% $server.each |$name, $address| { -%>
+  server <%= $name %> <%= $address %>
+<% } -%>
