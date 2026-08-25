@@ -8,7 +8,7 @@ describe 'frontend backend defines' do
       haproxy::frontend { 'app00':
         ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
-        ports     => '5555',
+        ports     => 5555,
         options   => { 'default_backend' => 'app00' },
       }
       haproxy::backend { 'app00':
@@ -18,12 +18,12 @@ describe 'frontend backend defines' do
       haproxy::balancermember { 'port 5556':
         listening_service => 'app00',
         server_names      => 'test00.example.com',
-        ports             => '5556',
+        ports             => 5556,
       }
       haproxy::balancermember { 'port 5557':
         listening_service => 'app00',
         server_names      => 'test01.example.com',
-        ports             => '5557',
+        ports             => 5557,
       }
   PUPPETCODE
   it 'is able to configure the frontend/backend with puppet' do
@@ -50,7 +50,7 @@ describe 'frontend backend defines' do
       haproxy::frontend { 'app00':
         ipaddress => $facts['networking']['interfaces']['lo']['ip'],
         mode      => 'http',
-        ports     => '5555',
+        ports     => 5555,
         options   => { 'default_backend' => 'app00' },
       }
       haproxy::backend { 'app00':
@@ -60,12 +60,12 @@ describe 'frontend backend defines' do
       haproxy::balancermember { 'port 5556':
         listening_service => 'app00',
         server_names      => 'test00.example.com',
-        ports             => '5556',
+        ports             => 5556,
       }
       haproxy::balancermember { 'port 5557':
         listening_service => 'app00',
         server_names      => 'test01.example.com',
-        ports             => '5558',
+        ports             => 5558,
       }
   PUPPETCODE
   it 'is able to configure the frontend/backend with one node up' do
