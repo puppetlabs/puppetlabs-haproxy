@@ -60,7 +60,6 @@ file on an haproxy load balancer.
 
 ### Data types
 
-* [`Haproxy::Ports`](#Haproxy--Ports): Port or list of ports for haproxy. Supports `,` seperated list of ports also.
 * [`Haproxy::Programs`](#Haproxy--Programs)
 
 ## Classes
@@ -594,7 +593,7 @@ The haproxy service's instance name (or, the title of the
 
 ##### <a name="-haproxy--balancermember--ports"></a>`ports`
 
-Data type: `Optional[Haproxy::Ports]`
+Data type: `Optional[Variant[Array[Stdlib::Port,0],Stdlib::Port]]`
 
 An array or commas-separated list of ports for which the balancer member
  will accept connections from the load balancer. Note that cookie values
@@ -922,7 +921,7 @@ Default value: `$name`
 
 ##### <a name="-haproxy--frontend--ports"></a>`ports`
 
-Data type: `Optional[Haproxy::Ports]`
+Data type: `Optional[Variant[Array[Stdlib::Port,0],Stdlib::Port]]`
 
 Ports on which the proxy will listen for connections on the ip address
  specified in the ipaddress parameter. Accepts either a single
@@ -997,12 +996,12 @@ Default value:
 
 ##### <a name="-haproxy--frontend--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Optional[Boolean]`
+Data type: `Boolean`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
 Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `undef`
+Default value: `true`
 
 ##### <a name="-haproxy--frontend--defaults"></a>`defaults`
 
@@ -1069,7 +1068,7 @@ i.e. emulate Class['haproxy']
    instance         => 'haproxy',
    collect_exported => false,
    ipaddress        => $::ipaddress,
-   ports            => '8140',
+   ports            => 8140,
  }
 ```
 
@@ -1085,7 +1084,7 @@ Multiple instances of haproxy:
    instance         => 'group1',
    collect_exported => false,
    ipaddress        => $::ipaddress,
-   ports            => '8800',
+   ports            => 8800,
    requires         => Package['haproxy'],
  }
  haproxy::instance { 'group2': }
@@ -1096,7 +1095,7 @@ Multiple instances of haproxy:
    instance         => 'group2',
    collect_exported => false,
    ipaddress        => $::ipaddress,
-   ports            => '9900',
+   ports            => 9900,
    requires         => Package['haproxy'],
  }
 ```
@@ -1113,7 +1112,7 @@ Multiple instances of haproxy, one with a custom haproxy package:
    instance         => 'group1',
    collect_exported => false,
    ipaddress        => $::ipaddress,
-   ports            => '8800',
+   ports            => 8800,
    requires         => Package['haproxy'],
  }
  haproxy::instance { 'group2': }
@@ -1125,7 +1124,7 @@ Multiple instances of haproxy, one with a custom haproxy package:
    instance         => 'group2',
    collect_exported => false,
    ipaddress        => $::ipaddress,
-   ports            => '9900',
+   ports            => 9900,
    requires         => Package['haproxy'],
  }
 ```
@@ -1447,7 +1446,7 @@ Default value: `$name`
 
 ##### <a name="-haproxy--listen--ports"></a>`ports`
 
-Data type: `Optional[Haproxy::Ports]`
+Data type: `Optional[Variant[Array[Stdlib::Port,0],Stdlib::Port]]`
 
 Ports on which the proxy will listen for connections on the ip address
  specified in the ipaddress parameter. Accepts either a single
@@ -1535,12 +1534,12 @@ Default value: `true`
 
 ##### <a name="-haproxy--listen--sort_options_alphabetic"></a>`sort_options_alphabetic`
 
-Data type: `Optional[Boolean]`
+Data type: `Boolean`
 
 Sort options either alphabetic or custom like haproxy internal sorts them.
 Defaults to undef (picking true from $haproxy::globals::sort_options_alphabetic).
 
-Default value: `undef`
+Default value: `true`
 
 ##### <a name="-haproxy--listen--defaults"></a>`defaults`
 
@@ -2281,12 +2280,6 @@ Data type: `String`
 
 
 ## Data types
-
-### <a name="Haproxy--Ports"></a>`Haproxy::Ports`
-
-Port or list of ports for haproxy. Supports `,` seperated list of ports also.
-
-Alias of `Variant[Array[Variant[Pattern[/^[0-9]+$/],Stdlib::Port],0], Pattern[/^[0-9,]+$/], Stdlib::Port]`
 
 ### <a name="Haproxy--Programs"></a>`Haproxy::Programs`
 

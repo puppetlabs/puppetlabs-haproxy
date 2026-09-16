@@ -33,19 +33,6 @@ describe 'haproxy::frontend' do
         'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n",
       )
     }
-    context 'with stringy port' do
-      let(:params) do
-        super().merge(ports: '18140')
-      end
-
-      it {
-        is_expected.to contain_concat__fragment('haproxy-croy_frontend_block').with(
-          'order' => '15-croy-00',
-          'target' => '/etc/haproxy/haproxy.cfg',
-          'content' => "\nfrontend croy\n  bind 1.1.1.1:18140 \n  option tcplog\n",
-        )
-      }
-    end
   end
 
   # C9948 C9947
@@ -65,33 +52,6 @@ describe 'haproxy::frontend' do
         'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
       )
     }
-    context 'with stringy port' do
-      let(:params) do
-        super().merge(ports: ['80', '443'])
-      end
-
-      it {
-        is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-          'order' => '15-apache-00',
-          'target' => '/etc/haproxy/haproxy.cfg',
-          'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
-        )
-      }
-    end
-    # C9948
-    context 'with a comma-seperated list of ports' do
-      let(:params) do
-        super().merge(ports: '80,443')
-      end
-
-      it {
-        is_expected.to contain_concat__fragment('haproxy-apache_frontend_block').with(
-          'order' => '15-apache-00',
-          'target' => '/etc/haproxy/haproxy.cfg',
-          'content' => "\nfrontend apache\n  bind 23.23.23.23:80 \n  bind 23.23.23.23:443 \n  option tcplog\n",
-        )
-      }
-    end
   end
 
   # C9971
@@ -119,12 +79,12 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: '80443'
+        ports: 80_443
       }
     end
 
     it 'raises error' do
-      expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
+      expect { catalogue }.to raise_error Puppet::Error, %r{Stdlib::Port}
     end
   end
 
@@ -134,12 +94,12 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: '23.23.23.23',
-        ports: ['80443', '80444']
+        ports: [80_443, 80_444]
       }
     end
 
     it 'raises error' do
-      expect { catalogue }.to raise_error Puppet::Error, %r{outside of range}
+      expect { catalogue }.to raise_error Puppet::Error, %r{Stdlib::Port}
     end
   end
 
@@ -149,7 +109,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: '2323.23.23',
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -164,7 +124,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         bind: { '192.168.0.1:80' => ['ssl'] },
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -178,7 +138,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: ['23.23.23.23', '23.23.23.24'],
-        ports: '80'
+        ports: 80
       }
     end
 
@@ -196,7 +156,7 @@ describe 'haproxy::frontend' do
       {
         name: 'apache',
         ipaddress: '1.1.1.1',
-        ports: ['80', '8080'],
+        ports: [80, 8080],
         bind_options: ['the options', 'go here']
       }
     end
