@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.2.0) - 2026-09-16
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v9.1.0...v9.2.0)
+
+### Added
+
+- feat(MODULES-11716) Add puppet 9 support [#654](https://github.com/puppetlabs/puppetlabs-haproxy/pull/654) ([imaqsood](https://github.com/imaqsood))
+- Add haproxy::http_errors and haproxy::ring resources [#651](https://github.com/puppetlabs/puppetlabs-haproxy/pull/651) ([UiP9AV6Y](https://github.com/UiP9AV6Y))
+- (CAT-2125) Add Ubuntu 24.04 support [#620](https://github.com/puppetlabs/puppetlabs-haproxy/pull/620) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
 ## [v9.1.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.1.0) - 2026-07-28
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v9.0.0...v9.1.0)

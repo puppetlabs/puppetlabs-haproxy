@@ -24,6 +24,8 @@ https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/#6
 haproxy.cfg file on an haproxy load balancer.
 * [`haproxy::frontend`](#haproxy--frontend): This type will setup a frontend service configuration block inside
 the haproxy.cfg file on an haproxy load balancer.
+* [`haproxy::http_errors`](#haproxy--http_errors): This type will set up a HTTP error group configuration block inside the haproxy.cfg
+file on an haproxy load balancer.
 * [`haproxy::instance`](#haproxy--instance): Manages haproxy permitting multiple instances to run on the same machine.
 * [`haproxy::instance_service`](#haproxy--instance_service): Set up the environment for an haproxy service.
 * [`haproxy::listen`](#haproxy--listen): This type will setup a listening service configuration block inside
@@ -41,6 +43,8 @@ https://cbonte.github.io/haproxy-dconv/configuration-1.5.html#7.3.1-map
 * [`haproxy::program`](#haproxy--program): Program definition
 * [`haproxy::resolver`](#haproxy--resolver): This type will setup resolvers configuration block inside
 the haproxy.cfg file on an haproxy load balancer.
+* [`haproxy::ring`](#haproxy--ring): This type will set up a ring-buffer configuration block inside the haproxy.cfg
+file on an haproxy load balancer.
 * [`haproxy::userlist`](#haproxy--userlist): This type will set up a userlist configuration block inside the haproxy.cfg
 file on an haproxy load balancer.
 
@@ -62,6 +66,7 @@ file on an haproxy load balancer.
 
 * [`Haproxy::Ports`](#Haproxy--Ports): Port or list of ports for haproxy. Supports `,` seperated list of ports also.
 * [`Haproxy::Programs`](#Haproxy--Programs)
+* [`Haproxy::Ring_buffer_format`](#Haproxy--Ring_buffer_format): Log format for generated syslog messages
 
 ## Classes
 
@@ -1043,6 +1048,59 @@ Boolean. Default true
 Default value: `true`
 
 ##### <a name="-haproxy--frontend--instance"></a>`instance`
+
+Data type: `String`
+
+Optional. Defaults to 'haproxy'
+
+Default value: `'haproxy'`
+
+### <a name="haproxy--http_errors"></a>`haproxy::http_errors`
+
+This type will set up a HTTP error group configuration block inside the haproxy.cfg
+file on an haproxy load balancer.
+
+* **Note** See https://docs.haproxy.org/2.2/configuration.html#3.8 for more info
+
+#### Parameters
+
+The following parameters are available in the `haproxy::http_errors` defined type:
+
+* [`section_name`](#-haproxy--http_errors--section_name)
+* [`errorfile`](#-haproxy--http_errors--errorfile)
+* [`config_file`](#-haproxy--http_errors--config_file)
+* [`instance`](#-haproxy--http_errors--instance)
+
+##### <a name="-haproxy--http_errors--section_name"></a>`section_name`
+
+Data type: `String[1]`
+
+This name goes right after the http-errors' statement in haproxy.cfg
+Default: $name (the namevar of the resource).
+
+Default value: `$name`
+
+##### <a name="-haproxy--http_errors--errorfile"></a>`errorfile`
+
+Data type: `Hash[Integer, Stdlib::Absolutepath]`
+
+Mapping of HTTP status codes to response files.
+See https://docs.haproxy.org/2.2/configuration.html#3.8-errorfile
+$errorfile = { 404 => '/usr/share/haproxy/errors/40x.html' }
+
+Default value: `{}`
+
+##### <a name="-haproxy--http_errors--config_file"></a>`config_file`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Optional. Path of the config file where this entry will be added.
+Assumes that the parent directory exists.
+Default: $haproxy::params::config_file
+
+Default value: `undef`
+
+##### <a name="-haproxy--http_errors--instance"></a>`instance`
 
 Data type: `String`
 
@@ -2159,6 +2217,109 @@ Optional. Defaults to 'haproxy'
 
 Default value: `'haproxy'`
 
+### <a name="haproxy--ring"></a>`haproxy::ring`
+
+This type will set up a ring-buffer configuration block inside the haproxy.cfg
+file on an haproxy load balancer.
+
+* **Note** See https://docs.haproxy.org/2.2/configuration.html#3.9 for more info
+
+#### Parameters
+
+The following parameters are available in the `haproxy::ring` defined type:
+
+* [`section_name`](#-haproxy--ring--section_name)
+* [`description`](#-haproxy--ring--description)
+* [`format`](#-haproxy--ring--format)
+* [`maxlen`](#-haproxy--ring--maxlen)
+* [`size`](#-haproxy--ring--size)
+* [`timeout`](#-haproxy--ring--timeout)
+* [`server`](#-haproxy--ring--server)
+* [`config_file`](#-haproxy--ring--config_file)
+* [`instance`](#-haproxy--ring--instance)
+
+##### <a name="-haproxy--ring--section_name"></a>`section_name`
+
+Data type: `String[1]`
+
+This name goes right after the 'ring' statement in haproxy.cfg
+Default: $name (the namevar of the resource).
+
+Default value: `$name`
+
+##### <a name="-haproxy--ring--description"></a>`description`
+
+Data type: `Optional[String[1]]`
+
+Descriptive message for the CLI.
+See https://docs.haproxy.org/2.2/configuration.html#3.9-description
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--format"></a>`format`
+
+Data type: `Optional[Haproxy::Ring_buffer_format]`
+
+Format used to store events into the ring buffer.
+See https://docs.haproxy.org/2.2/configuration.html#3.9-format
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--maxlen"></a>`maxlen`
+
+Data type: `Optional[Integer[1]]`
+
+The maximum length of an event message stored into the ring.
+See https://docs.haproxy.org/2.2/configuration.html#3.9-maxlen
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--size"></a>`size`
+
+Data type: `Optional[Integer[1]]`
+
+Ring buffer size.
+See https://docs.haproxy.org/2.2/configuration.html#3.9-size
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--timeout"></a>`timeout`
+
+Data type: `Hash`
+
+Hash of timeout for various phases of the write operation
+$timeout = { 'connect' => '10s', 'server' => '5s' }
+
+Default value: `{}`
+
+##### <a name="-haproxy--ring--server"></a>`server`
+
+Data type: `Hash`
+
+Mapping of Syslog TCP server names to address (and optional parameters).
+See https://docs.haproxy.org/2.2/configuration.html#3.9-server
+$server = { 'mysyslogsrv' => '127.0.0.1:6514 log-proto octet-count' }
+
+Default value: `{}`
+
+##### <a name="-haproxy--ring--config_file"></a>`config_file`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+Optional. Path of the config file where this entry will be added.
+Assumes that the parent directory exists.
+Default: $haproxy::params::config_file
+
+Default value: `undef`
+
+##### <a name="-haproxy--ring--instance"></a>`instance`
+
+Data type: `String`
+
+Optional. Defaults to 'haproxy'
+
+Default value: `'haproxy'`
+
 ### <a name="haproxy--userlist"></a>`haproxy::userlist`
 
 === Authors
@@ -2304,4 +2465,10 @@ Hash[String, Struct[{
   Optional[config_file] => Stdlib::Absolutepath,
 }]]
 ```
+
+### <a name="Haproxy--Ring_buffer_format"></a>`Haproxy::Ring_buffer_format`
+
+Log format for generated syslog messages
+
+Alias of `Enum['iso', 'raw', 'rfc3164', 'rfc5424', 'short', 'timed']`
 
