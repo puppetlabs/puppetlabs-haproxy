@@ -63,7 +63,7 @@ group :development do
   gem "bigdecimal", '< 3.2.2',                   require: false, platforms: [:windows]
 end
 group :development, :release_prep do
-  gem "puppet-strings", '~> 4.0',              require: false
+  gem "puppet-strings", '= 4.1.2',              require: false
   gem "puppetlabs_spec_helper", '~> 9.0',      require: false
   gem "puppet-blacksmith", '>= 7.0', '< 10.0', require: false
 end
