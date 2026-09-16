@@ -5,18 +5,23 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) and this project adheres to [Semantic Versioning](http://semver.org).
 
+## [v9.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.2.0) - 2026-09-16
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v9.1.0...v9.2.0)
+
+### Added
+
+- feat(MODULES-11716) Add puppet 9 support [#654](https://github.com/puppetlabs/puppetlabs-haproxy/pull/654) ([imaqsood](https://github.com/imaqsood))
+- Add haproxy::http_errors and haproxy::ring resources [#651](https://github.com/puppetlabs/puppetlabs-haproxy/pull/651) ([UiP9AV6Y](https://github.com/UiP9AV6Y))
+- (CAT-2125) Add Ubuntu 24.04 support [#620](https://github.com/puppetlabs/puppetlabs-haproxy/pull/620) ([shubhamshinde360](https://github.com/shubhamshinde360))
+
 ## [v9.1.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.1.0) - 2026-07-28
 
 [Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v9.0.0...v9.1.0)
 
-> **Note:** This release raises the minimum required `puppetlabs/concat` version to `7.4.0` (from `1.2.3`) to support removing a workaround for Sensitive data handling. Environments pinned to an older `concat` version may fail dependency resolution after upgrading; update your `concat` pin before adopting this release. This dependency change is backwards-incompatible, but is shipped as a minor release rather than a major bump because it follows so soon after `v9.0.0`; the team agreed to treat the first release after a major as an exception rather than bump major again immediately.
-
-### Changed
-
-- Eliminate Workaround for Sensitive Data; raises minimum `puppetlabs/concat` requirement to `7.4.0` [#607](https://github.com/puppetlabs/puppetlabs-haproxy/pull/607) ([cocker-cc](https://github.com/cocker-cc))
-
 ### Added
 
+- Eliminate Workaround for Sensitive Data [#607](https://github.com/puppetlabs/puppetlabs-haproxy/pull/607) ([cocker-cc](https://github.com/cocker-cc))
 - Add support for running programs [#604](https://github.com/puppetlabs/puppetlabs-haproxy/pull/604) ([deric](https://github.com/deric))
 - Pass install_options to package installer [#603](https://github.com/puppetlabs/puppetlabs-haproxy/pull/603) ([deric](https://github.com/deric))
 
@@ -27,23 +32,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/) a
 
 ## [v9.0.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v9.0.0) - 2026-07-20
 
-[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v9.0.0)
-
-> **Note:** This release supersedes and corrects the withdrawn `8.2.1`, which was mistakenly published as a patch despite dropping Puppet 7 support. `8.2.1` has been removed from the Puppet Forge; use `9.0.0` instead.
-
-### Changed
-
-- **Remove Puppet 7 support; the module now requires `puppet >= 8.0.0 < 9.0.0`** [#631](https://github.com/puppetlabs/puppetlabs-haproxy/pull/631) ([gavindidrichsen](https://github.com/gavindidrichsen))
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.1...v9.0.0)
 
 ### Added
 
-- Add support for `cache` resource, extra backend options, and docs [#626](https://github.com/puppetlabs/puppetlabs-haproxy/pull/626)
-- (MODULES-11840) Allow puppetlabs/stdlib 10.x [#642](https://github.com/puppetlabs/puppetlabs-haproxy/pull/642) ([imaqsood](https://github.com/imaqsood))
-- Allow puppetlabs/concat 10.x [#641](https://github.com/puppetlabs/puppetlabs-haproxy/pull/641)
+- Add support for cache [#626](https://github.com/puppetlabs/puppetlabs-haproxy/pull/626) ([matejzero](https://github.com/matejzero))
 
 ### Fixed
 
-- dependency: create mapfile before configfile [#572](https://github.com/puppetlabs/puppetlabs-haproxy/pull/572)
+- puppetlabs/concat: Allow 10.x [#641](https://github.com/puppetlabs/puppetlabs-haproxy/pull/641) ([bastelfreak](https://github.com/bastelfreak))
+- dependency: create mapfile before configfile [#572](https://github.com/puppetlabs/puppetlabs-haproxy/pull/572) ([trefzer](https://github.com/trefzer))
+
+## [v8.2.1](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.1) - 2026-06-29
+
+[Full Changelog](https://github.com/puppetlabs/puppetlabs-haproxy/compare/v8.2.0...v8.2.1)
+
+### Changed
+
+- (CAT-2373) Remove puppet 7 [#631](https://github.com/puppetlabs/puppetlabs-haproxy/pull/631) ([gavindidrichsen](https://github.com/gavindidrichsen))
+
+### Fixed
+
+- (MODULES-11840) Allow puppetlabs/stdlib 10.x [#642](https://github.com/puppetlabs/puppetlabs-haproxy/pull/642) ([imaqsood](https://github.com/imaqsood))
 
 ## [v8.2.0](https://github.com/puppetlabs/puppetlabs-haproxy/tree/v8.2.0) - 2025-01-31
 
