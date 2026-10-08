@@ -1,7 +1,7 @@
 # @summary
 #   This is a container class holding default parameters for for haproxy class.
 #
-# @note 
+# @note
 #   Currently, only the Redhat family is supported, but this can be easily
 #   extended by changing package names and configuration file paths.
 #
@@ -10,6 +10,7 @@ class haproxy::params {
 
   $service_options  = "ENABLED=1\n"  # Only used by Debian.
   $sysconfig_options = 'OPTIONS=""' #Only used by Redhat/CentOS etc
+  $config_backup = false
 
   case $facts['os']['family'] {
     'Archlinux', 'Debian', 'Redhat', 'Gentoo', 'Suse', 'Linux' : {
