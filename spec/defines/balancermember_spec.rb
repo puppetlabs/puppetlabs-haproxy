@@ -35,20 +35,6 @@ describe 'haproxy::balancermember' do
         'content' => "  server dero 1.1.1.1:18140 check\n",
       )
     }
-
-    context 'with stringy ports' do
-      let(:params) do
-        super().merge(ports: '18140')
-      end
-
-      it {
-        is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-          'order' => '20-croy-01-tyler',
-          'target' => '/etc/haproxy/haproxy.cfg',
-          'content' => "  server dero 1.1.1.1:18140 check\n",
-        )
-      }
-    end
   end
 
   context 'with multiple balancermember options' do
@@ -150,20 +136,6 @@ describe 'haproxy::balancermember' do
         'content' => "  server server01 192.168.56.200:18140 check\n  server server01 192.168.56.200:18150 check\n  server server02 192.168.56.201:18140 check\n  server server02 192.168.56.201:18150 check\n", # rubocop:disable Layout/LineLength
       )
     }
-
-    context 'with stringy ports' do
-      let(:params) do
-        super().merge(ports: ['18140', '18150'])
-      end
-
-      it {
-        is_expected.to contain_concat__fragment('haproxy-croy_balancermember_tyler').with(
-          'order' => '20-croy-01-tyler',
-          'target' => '/etc/haproxy/haproxy.cfg',
-          'content' => "  server server01 192.168.56.200:18140 check\n  server server01 192.168.56.200:18150 check\n  server server02 192.168.56.201:18140 check\n  server server02 192.168.56.201:18150 check\n", # rubocop:disable Layout/LineLength
-        )
-      }
-    end
   end
 
   context 'with multiple servers and no port' do

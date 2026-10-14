@@ -53,7 +53,7 @@ describe 'haproxy::backend' do
     let(:pre_condition) do
       "haproxy::listen { 'apache':
          ipaddress => '127.0.0.1',
-         ports     => '443',
+         ports     => 443,
        }"
     end
 

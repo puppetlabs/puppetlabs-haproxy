@@ -89,7 +89,7 @@ describe 'create mapfiles' do
         }
         haproxy::frontend { 'test00':
           ipaddress => '127.0.0.1',
-          ports     => '5555',
+          ports     => 5555,
           mode      => 'http',
           options   => {
             'use_backend' => '%[req.hdr(host),lower,map_dom(/etc/haproxy/single-mapfile.map,backend1)]'
@@ -114,7 +114,7 @@ describe 'create mapfiles' do
           listening_service => 'backend2',
           server_names      => 'test00.example.com',
           defaults          => 'http',
-          ports             => '5556',
+          ports             => 5556,
         }
         haproxy::backend { 'backend3':
           defaults         => 'http',
@@ -125,7 +125,7 @@ describe 'create mapfiles' do
           listening_service => 'backend3',
           server_names      => 'test01.example.com',
           defaults          => 'http',
-          ports             => '5557',
+          ports             => 5557,
         }
         MANIFEST
       end
@@ -180,7 +180,7 @@ describe 'create mapfiles' do
         }
         haproxy::frontend { 'test00':
           ipaddress => '127.0.0.1',
-          ports     => '5555',
+          ports     => 5555,
           mode      => 'http',
           options   => {
             'use_backend' => '%[req.hdr(host),lower,map_dom(/etc/haproxy/single-mapfile.map,backend1)]'
@@ -205,7 +205,7 @@ describe 'create mapfiles' do
           listening_service => 'backend2',
           server_names      => 'test00.example.com',
           defaults          => 'http',
-          ports             => '5556',
+          ports             => 5556,
         }
         haproxy::backend { 'backend3':
           defaults         => 'http',
@@ -216,7 +216,7 @@ describe 'create mapfiles' do
           listening_service => 'backend3',
           server_names      => 'test01.example.com',
           defaults          => 'http',
-          ports             => '5557',
+          ports             => 5557,
         }
         MANIFEST
       end
