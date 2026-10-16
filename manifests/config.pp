@@ -6,6 +6,7 @@ define haproxy::config (
   Variant[Enum['present', 'absent', 'purged', 'disabled', 'installed', 'latest'], String[1]] $package_ensure,
   String                                $instance_name,
   Stdlib::Absolutepath                  $config_file,
+  Variant[Boolean, String[1]]           $config_backup,
   Hash                                  $global_options,
   Hash                                  $defaults_options,
   Boolean                               $chroot_dir_manage,
@@ -54,10 +55,11 @@ define haproxy::config (
     file { $_config_file: ensure => absent }
   } else {
     concat { $_config_file:
-      owner => '0',
-      group => '0',
-      mode  => '0640',
-      tag   => 'haproxy-config',
+      owner  => '0',
+      group  => '0',
+      mode   => '0640',
+      backup => $config_backup,
+      tag    => 'haproxy-config',
     }
 
     Concat[$_config_file] {
