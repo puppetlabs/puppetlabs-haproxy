@@ -1,6 +1,6 @@
 # @summary
 #   Manages haproxy permitting multiple instances to run on the same machine.
-#   
+#
 # @note
 #   Normally users use the Class['haproxy'], which runs a single haproxy
 #   daemon on a machine.
@@ -73,6 +73,12 @@
 #     or /usr/local/etc/haproxy-$title/haproxy-$title.conf (FreeBSD)
 #     The parent directory will be created automatically.
 #   Defaults to undef.
+#
+# @param config_backup
+#   Specifies whether (and how) to back up the Destination-File before
+#   overwriting it. Your Value gets passed on to Puppet's native File-Resource
+#   for execution. Valid Options: true, false, or a string representing either a
+#   Target-Filebucket or a Filename-Extension beginning with ".".
 #
 # @param config_validate_cmd
 #   Command used by concat validate_cmd to validate new
@@ -179,6 +185,7 @@ define haproxy::instance (
   Optional[String]                             $custom_fragment      = undef,
   Optional[Stdlib::Absolutepath]               $config_dir           = undef,
   Optional[Stdlib::Absolutepath]               $config_file          = undef,
+  Variant[Boolean, String[1]]                  $config_backup        = false,
   Variant[Stdlib::Absolutepath, String]        $config_validate_cmd  = $haproxy::params::config_validate_cmd,
   Boolean                                      $merge_options        = $haproxy::params::merge_options,
   String                                       $service_options      = $haproxy::params::service_options,
@@ -223,6 +230,7 @@ define haproxy::instance (
     instance_name       => $instance_name,
     config_dir          => $_config_dir,
     config_file         => $_config_file,
+    config_backup       => $config_backup,
     global_options      => $_global_options,
     defaults_options    => $_defaults_options,
     custom_fragment     => $custom_fragment,

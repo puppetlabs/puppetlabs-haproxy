@@ -134,6 +134,7 @@ The following parameters are available in the `haproxy` class:
 * [`custom_fragment`](#-haproxy--custom_fragment)
 * [`config_dir`](#-haproxy--config_dir)
 * [`config_file`](#-haproxy--config_file)
+* [`config_backup`](#-haproxy--config_backup)
 * [`config_validate_cmd`](#-haproxy--config_validate_cmd)
 * [`manage_config_dir`](#-haproxy--manage_config_dir)
 * [`manage_service`](#-haproxy--manage_service)
@@ -301,6 +302,17 @@ Optional. Path to the haproxy config file.
 Default depends on platform.
 
 Default value: `$haproxy::params::config_file`
+
+##### <a name="-haproxy--config_backup"></a>`config_backup`
+
+Data type: `Variant[Boolean, String[1]]`
+
+Specifies whether (and how) to back up the Destination-File before
+overwriting it. Your Value gets passed on to Puppet's native File-Resource
+for execution. Valid Options: true, false, or a string representing either a
+Target-Filebucket or a Filename-Extension beginning with ".".
+
+Default value: `$haproxy::params::config_backup`
 
 ##### <a name="-haproxy--config_validate_cmd"></a>`config_validate_cmd`
 
@@ -1204,6 +1216,7 @@ The following parameters are available in the `haproxy::instance` defined type:
 * [`restart_command`](#-haproxy--instance--restart_command)
 * [`custom_fragment`](#-haproxy--instance--custom_fragment)
 * [`config_file`](#-haproxy--instance--config_file)
+* [`config_backup`](#-haproxy--instance--config_backup)
 * [`config_validate_cmd`](#-haproxy--instance--config_validate_cmd)
 * [`config_dir`](#-haproxy--instance--config_dir)
 * [`merge_options`](#-haproxy--instance--merge_options)
@@ -1332,6 +1345,17 @@ will be generated as follows:
 Defaults to undef.
 
 Default value: `undef`
+
+##### <a name="-haproxy--instance--config_backup"></a>`config_backup`
+
+Data type: `Variant[Boolean, String[1]]`
+
+Specifies whether (and how) to back up the Destination-File before
+overwriting it. Your Value gets passed on to Puppet's native File-Resource
+for execution. Valid Options: true, false, or a string representing either a
+Target-Filebucket or a Filename-Extension beginning with ".".
+
+Default value: `false`
 
 ##### <a name="-haproxy--instance--config_validate_cmd"></a>`config_validate_cmd`
 

@@ -87,13 +87,19 @@
 #   Optional. Path to the haproxy config file.
 #   Default depends on platform.
 #
+# @param config_backup
+#   Specifies whether (and how) to back up the Destination-File before
+#   overwriting it. Your Value gets passed on to Puppet's native File-Resource
+#   for execution. Valid Options: true, false, or a string representing either a
+#   Target-Filebucket or a Filename-Extension beginning with ".".
+#
 # @param config_validate_cmd
 #   Optional. Command used by concat validate_cmd to validate new
 #   config file concat is a valid haproxy config.
 #   Default /usr/sbin/haproxy -f % -c
 #
 # @param manage_config_dir
-#   Optional. 
+#   Optional.
 # @param manage_service
 #   Deprecated
 # @param enable
@@ -145,6 +151,7 @@ class haproxy (
   Optional[String]                              $custom_fragment      = undef,
   Stdlib::Absolutepath                          $config_dir           = $haproxy::params::config_dir,
   Optional[Stdlib::Absolutepath]                $config_file          = $haproxy::params::config_file,
+  Variant[Boolean, String[1]]                   $config_backup        = $haproxy::params::config_backup,
   Boolean                                       $manage_config_dir    = $haproxy::params::manage_config_dir,
   Variant[Stdlib::Absolutepath, String]         $config_validate_cmd  = $haproxy::params::config_validate_cmd,
 
@@ -197,6 +204,7 @@ class haproxy (
     custom_fragment     => $custom_fragment,
     config_dir          => $config_dir,
     config_file         => $config_file,
+    config_backup       => $config_backup,
     merge_options       => $merge_options,
     service_options     => $service_options,
     sysconfig_options   => $sysconfig_options,
