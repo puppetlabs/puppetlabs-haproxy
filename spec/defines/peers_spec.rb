@@ -12,12 +12,12 @@ describe 'haproxy::peers' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       concat_basedir: '/foo',
       os: {
-        family: 'RedHat'
-      }
+        family: 'RedHat',
+      },
     }
   end
 

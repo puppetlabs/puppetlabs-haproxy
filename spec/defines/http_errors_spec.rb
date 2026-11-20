@@ -8,12 +8,12 @@ describe 'haproxy::http_errors' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'Redhat'
+        family: 'Redhat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
@@ -28,13 +28,13 @@ describe 'haproxy::http_errors' do
       }
     end
     let(:assertion) do
-      <<-CFG
+      <<~CFG
 
-http-errors spec
-  errorfile 400 /etc/haproxy/errorfiles/400.http
-  errorfile 404 /etc/haproxy/errorfiles/404.http
-  errorfile 408 /dev/null
-CFG
+        http-errors spec
+          errorfile 400 /etc/haproxy/errorfiles/400.http
+          errorfile 404 /etc/haproxy/errorfiles/404.http
+          errorfile 408 /dev/null
+      CFG
     end
 
     it {
@@ -58,12 +58,12 @@ CFG
       }
     end
     let(:assertion) do
-      <<-CFG
+      <<~CFG
 
-http-errors bar
-  errorfile 404 /usr/share/haproxy/errorfiles/404.http
-  errorfile 503 /usr/share/haproxy/errorfiles/503.http
-CFG
+        http-errors bar
+          errorfile 404 /usr/share/haproxy/errorfiles/404.http
+          errorfile 503 /usr/share/haproxy/errorfiles/503.http
+      CFG
     end
 
     it {

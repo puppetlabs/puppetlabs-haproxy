@@ -7,12 +7,12 @@ describe 'haproxy::resolver' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       concat_basedir: '/dne',
       os: {
-        family: 'RedHat'
-      }
+        family: 'RedHat',
+      },
     }
   end
 
@@ -23,7 +23,7 @@ describe 'haproxy::resolver' do
         nameservers: { 'dns1' => '1.1.1.1:53', 'dns2' => '1.1.1.2:53' },
         hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
         resolve_retries: 3,
-        timeout: { 'retry' => '1s' }
+        timeout: { 'retry' => '1s' },
       }
     end
 
@@ -43,7 +43,7 @@ describe 'haproxy::resolver' do
         parse_resolv_conf: true,
         hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
         resolve_retries: 3,
-        timeout: { 'retry' => '1s' }
+        timeout: { 'retry' => '1s' },
       }
     end
 
@@ -64,7 +64,7 @@ describe 'haproxy::resolver' do
         hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
         resolve_retries: 3,
         timeout: { 'retry' => '1s' },
-        accepted_payload_size: 512
+        accepted_payload_size: 512,
       }
     end
 
@@ -85,7 +85,7 @@ describe 'haproxy::resolver' do
         hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
         resolve_retries: 3,
         timeout: { 'retry' => '1s' },
-        accepted_payload_size: 511
+        accepted_payload_size: 511,
       }
     end
 
@@ -100,7 +100,7 @@ describe 'haproxy::resolver' do
         hold: { 'other' => '30s', 'refused' => '30s', 'nx' => '30s', 'timeout' => '30s', 'valid' => '10s' },
         resolve_retries: 3,
         timeout: { 'retry' => '1s' },
-        accepted_payload_size: 8193
+        accepted_payload_size: 8193,
       }
     end
 

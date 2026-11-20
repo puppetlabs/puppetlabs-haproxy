@@ -13,12 +13,12 @@ describe 'haproxy::defaults' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'RedHat'
+        family: 'RedHat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
@@ -26,7 +26,7 @@ describe 'haproxy::defaults' do
     let(:params) do
       {
         options: { 'balance' => 'roundrobin' },
-        merge_options: false
+        merge_options: false,
       }
     end
 
@@ -42,7 +42,7 @@ describe 'haproxy::defaults' do
   context 'with merge defaults true' do
     let(:params) do
       {
-        options: { 'balance' => 'roundrobin' }
+        options: { 'balance' => 'roundrobin' },
       }
     end
 

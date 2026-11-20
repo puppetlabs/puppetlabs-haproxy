@@ -8,12 +8,12 @@ describe 'haproxy::ring' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'Redhat'
+        family: 'Redhat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
@@ -26,11 +26,11 @@ describe 'haproxy::ring' do
       }
     end
     let(:assertion) do
-      <<-CFG
+      <<~CFG
 
-ring spec
-  server mysyslogsrv 127.0.0.1:6514 log-proto octet-count
-CFG
+        ring spec
+          server mysyslogsrv 127.0.0.1:6514 log-proto octet-count
+      CFG
     end
 
     it {
@@ -52,12 +52,12 @@ CFG
       }
     end
     let(:assertion) do
-      <<-CFG
+      <<~CFG
 
-ring spec
-  timeout connect 10
-  timeout resolve 3s
-CFG
+        ring spec
+          timeout connect 10
+          timeout resolve 3s
+      CFG
     end
 
     it {
@@ -78,11 +78,11 @@ CFG
       }
     end
     let(:assertion) do
-      <<-CFG
+      <<~CFG
 
-ring bar
-  format rfc3164
-CFG
+        ring bar
+          format rfc3164
+      CFG
     end
 
     it {
