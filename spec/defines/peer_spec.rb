@@ -14,12 +14,12 @@ describe 'haproxy::peer' do
     {
       networking: {
         ip: '1.1.1.1',
-        hostname: 'dero'
+        hostname: 'dero',
       },
       concat_basedir: '/foo',
       os: {
-        family: 'RedHat'
-      }
+        family: 'RedHat',
+      },
     }
   end
 
@@ -27,7 +27,7 @@ describe 'haproxy::peer' do
     let(:params) do
       {
         peers_name: 'tyler',
-        port: 1024
+        port: 1024,
       }
     end
 

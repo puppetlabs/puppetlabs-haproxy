@@ -13,8 +13,8 @@ describe 'haproxy::program' do
     {
       concat_basedir: '/foo',
       os: {
-        family: 'Debian'
-      }
+        family: 'Debian',
+      },
     }
   end
 

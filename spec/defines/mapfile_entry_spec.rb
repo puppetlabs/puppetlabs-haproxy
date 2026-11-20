@@ -8,19 +8,19 @@ describe 'haproxy::mapfile::entry' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'Redhat'
+        family: 'Redhat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
   context 'when map domains to backends' do
     let(:params) do
       {
-        mapfile: 'domains-to-backends'
+        mapfile: 'domains-to-backends',
       }
     end
 
