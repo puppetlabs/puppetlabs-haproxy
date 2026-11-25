@@ -8,12 +8,12 @@ describe 'haproxy::mapfile' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'Redhat'
+        family: 'Redhat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
@@ -29,7 +29,7 @@ describe 'haproxy::mapfile' do
           'app05.example.com bk_app05',
           'app06.example.com bk_app06',
         ],
-        instances: ['haproxy']
+        instances: ['haproxy'],
       }
     end
 
@@ -56,7 +56,7 @@ describe 'haproxy::mapfile' do
     let(:params) do
       {
         ensure: 'present',
-        instances: ['haproxy']
+        instances: ['haproxy'],
       }
     end
 

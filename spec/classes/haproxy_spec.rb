@@ -7,8 +7,8 @@ describe 'haproxy', type: :class do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10'
-      }
+        ip: '10.10.10.10',
+      },
     }
   end
 
@@ -22,7 +22,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => 'running',
             'package_ensure' => 'present',
-            'service_manage' => true
+            'service_manage' => true,
           }
         end
 
@@ -48,7 +48,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => 'running',
             'package_ensure' => '1.7.9-1',
-            'service_manage' => true
+            'service_manage' => true,
           }
         end
 
@@ -161,7 +161,7 @@ describe 'haproxy', type: :class do
         end
         let(:params) do
           {
-            'config_file' => '/tmp/haproxy.cfg'
+            'config_file' => '/tmp/haproxy.cfg',
           }
         end
 
@@ -182,7 +182,7 @@ describe 'haproxy', type: :class do
           {
             'service_ensure' => true,
             'package_ensure' => 'present',
-            'service_manage' => false
+            'service_manage' => false,
           }
         end
 
@@ -264,7 +264,7 @@ describe 'haproxy', type: :class do
         let(:params) do
           {
             'restart_command' => '/etc/init.d/haproxy reload',
-            'service_manage' => true
+            'service_manage' => true,
           }
         end
 
@@ -345,7 +345,7 @@ describe 'haproxy', type: :class do
         {
           'service_ensure' => true,
           'package_ensure' => 'present',
-          'service_manage' => false
+          'service_manage' => false,
         }
       end
 
@@ -419,7 +419,7 @@ describe 'haproxy', type: :class do
       let(:params) do
         {
           'restart_command' => '/usr/local/etc/rc.d/haproxy reload',
-          'service_manage' => true
+          'service_manage' => true,
         }
       end
 
@@ -476,7 +476,7 @@ describe 'haproxy', type: :class do
               'stats' => [
                 'socket /var/lib/haproxy/admin.sock mode 660 level admin',
                 'timeout 30s',
-              ]
+              ],
             },
             'defaults_options' => {
               'mode' => 'http',
@@ -493,8 +493,8 @@ describe 'haproxy', type: :class do
                 'client 1m',
                 'server 1m',
                 'check 7s',
-              ]
-            }
+              ],
+            },
           }
         end
 
@@ -586,7 +586,7 @@ describe 'haproxy', type: :class do
               'stats' => [
                 'socket /var/lib/haproxy/admin.sock mode 660 level admin',
                 'timeout 30s',
-              ]
+              ],
             },
             'defaults_options' => {
               'mode' => 'http',
@@ -603,8 +603,8 @@ describe 'haproxy', type: :class do
                 'client 1m',
                 'server 1m',
                 'check 7s',
-              ]
-            }
+              ],
+            },
           }
         end
 
@@ -670,7 +670,7 @@ describe 'haproxy', type: :class do
 
     it 'installs the haproxy package' do
       subject.should contain_package('haproxy').with(
-        'ensure'          => 'present',
+        'ensure' => 'present',
         'install_options' => ['--no-install-recommends'],
       )
     end

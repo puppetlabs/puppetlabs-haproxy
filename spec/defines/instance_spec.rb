@@ -7,8 +7,8 @@ describe 'haproxy::instance' do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10'
-      }
+        ip: '10.10.10.10',
+      },
     }
   end
 
@@ -32,7 +32,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => 'present',
               'package_name' => 'haproxy',
-              'service_manage' => true
+              'service_manage' => true,
             }
           end
 
@@ -59,7 +59,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => '1.7.9-1',
               'package_name' => 'haproxy',
-              'service_manage' => true
+              'service_manage' => true,
             }
           end
 
@@ -175,7 +175,7 @@ describe 'haproxy::instance' do
               'service_ensure' => true,
               'package_ensure' => 'present',
               'package_name' => 'haproxy',
-              'service_manage' => false
+              'service_manage' => false,
             }
           end
 
@@ -256,7 +256,7 @@ describe 'haproxy::instance' do
           end
           let(:params) do
             {
-              'chroot_dir_manage' => false
+              'chroot_dir_manage' => false,
             }
           end
 
@@ -272,7 +272,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy reload',
-              'service_manage' => true
+              'service_manage' => true,
             }
           end
 
@@ -302,7 +302,7 @@ describe 'haproxy::instance' do
               'service_ensure' => 'running',
               'package_ensure' => 'present',
               'package_name' => 'customhaproxy',
-              'service_manage' => true
+              'service_manage' => true,
             }
           end
 
@@ -428,7 +428,7 @@ describe 'haproxy::instance' do
               'service_ensure' => true,
               'package_ensure' => 'present',
               'package_name' => 'customhaproxy',
-              'service_manage' => false
+              'service_manage' => false,
             }
           end
 
@@ -510,7 +510,7 @@ describe 'haproxy::instance' do
           let(:params) do
             {
               'restart_command' => '/etc/init.d/haproxy-group1 reload',
-              'service_manage' => true
+              'service_manage' => true,
             }
           end
 
@@ -596,7 +596,7 @@ describe 'haproxy::instance' do
             'service_ensure' => true,
             'package_ensure' => 'present',
             'package_name' => 'haproxy',
-            'service_manage' => false
+            'service_manage' => false,
           }
         end
 
@@ -670,7 +670,7 @@ describe 'haproxy::instance' do
         let(:params) do
           {
             'restart_command' => '/usr/local/etc/rc.d/haproxy reload',
-            'service_manage' => true
+            'service_manage' => true,
           }
         end
 
@@ -702,7 +702,7 @@ describe 'haproxy::instance' do
         end
         let(:params) do
           {
-            'service_options' => 'stuff'
+            'service_options' => 'stuff',
           }
         end
 
@@ -739,5 +739,4 @@ describe 'haproxy::instance' do
       }.to raise_error(Puppet::Error, %r{operating system is not supported with the haproxy module})
     end
   end
-  # rubocop:enable RSpec/NestedGroups
 end

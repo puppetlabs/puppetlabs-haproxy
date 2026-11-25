@@ -7,16 +7,16 @@ describe 'haproxy::instance_service' do
     {
       concat_basedir: '/dne',
       networking: {
-        ip: '10.10.10.10'
+        ip: '10.10.10.10',
       },
       os: {
-        family: 'Debian'
-      }
+        family: 'Debian',
+      },
     }
   end
   let(:params) do
     {
-      'haproxy_init_source' => 'foo'
+      'haproxy_init_source' => 'foo',
     }
   end
 
@@ -27,7 +27,7 @@ describe 'haproxy::instance_service' do
       let(:title) { 'haproxy' }
       let(:params) do
         {
-          'haproxy_init_source' => '/foo/bar'
+          'haproxy_init_source' => '/foo/bar',
         }
       end
 
@@ -71,7 +71,7 @@ describe 'haproxy::instance_service' do
         {
           'haproxy_package' => 'customhaproxy',
           'bindir' => '/weird/place',
-          'haproxy_init_source' => '/foo/bar'
+          'haproxy_init_source' => '/foo/bar',
         }
       end
 
@@ -119,7 +119,7 @@ describe 'haproxy::instance_service' do
       end
       let(:params) do
         {
-          'haproxy_init_source' => '/foo/bar'
+          'haproxy_init_source' => '/foo/bar',
         }
       end
 
@@ -164,7 +164,7 @@ describe 'haproxy::instance_service' do
       {
         'haproxy_package' => 'customhaproxy',
         'bindir' => '/weird/place',
-        'haproxy_init_source' => '/init/source/haproxy'
+        'haproxy_init_source' => '/init/source/haproxy',
       }
     end
 

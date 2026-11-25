@@ -14,19 +14,19 @@ describe 'haproxy::cache' do
     {
       networking: {
         ip: '1.1.1.1',
-        hostname: 'dero'
+        hostname: 'dero',
       },
       concat_basedir: '/foo',
       os: {
-        family: 'RedHat'
-      }
+        family: 'RedHat',
+      },
     }
   end
 
   context 'with a single cache entry' do
     let(:params) do
       {
-        total_max_size: 1
+        total_max_size: 1,
       }
     end
 

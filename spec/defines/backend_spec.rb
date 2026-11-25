@@ -7,12 +7,12 @@ describe 'haproxy::backend' do
   let(:facts) do
     {
       networking: {
-        ip: '1.1.1.1'
+        ip: '1.1.1.1',
       },
       os: {
-        family: 'Redhat'
+        family: 'Redhat',
       },
-      concat_basedir: '/dne'
+      concat_basedir: '/dne',
     }
   end
 
@@ -68,8 +68,8 @@ describe 'haproxy::backend' do
     let(:params) do
       {
         options: {
-          'balance' => 'roundrobin'
-        }
+          'balance' => 'roundrobin',
+        },
       }
     end
 
